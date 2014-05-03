@@ -27,16 +27,15 @@ Currently the Spotify iOS SDK is in beta and breaking changes can occur without 
 
 - [spotify.AudioPlayer](#spotifyaudioplayer)
 - Methods
+	- [audioPlayer.addEventListener](#audioplayeraddeventlistener)
 	- [audioPlayer.playURI](#audioplayerplayuri)
 	- [audioPlayer.seekToOffset](#audioplayerseektooffset)
+	- [audioPlayer.getIsPlaying](#audioplayergetisplaying)	
 	- [audioPlayer.setIsPlaying](#audioplayersetisplaying)
 	- [audioPlayer.setVolume](#audioplayersetvolume)
-	- [audioPlayer.addEventListener](#audioplayeraddeventlistener)
-- Properties
-	- [audioPlayer.loggedIn](#audioplayerloggedin)
-	- [audioPlayer.currentTrack](#audioplayercurrenttrack)
-	- [audioPlayer.currentPlaybackPosition](#audioplayercurrentplaybackposition)
-	- [audioPlayer.isPlaying](#audioplayerisplaying)
+	- [audioPlayer.getLoggedIn](#audioplayergetloggedin)
+	- [audioPlayer.getCurrentTrack](#audioplayergetcurrenttrack)
+	- [audioPlayer.getCurrentPlaybackPosition](#audioplayergetcurrentplaybackposition)
 - Events
 	- [error](#error)
 	- [message](#message)
@@ -210,29 +209,32 @@ spotify.AudioPlayer('Your-Company-Name', 'Your-App-Name', session, function(erro
 
 ## Methods
 
+### audioPlayer.addEventListener
+
 ### audioPlayer.playURI
 
 ### audioPlayer.seekToOffset
+
+### audioPlayer.getIsPlaying
 
 ### audioPlayer.setIsPlaying
 
 ### audioPlayer.setVolume
 
-### audioPlayer.addEventListener
+### audioPlayer.getLoggedIn
 
-## Properties
+### audioPlayer.getCurrentTrack
 
-### audioPlayer.loggedIn
+### audioPlayer.getCurrentPlaybackPosition
 
-### audioPlayer.currentTrack
-
-### audioPlayer.currentPlaybackPosition
-
-### audioPlayer.isPlaying
 
 ## Events
 
 ### login
+
+### logout
+
+### permissionLost
 
 ### error
 

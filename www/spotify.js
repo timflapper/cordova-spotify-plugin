@@ -2,10 +2,18 @@ var exec = require('cordova/exec')
   , spotify = exports;
 
 spotify.exec = function(action, params, callback) {
-  function onResult(result) { callback(null, result); }
+  if (typeof params === 'function') {
+      if (callback !== undefined) {
+        throw new Error('Only action and callback allowed if parameters are omitted. Third argument of type ' + (typeof callback) + 'detected.');
+      }
+
+      callback = params, params = [];
+  }
+  
+  function onSuccess(result) { callback(null, result); }
   function onError(error) { callback(error); }
   
-  exec( onResult, onError, service, 'SpotifyPlugin', params );
+  exec( onSuccess, onError, service, 'SpotifyPlugin', params );
 };
 
 spotify.authenticate =function(clientId, tokenExchangeURL, scopes, callback) {
