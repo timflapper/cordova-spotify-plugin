@@ -21,6 +21,10 @@ AudioPlayer.prototype._companyName = undefined;
 AudioPlayer.prototype._appName = undefined;
 AudioPlayer.prototype._events = undefined;
 
+AudioPlayer.prototype.__eventListener = function(error, result) {
+  this.dispatchEvent.apply(this, result);
+}
+
 AudioPlayer.init = function(companyName, appName) {
   
   this._companyName = companyName;
@@ -28,7 +32,7 @@ AudioPlayer.init = function(companyName, appName) {
   
   this._events = {};
   
-  spotify.exec('addAudioPlayerEventListener', [this._id], this.__eventListener);
+  spotify.exec('addAudioPlayerEventListener', [this._id], this.__eventListener.bind(this));
 }
 
 AudioPlayer.prototype.destroy = function(callback) {
@@ -55,6 +59,8 @@ AudioPlayer.prototype.dispatchEvent = function(event) {
     args = [];
   }
   
+  listeners = this._events[event];
+  
   if (listeners.length === 1) {
     listeners[0].apply(this, args);
   } else {  
@@ -67,7 +73,7 @@ AudioPlayer.prototype.dispatchEvent = function(event) {
 }
 
 AudioPlayer.prototype.addEventListener = function(event, listener) {  
-  if (typeof callback !== 'function') 
+  if (typeof listener !== 'function') 
     throw new Error('listener must be a function');
   
   if ((event in this._events) === false)
@@ -76,13 +82,32 @@ AudioPlayer.prototype.addEventListener = function(event, listener) {
   this._events[event].push(listener);
 }
 
+AudioPlayer.prototype.removeEventListener = function(event, listener) {
+  if (typeof listener !== 'function') 
+    throw new Error('listener must be a function');
+ 
+  if ((event in this._events) === false)
+    return;
+  
+  var updatedArray = [];
+  
+  this._events[event].forEach(function(func, index) {
+    if (func === listener) 
+      return;
+    
+    updatedArray.push(func);
+  });
+  
+  this._events[event] = updatedArray;
+}
+
 AudioPlayer.prototype.login = function(session, callback) {
   var self = this, callback = callback || noop;
   
   function done(error, id) {
     self._id = id;
-    
-    if (error) {
+        
+    if (error !== null) {
       self.dispatchEvent(EVENT_ERROR, error);
 
       return callback(error);
@@ -93,7 +118,7 @@ AudioPlayer.prototype.login = function(session, callback) {
     callback(null);
   }
   
-  spotify.exec( 'requestAudioPlayer',
+  spotify.exec( 'createAudioPlayerAndLogin',
                 [ this.companyName, this.appName, session ],
                 done );
 }
@@ -132,8 +157,4 @@ AudioPlayer.prototype.getCurrentTrack = function(callback) {
     
 AudioPlayer.prototype.getCurrentPlaybackPosition = function(callback) {
   spotify.exec('getCurrentPlaybackPosition', [this._id], callback);
-}
-
-AudioPlayer.prototype.__eventListener = function(error, result) {
-  this.dispatchEvent.apply(this, result);
 }

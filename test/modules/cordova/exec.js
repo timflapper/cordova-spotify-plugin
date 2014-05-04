@@ -36,8 +36,32 @@ module.exports = function(onSuccess, onError, service, action, args) {
       addTracksToPlaylist(onSuccess, onError, args);
       break;
     case 'deletePlaylist':
-      deletePlaylist(onSuccess, onError, args);
+      onSuccess();
       break;
+    case 'createAudioPlayerAndLogin':
+      createAudioPlayerAndLogin(onSuccess, onError, args);
+      break;
+    case 'playURI':
+    case 'seekToOffset':
+    case 'setIsPlaying':
+    case 'setVolume': 
+      onSuccess();
+    break;
+    case 'getIsPlaying':
+      onSuccess(true);
+    break;
+    case 'getLoggedIn':
+      onSuccess(false);
+    break;
+    case 'getVolume':
+      onSuccess(1);
+    break;
+    case 'getCurrentTrack':
+      getCurrentTrack(onSuccess, onError, args);
+      break;
+    case 'getCurrentPlaybackPosition':
+      getCurrentPlaybackPosition(onSuccess, onError, args);
+    break;
     default:
       return onError(new Error('Invalid action'));
   }
@@ -168,6 +192,28 @@ function addTracksToPlaylist(onSuccess, onError, args) {
   onSuccess(data);
 }
 
-function deletePlaylist(onSuccess, onError, args) {
-  onSuccess();
+function createAudioPlayerAndLogin(onSuccess, onError, args) {
+  onSuccess(12345);
+}
+
+function getCurrentTrack(onSuccess, onError, args) {
+  var data = {
+    name: 'Let\'s Dance - 1999 Digital Remaster',
+    uri: 'spotify:track:0F0MA0ns8oXwGw66B2BSXm',
+    album: {
+      name: 'Let\'s Dance',
+      uri: 'spotify:album:37KYBt1Lzn4eJ4KoCFZcnR'
+    },
+    artist: {
+      name: 'David Bowie',
+      uri: 'spotify:artist:0oSGxfWSnnOXhD2fKuz2Gy'
+    },
+    duration: 457.133
+  };
+  
+  onSuccess(data);
+}
+
+function getCurrentPlaybackPosition(onSuccess, onError, args) {
+  onSuccess(57.214);
 }

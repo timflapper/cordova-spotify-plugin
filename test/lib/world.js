@@ -19,3 +19,7 @@ exports.createPlaylist = function() {
     dateModified: new Date()    
   });
 };
+
+exports.createAudioPlayer = function() {
+  return new spotify.AudioPlayer('my-company', 'my-app');
+}
