@@ -16,6 +16,10 @@
     <clobbers target="spotify"/>
   </js-module>
 
+  <js-module name="Spotify.Session" src="www/lib/session.js">
+    <clobbers target="spotify.Session"/>
+  </js-module>
+
   <js-module name="Spotify.Album" src="www/lib/album.js">
     <clobbers target="spotify.Album"/>
   </js-module>
@@ -27,10 +31,6 @@
   <js-module name="Spotify.Track" src="www/lib/track.js">
     <clobbers target="spotify.Track"/>
   </js-module>
-
-  <js-module name="Spotify.Session" src="www/lib/session.js">
-    <clobbers target="spotify.Session"/>
-  </js-module>
   
   <js-module name="Spotify.Playlist" src="www/lib/playlist.js">
     <clobbers target="spotify.Playlist"/>
@@ -38,6 +38,10 @@
 
   <js-module name="Spotify.AudioPlayer" src="www/lib/audio-player.js">
     <clobbers target="spotify.AudioPlayer"/>
+  </js-module>
+  
+  <js-module name="Spotify.Image" src="www/lib/image.js">
+    <clobbers target="spotify.Image"/>
   </js-module>
   
   <platform name="ios">
