@@ -39,9 +39,7 @@ function Album(uri, session, callback) {
       return callback(error);
     
     props = data;
-    
-    console.log(data);
-    
+        
     callback(null, album);
   }
 }

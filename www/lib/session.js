@@ -1,3 +1,5 @@
+var spotify = undefined;
+
 var defaultProps = {
   username: null,
   credential: null
@@ -25,4 +27,8 @@ Session.prototype = {};
 SessionData.prototype = Object.create(Session.prototype);
 SessionData.prototype.constructor = SessionData;
 
-module.exports = Session;
+module.exports = function(plugin) {
+  spotify = plugin;
+  
+  return Session;
+}

@@ -16,25 +16,25 @@
     <clobbers target="spotify"/>
   </js-module>
 
-  <js-module name="Spotify/lib/session" src="www/lib/session.js">
+  <js-module name="lib/session" src="www/lib/session.js">
   </js-module>
 
-  <js-module name="Spotify/lib/album" src="www/lib/album.js">
+  <js-module name="lib/album" src="www/lib/album.js">
   </js-module>
 
-  <js-module name="Spotify/lib/artist" src="www/lib/artist.js">    
+  <js-module name="lib/artist" src="www/lib/artist.js">    
   </js-module>
 
-  <js-module name="Spotify/lib/track" src="www/lib/track.js">
+  <js-module name="lib/track" src="www/lib/track.js">
   </js-module>
   
-  <js-module name="Spotify/lib/playlist" src="www/lib/playlist.js">
+  <js-module name="lib/playlist" src="www/lib/playlist.js">
   </js-module>
 
-  <js-module name="Spotify/lib/audio-player" src="www/lib/audio-player.js">
+  <js-module name="lib/audio-player" src="www/lib/audio-player.js">
   </js-module>
   
-  <js-module name="Spotify/lib/image" src="www/lib/image.js">
+  <js-module name="lib/image" src="www/lib/image.js">
   </js-module>
   
   <platform name="ios">
@@ -63,7 +63,7 @@
     	</array>
     </config-file>
     
-    <source-file src="src/ios/SpotifyPlugin.h"/>
+    <header-file src="src/ios/SpotifyPlugin.h"/>
     <source-file src="src/ios/SpotifyPlugin.m"/>
     <framework src="src/ios/Spotify.framework" custom="true" />
     <framework src="AVFoundation.framework"/>

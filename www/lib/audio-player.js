@@ -1,3 +1,5 @@
+var spotify = undefined;
+
 var EVENT_LOGIN = 'login'
   , EVENT_LOGOUT = 'logout'
   , EVENT_PERMISSION_LOST = 'permissionLost'
@@ -121,4 +123,8 @@ function requestAudioPlayer(companyName, appName, session, callback) {
                 done );
 }
 
-module.exports = requestAudioPlayer;
+module.exports = function(plugin) {
+  spotify = plugin;
+  
+  return requestAudioPlayer;
+}

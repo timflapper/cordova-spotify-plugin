@@ -73,4 +73,8 @@ Playlist.prototype.delete = function(session, callback) {
 PlaylistData.prototype = Object.create(Playlist.prototype);
 PlaylistData.prototype.constructor = PlaylistData;
 
-module.exports = Playlist;
+module.exports = function(plugin) {
+  spotify = plugin;
+  
+  return Playlist;
+}

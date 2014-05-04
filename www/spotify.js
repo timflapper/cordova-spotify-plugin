@@ -3,12 +3,12 @@ var exec = require('cordova/exec');
 var spotify = {};
 
 spotify.Album = require('./lib/album')(spotify);
-spotify.Artist = require('./lib/artist');
-spotify.AudioPlayer = require('./lib/audio-player');
-spotify.Image = require('./lib/image');
-spotify.Playlist = require('./lib/playlist');
-spotify.Session = require('./lib/Session');
-spotify.Track = require('./lib/Track');
+spotify.Artist = require('./lib/artist')(spotify);
+spotify.AudioPlayer = require('./lib/audio-player')(spotify);
+spotify.Image = require('./lib/image')(spotify);
+spotify.Playlist = require('./lib/playlist')(spotify);
+spotify.Session = require('./lib/session')(spotify);
+spotify.Track = require('./lib/track')(spotify);
 
 spotify.exec = function(action, params, callback) {
   if (typeof params === 'function') {

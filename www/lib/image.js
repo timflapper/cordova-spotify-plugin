@@ -27,4 +27,8 @@ Image.prototype = {};
 ImageData.prototype = Object.create(Image.prototype);
 ImageData.prototype.constructor = ImageData;
 
-module.exports = Image;
+module.exports = function(plugin) {
+  spotify = plugin;
+  
+  return Image;
+}

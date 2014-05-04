@@ -50,12 +50,9 @@ function getPlaylistsForUser(onSuccess, onError, args) {
   onSuccess(result);
 }
 
-function albumFromURI(onSuccess, onError, args) {  
-  var album = data.albums(args[0]);
-  
-  console.log(data.albums);
+function albumFromURI(onSuccess, onError, args) {    
+  var uri = args[0]
+    , album = data.albums[uri];
     
-  console.log(args);
-  
   onSuccess(album);
 }

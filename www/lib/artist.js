@@ -1,3 +1,5 @@
+var spotify = undefined;
+
 var defaultProps = {
   name: null,
   uri: null,
@@ -45,4 +47,8 @@ Artist.prototype = {};
 ArtistData.prototype = Object.create(Artist.prototype);
 ArtistData.prototype.constructor = ArtistData;
 
-module.exports = Artist;
+module.exports = function(plugin) {
+  spotify = plugin;
+  
+  return Artist;
+}
