@@ -1,3 +1,5 @@
+var spotify = require('../spotify');
+
 var defaultProps = {
   name: null,
   version: null,
@@ -8,37 +10,19 @@ var defaultProps = {
   dateModified: null
 };
 
-function PlaylistData() {}
-function Playlist(uri, session, callback) {
-  var callback = callback || null
-    , props = {}
-    , playlist = new PlaylistData();
-      
+function Playlist(obj) {
+  var self = this;
+
   Object.keys(defaultProps).forEach(function(prop, index) {
-    Object.defineProperty(playlist, prop, {
-      get: function() { return props[prop] || defaultProps[prop]; },
+    Object.defineProperty(self, prop, {
+      value: obj[prop] || defaultProps[prop],
       enumerable: true
     });
   });
 
-  function onSuccess(data) {
-    props = data;
-    
-    if (callback) 
-      return callback(null, track);
-  }
-
-  function onError(error) {
-    if (callback)
-      return callback(error);
-  }
-  
-  spotify.exec( 'playlistFromURI', 
-                [ uri, session ],
-                callback );
-  
-  return playlist;
 }
+
+module.exports = Playlist;
 
 Playlist.prototype.setName = function(name, session, callback) {
   spotify.exec( 'setPlaylistName', 
@@ -68,13 +52,4 @@ Playlist.prototype.delete = function(session, callback) {
   spotify.exec( 'deletePlaylist', 
                 [ this.uri, session ],
                 callback );      
-}
-
-PlaylistData.prototype = Object.create(Playlist.prototype);
-PlaylistData.prototype.constructor = PlaylistData;
-
-module.exports = function(plugin) {
-  spotify = plugin;
-  
-  return Playlist;
 }

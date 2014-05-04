@@ -1,21 +1,29 @@
 var exec = require('cordova/exec');
 
-var spotify = {};
+var AudioPlayer = require('./lib/audio-player')
+  , Album = require('./lib/album')
+  , Artist = require('./lib/artist')
+  , Playlist = require('./lib/playlist')
+  , Session = require('./lib/session')
+  , Track = require('./lib/track')
+  , SpotifyImage = require('./lib/image')
 
-spotify.Album = require('./lib/album')(spotify);
-spotify.Artist = require('./lib/artist')(spotify);
-spotify.AudioPlayer = require('./lib/audio-player')(spotify);
-spotify.Image = require('./lib/image')(spotify);
-spotify.Playlist = require('./lib/playlist')(spotify);
-spotify.Session = require('./lib/session')(spotify);
-spotify.Track = require('./lib/track')(spotify);
+var spotify = module.exports = {
+  Album: Album,
+  Artist: Artist,
+  AudioPlayer: AudioPlayer,
+  Playlist: Playlist,
+  Session: Session,
+  Track: Track,
+  Image: SpotifyImage
+};
 
 spotify.exec = function(action, params, callback) {
   if (typeof params === 'function') {
       if (callback !== undefined) {
         throw new Error('Only action and callback allowed if parameters are omitted. Third argument of type ' + (typeof callback) + 'detected.');
       }
-
+            
       callback = params, params = [];
   } else if (callback === undefined) {
     throw new Error('Callback is a mandatory argument');    
@@ -36,7 +44,7 @@ spotify.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
     if (error !== null)
       return callback(error);
     
-    var sess = spotify.Session(data);
+    var sess = new Session(data);
     
     callback(null, sess);
   }
@@ -60,12 +68,44 @@ spotify.search = function(query, searchType, offset, session, callback) {
                 callback );
 };
 
+spotify.getObjectFromURI = function(uri, session, callback) {
+  var action, objectType, matches;
+
+  matches = /^spotify:(?:(?:user:[^:]*:)(?=playlist:[a-zA-Z0-9]*$)|(?:(?=artist|album|track)))(playlist|artist|album|track):[a-zA-Z0-9]*$/.exec(uri);
+    
+  if (matches === null)
+    return callback(new Error('URI appears to be invalid %s', uri));
+    
+  objectType = matches[1];
+  
+  spotify.exec( 'getObjectFromURI',
+                [ uri, session ], 
+                done );
+  
+  function done(error, data) {
+    var res;
+        
+    switch(objectType) {
+      case 'track':
+        res = new Track(data);
+        break;
+      case 'album':
+        res = new Album(data);
+        break;
+      case 'artist':
+        res = new Artist(data);
+        break;
+      case 'playlist':
+        res = new Playlist(data);
+        break;
+    }
+    
+    callback(null, res);
+  }
+}
+
 spotify.getPlaylistsForUser = function(username, session, callback) {
   spotify.exec( 'getPlaylistsForUser', 
                 [ username, session ],
                 callback );    
 }
-
-
-
-module.exports = spotify;

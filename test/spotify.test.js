@@ -83,6 +83,57 @@ describe('spotify.search()', function() {
   });
 });
 
+describe('spotify.getObjectFromURI()', function() {
+  it('should find an artist', function(done) {
+      
+    spotify.getObjectFromURI('spotify:artist:55tif8708yyDQlSjh3Trdu', session, callback);
+    
+    function callback(error, obj) {
+      (error === null).should.be.true;
+      obj.should.be.an.instanceOf(spotify.Artist);
+      
+      done();
+    }
+  });
+
+  it('should find an album', function(done) {
+      
+    spotify.getObjectFromURI('spotify:album:4FtOLTQqwnxpaABrJWYdBy', session, callback);
+    
+    function callback(error, obj) {
+      (error === null).should.be.true;
+      obj.should.be.an.instanceOf(spotify.Album);
+      
+      done();
+    }
+  });
+
+  it('should find a track', function(done) {
+    
+    spotify.getObjectFromURI('spotify:track:0F0MA0ns8oXwGw66B2BSXm', session, callback);
+  
+    function callback(error, obj) {
+      (error === null).should.be.true;
+      obj.should.be.an.instanceOf(spotify.Track);
+    
+      done();
+    }
+  });
+
+  it('should find a playlist', function(done) {
+    
+    spotify.getObjectFromURI('spotify:user:testuser:playlist:87234DfaD43fdsdfDx', session, callback);
+  
+    function callback(error, obj) {
+      (error === null).should.be.true;
+      obj.should.be.an.instanceOf(spotify.Playlist);
+    
+      done();
+    }
+  });
+
+});
+
 describe('spotify.getPlaylistsForUser()', function() {
   
   it('should return an array with all parameters filled', function(done) {

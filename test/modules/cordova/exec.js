@@ -17,11 +17,8 @@ module.exports = function(onSuccess, onError, service, action, args) {
     case 'getPlaylistsForUser':
       getPlaylistsForUser(onSuccess, onError, args);
     break;
-    case 'albumFromURI':
-      albumFromURI(onSuccess, onError, args);
-    break;
-    case 'artistFromURI':
-      artistFromURI(onSuccess, onError, args);
+    case 'getObjectFromURI':
+      getObjectFromURI(onSuccess, onError, args);
     break;
     default:
       return onError(new Error('Invalid action'));
@@ -53,16 +50,30 @@ function getPlaylistsForUser(onSuccess, onError, args) {
   onSuccess(result);
 }
 
-function albumFromURI(onSuccess, onError, args) {    
+function getObjectFromURI(onSuccess, onError, args) {    
   var uri = args[0]
-    , album = data.albums[uri];
-    
-  onSuccess(album);
-}
+    , matches
+    , obj;
 
-function artistFromURI(onSuccess, onError, args) {    
-  var uri = args[0]
-    , artist = data.artists[uri];
-    
-  onSuccess(artist);
+    matches = /^spotify:(?:(?:user:[^:]*:)(?=playlist:[a-zA-Z0-9]*$)|(?:(?=artist|album|track)))(playlist|artist|album|track):[a-zA-Z0-9]*$/.exec(uri);
+
+  if (matches === null)
+    return onError(new Error('Invalid uri'));
+
+  switch(matches[1]) {
+    case 'artist':
+      obj = data.artists[uri];
+      break;
+    case 'album':
+      obj = data.albums[uri];      
+      break;
+    case 'track':
+      obj = data.tracks[uri];
+      break;
+    case 'playlist':
+      obj = data.playlists[uri];
+      break;
+  }
+  
+  onSuccess(obj);
 }

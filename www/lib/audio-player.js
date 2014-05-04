@@ -1,4 +1,6 @@
-var spotify = undefined;
+var spotify = require('../spotify');
+
+var noop = function() {};
 
 var EVENT_LOGIN = 'login'
   , EVENT_LOGOUT = 'logout'
@@ -8,22 +10,28 @@ var EVENT_LOGIN = 'login'
   , EVENT_PLAYBACK_STATUS = 'playbackStatus'
   , EVENT_SEEK_TO_OFFSET = 'seekToOffset';
 
-function AudioPlayer(playerId) {  
-  AudioPlayer.init.call(this, playerId);
+function AudioPlayer(companyName, appName) {  
+  AudioPlayer.init.call(this, companyName, appName);
 }
 
+module.exports = AudioPlayer;
+
 AudioPlayer.prototype._id = undefined;
+AudioPlayer.prototype._companyName = undefined;
+AudioPlayer.prototype._appName = undefined;
 AudioPlayer.prototype._events = undefined;
 
-AudioPlayer.init = function(id) {
-  this._id = id;
+AudioPlayer.init = function(companyName, appName) {
+  
+  this._companyName = companyName;
+  this._appName = appName;
   
   this._events = {};
   
   spotify.exec('addAudioPlayerEventListener', [this._id], this.__eventListener);
 }
 
-AudioPlayer.destroy = function(callback) {
+AudioPlayer.prototype.destroy = function(callback) {
   spotify.exec('destroyAudioPlayer', [this._id], callback);
 }
 
@@ -68,6 +76,28 @@ AudioPlayer.prototype.addEventListener = function(event, listener) {
   this._events[event].push(listener);
 }
 
+AudioPlayer.prototype.login = function(session, callback) {
+  var self = this, callback = callback || noop;
+  
+  function done(error, id) {
+    self._id = id;
+    
+    if (error) {
+      self.dispatchEvent(EVENT_ERROR, error);
+
+      return callback(error);
+    }
+    
+    self.dispatchEvent(EVENT_LOGIN);
+    
+    callback(null);
+  }
+  
+  spotify.exec( 'requestAudioPlayer',
+                [ this.companyName, this.appName, session ],
+                done );
+}
+
 AudioPlayer.prototype.playURI = function(uri, callback) {
  spotify.exec('playURI', [this._id, uri], callback); 
 }
@@ -106,25 +136,4 @@ AudioPlayer.prototype.getCurrentPlaybackPosition = function(callback) {
 
 AudioPlayer.prototype.__eventListener = function(error, result) {
   this.dispatchEvent.apply(this, result);
-}
-
-function requestAudioPlayer(companyName, appName, session, callback) {
-  function done(error, playerId) {
-    if (error)
-      return callback(error, null);
-      
-    var player = new AudioPlayer(playerId);
-    
-    callback(null, player);
-  }
-  
-  spotify.exec( 'requestAudioPlayer',
-                [ companyName, appName, session ],
-                done );
-}
-
-module.exports = function(plugin) {
-  spotify = plugin;
-  
-  return requestAudioPlayer;
 }

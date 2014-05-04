@@ -6,17 +6,17 @@ var albums = {}
   , playlists = {};
 
 var albumCovers = [{
-  large: SPImage({
+  large: new SPImage({
     height: 640,
     width: 640,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/8782b58f895d68dc2fa1fd987a2fa1699b765984'
   }),
-  medium: SPImage({
+  medium: new SPImage({
     height: 300, 
     width: 300,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/59acdf741304f2643168f80a80935b83f0a1ef28'
   }),
-  small: SPImage({
+  small: new SPImage({
     height: 64,
     width: 64,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/a13e23f485ccf67a91d9b207276ff067c60581a9'
@@ -24,26 +24,26 @@ var albumCovers = [{
 }];
 
 var artistImages = [{
-  small: {
+  small: new SPImage({
     width: 64,
     height: 52,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/e095f9cd4b4c7354cbac5833bb87ed8a1ef6c601'
-  },
-  medium: {
+  }),
+  medium: new SPImage({
     width: 200,
     height: 163,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/34f314e1fc688a385377db7ee4c95bbaed3b6736'
-  },
-  large: {
+  }),
+  large: new SPImage({
     width: 640,
     height: 521,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/fa6c1901c9b71493bfd3f792d46af2505d45685b'
-  },
-  xlarge: {
+  }),
+  xlarge: new SPImage({
     width: 1000,
     height: 814,
     url: 'https://d3rt1990lpmkn.cloudfront.net/original/17bc1410db1c5d6abee55f2e270bcd104cc56c2f'
-  },
+  })
 }];
 
 albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
@@ -97,30 +97,36 @@ artists['spotify:artist:55tif8708yyDQlSjh3Trdu'] = {
   popularity: 50
 };
 
-tracks[''] = {
-  name: null,
-  uri: null,
-  sharingURL: null,
-  previewURL: null,
-  duration: null,
-  artists: null,
-  album: null,
-  trackNumber: null,
-  discNumber: null,
-  popularity: null,
-  flaggedExplicit: null,
-  externalIds: null,
-  availableTerritories: null  
+tracks['spotify:track:0F0MA0ns8oXwGw66B2BSXm'] = {
+  name: 'Let\'s Dance - 1999 Digital Remaster',
+  uri: 'spotify:track:0F0MA0ns8oXwGw66B2BSXm',
+  sharingURL: 'https://open.spotify.com/track/0F0MA0ns8oXwGw66B2BSXm',
+  previewURL: 'http://d318706lgtcm8e.cloudfront.net/mp3-preview/fe28213f07f5428d97dc1a09b01449797cb38d78',
+  duration: 457.133,
+  artists: [
+    {name: 'David Bowie', uri: 'spotify:artist:0oSGxfWSnnOXhD2fKuz2Gy'}
+  ],
+  album: {name: 'Let\'s Dance', uri: 'spotify:album:37KYBt1Lzn4eJ4KoCFZcnR'},
+  trackNumber: 3,
+  discNumber: 1,
+  popularity: 0,
+  flaggedExplicit: false,
+  externalIds: {
+    'isrc': 'USJT19900185'
+  },
+  availableTerritories: [ 'MY', 'NI', 'NL', 'NO', 'NZ', 'PA', 'PE', 'PH' ]
 };
 
-playlists[''] = {
-  name: null,
-  version: null,
-  uri: null,
-  collaborative: null,
-  creator: null,
-  tracks: null,
-  dateModified: null
+playlists['spotify:user:testuser:playlist:87234DfaD43fdsdfDx'] = {
+  name: 'My Super Funky Playlist',
+  version: 1,
+  uri: 'spotify:user:testuser:playlist:87234DfaD43fdsdfDx',
+  collaborative: false,
+  creator: 'testuser',
+  tracks: [
+    {uri: 'spotify:track:0F0MA0ns8oXwGw66B2BSXm', name: 'Let\'s Dance - 1999 Digital Remaster'}
+  ],
+  dateModified: new Date()
 }
   
 exports.albums = albums;
