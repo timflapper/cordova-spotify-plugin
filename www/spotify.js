@@ -19,39 +19,29 @@ spotify.exec = function(action, params, callback) {
 spotify.authenticate =function(clientId, tokenExchangeURL, scopes, callback) {
   var params;
     
-  if (! callback) callback = scopes, scopes = ['login'];
+  if (callback === undefined) callback = scopes, scopes = ['login'];
       
   spotify.exec( 'authenticate',
                 [ clientId, tokenExchangeURL, scopes ],
                 callback );
 };
 
-spotify.search = function(query, type, offset, callback) {
-  offset = offset || 0;
-  
+spotify.search = function(query, searchType, offset, session, callback) {
+  if (typeof session === 'function') {
+    if (callback !== undefined) {
+      throw new Error('Only query, searchType, session and callback allowed if offset is omitted. Fifth argument of type ' + (typeof callback) + 'detected.');
+    }
+    
+    callback = session, session = offset, offset = 0;
+  }
+
   spotify.exec( 'search', 
-                [ query, type, offset ], 
+                [ query, searchType, offset, session ], 
                 callback );
 };
 
-spotify.getPlaylistsForUser = function(session, username, callback) {
-  var args;
-  
-  if (typeof username === 'function') {
-    if (callback !== undefined) {
-      throw new Error('Only session and callback allowed if username is omitted. Third argument of type ' + (typeof callback) + 'detected.');
-    }
-    
-    callback = username, username = undefined;
-  }
-  
-  if (username === undefined) {
-    args = [];
-  } else {
-    args = [username];
-  }
-    
+spotify.getPlaylistsForUser = function(username, session, callback) {
   spotify.exec( 'getPlaylistsForUser', 
-                args, 
+                [ username, session ],
                 callback );    
 }

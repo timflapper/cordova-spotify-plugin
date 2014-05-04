@@ -15,7 +15,7 @@ var defaultProps = {
 };
 
 function TrackData() {}
-function Track(uri, callback) {
+function Track(uri, session, callback) {
   var callback = callback || null
     , props = {}
     , track = new TrackData();
@@ -40,7 +40,7 @@ function Track(uri, callback) {
   }
   
   spotify.exec( 'trackFromURI', 
-                [ uri ],
+                [ uri, session ],
                 callback );
   
   return track;

@@ -27,9 +27,17 @@ AudioPlayer.destroy = function(callback) {
 
 AudioPlayer.prototype.dispatchEvent = function(event) {
   var i, args, listeners;
-  
-  if ((event in this._events) === false)
+
+  if ((event in this._events) === false) {
+    if (event === EVENT_ERROR)
+      throw new Error(arguments[1]);
+      
+    if (event === EVENT_MESSAGE) {
+      alert(arguments[1]);
+    }
+    
     return;
+  }
   
   if (arguments.length > 1) {
     args = arguments.slice(1);
@@ -70,8 +78,8 @@ AudioPlayer.prototype.getIsPlaying = function(callback) {
   spotify.exec('getIsPlaying', [this._id], callback);
 }
 
-AudioPlayer.prototype.setIsPlaying = function(value, callback) {
-  spotify.exec('setIsPlaying', [this._id, value], callback);
+AudioPlayer.prototype.setIsPlaying = function(status, callback) {
+  spotify.exec('setIsPlaying', [this._id, status], callback);
 }
 
 AudioPlayer.prototype.getVolume = function(callback) {

@@ -3,8 +3,12 @@ var defaultProps = {
   credential: null
 };
 
-function Session(props) {
-  var session = this;
+function Session(data) {
+  var session = this
+    , props = {
+      username: data.username,
+      credential: data.credential
+    };
   
   Object.keys(defaultProps).forEach(function(prop, index) {
     Object.defineProperty(session, prop, {

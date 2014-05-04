@@ -13,7 +13,7 @@
 - (void)trackFromURI:(CDVInvokedUrlCommand*)command
 {
     callbackId = command.callbackId;
-        
+    
     NSDictionary *track = @{
         @"name": @"Boobo blabla",
         @"album": @{@"name": @"Albumpie", @"uri": @"Wheee"},
@@ -22,6 +22,8 @@
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:track];
 
+    NSError *err = [[NSError alloc] init];
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 

@@ -16,7 +16,7 @@ var defaultProps = {
 };
 
 function AlbumData() {}
-function Album(uri, callback) {
+function Album(uri, session, callback) {
   var callback = callback || null
     , props = {}
     , album = new AlbumData();
@@ -41,7 +41,7 @@ function Album(uri, callback) {
   }
   
   spotify.exec( 'albumFromURI',
-                [ uri ],
+                [ uri, session ],
                 callback );
   
   return track;

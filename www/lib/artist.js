@@ -10,7 +10,7 @@ var defaultProps = {
 };
 
 function ArtistData() {}
-function Artist(uri, callback) {
+function Artist(uri, session, callback) {
   var callback = callback || null
     , props = {}
     , artist = new ArtistData();
@@ -35,7 +35,7 @@ function Artist(uri, callback) {
   }
   
   spotify.exec( 'artistFromURI',
-                [ uri ],
+                [ uri, session ],
                 callback );
   
   return track;

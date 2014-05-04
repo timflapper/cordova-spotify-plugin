@@ -9,11 +9,11 @@ var defaultProps = {
 };
 
 function PlaylistData() {}
-function Playlist(uri, callback) {
+function Playlist(uri, session, callback) {
   var callback = callback || null
     , props = {}
     , playlist = new PlaylistData();
-  
+      
   Object.keys(defaultProps).forEach(function(prop, index) {
     Object.defineProperty(playlist, prop, {
       get: function() { return props[prop] || defaultProps[prop]; },
@@ -34,7 +34,7 @@ function Playlist(uri, callback) {
   }
   
   spotify.exec( 'playlistFromURI', 
-                [ uri ],
+                [ uri, session ],
                 callback );
   
   return playlist;
