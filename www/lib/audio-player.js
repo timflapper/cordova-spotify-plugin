@@ -1,5 +1,3 @@
-var exec = require('cordova/exec');
-
 var EVENT_LOGIN = 'login'
   , EVENT_LOGOUT = 'logout'
   , EVENT_PERMISSION_LOST = 'permissionLost'

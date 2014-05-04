@@ -1,5 +1,3 @@
-var exec = require('cordova/exec');
-
 var defaultProps = {
   username: null,
   credential: null

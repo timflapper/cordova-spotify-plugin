@@ -1,15 +1,17 @@
 # Cordova Spotify Plugin
 
+**This plugin is not yet functional**
+
 This plugin provides a javascript API to Spotify's iOS SDK.
 
 ## Do not use this plugin in a production environment!
 Currently the Spotify iOS SDK is in beta and breaking changes can occur without prior notice.
 
-# API
+## API
 
 Documentation can be found [here](https://github.com/timflapper/cordova-plugin-spotify/wiki/API)
 
-# Setting up a token exchange service
+## Setting up a token exchange service
 
 To set up a token exchange service you have two options:
 
