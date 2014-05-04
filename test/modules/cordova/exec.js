@@ -5,24 +5,23 @@ var data = require('./data');
 module.exports = function(onSuccess, onError, service, action, args) {
     
   switch (action) {
-      case 'doTestAction':
+    case 'doTestAction':
       return onSuccess([true]);
       break;
     case 'authenticate':
       authenticate(onSuccess, onError, args);
       break;
     case 'search':
-        search(onSuccess, onError, args);
+      search(onSuccess, onError, args);
       break;
     case 'getPlaylistsForUser':
       getPlaylistsForUser(onSuccess, onError, args);
-    break;
+      break;
     case 'getObjectFromURI':
       getObjectFromURI(onSuccess, onError, args);
-    break;
+      break;
     default:
       return onError(new Error('Invalid action'));
-      break;
   }
 }
 
