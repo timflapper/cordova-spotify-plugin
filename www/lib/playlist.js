@@ -52,9 +52,9 @@ Playlist.prototype.setDescription = function(desc, session, callback) {
                 callback );  
 }
 
-Playlist.prototype.setCollaborative = function(value, session, callback) {
+Playlist.prototype.setCollaborative = function(collaborative, session, callback) {
   spotify.exec( 'setPlaylistCollaborative', 
-                [ this.uri, value, session ],
+                [ this.uri, collaborative, session ],
                 callback );    
 }
 
