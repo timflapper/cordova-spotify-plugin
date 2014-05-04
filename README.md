@@ -1,4 +1,6 @@
-# Cordova Spotify Plugin **This plugin is not yet functional**
+# Cordova Spotify Plugin
+
+##### **This plugin is not yet functional**
 
 This plugin provides a javascript API to Spotify's iOS SDK.
 
