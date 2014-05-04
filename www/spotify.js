@@ -1,22 +1,14 @@
 var exec = require('cordova/exec');
 
-var AudioPlayer = require('./lib/audio-player')
-  , Album = require('./lib/album')
-  , Artist = require('./lib/artist')
-  , Playlist = require('./lib/playlist')
-  , Session = require('./lib/session')
-  , Track = require('./lib/track')
-  , SpotifyImage = require('./lib/image')
+var spotify = module.exports = {};
 
-var spotify = module.exports = {
-  Album: Album,
-  Artist: Artist,
-  AudioPlayer: AudioPlayer,
-  Playlist: Playlist,
-  Session: Session,
-  Track: Track,
-  Image: SpotifyImage
-};
+spotify.AudioPlayer = require('./lib/audio-player');
+spotify.Album = require('./lib/album');
+spotify.Artist = require('./lib/artist');
+spotify.Playlist = require('./lib/playlist');
+spotify.Session = require('./lib/session');
+spotify.Track = require('./lib/track');
+spotify.Image = require('./lib/image');
 
 spotify.exec = function(action, params, callback) {
   if (typeof params === 'function') {
@@ -44,7 +36,7 @@ spotify.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
     if (error !== null)
       return callback(error);
     
-    var sess = new Session(data);
+    var sess = new spotify.Session(data);
     
     callback(null, sess);
   }
@@ -87,16 +79,16 @@ spotify.getObjectFromURI = function(uri, session, callback) {
         
     switch(objectType) {
       case 'track':
-        res = new Track(data);
+        res = new spotify.Track(data);
         break;
       case 'album':
-        res = new Album(data);
+        res = new spotify.Album(data);
         break;
       case 'artist':
-        res = new Artist(data);
+        res = new spotify.Artist(data);
         break;
       case 'playlist':
-        res = new Playlist(data);
+        res = new spotify.Playlist(data);
         break;
     }
     
@@ -108,4 +100,21 @@ spotify.getPlaylistsForUser = function(username, session, callback) {
   spotify.exec( 'getPlaylistsForUser', 
                 [ username, session ],
                 callback );    
+}
+
+spotify.createPlaylist = function(name, session, callback) {
+  spotify.exec( 'createPlaylist', 
+                [ name, session ],
+                done );
+                
+  function done(error, data) {
+    var playlist;
+    
+    if (error)
+      return callback(error);
+    
+    playlist = new spotify.Playlist(data);
+    
+    callback(null, playlist);
+  }
 }

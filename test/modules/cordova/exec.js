@@ -20,11 +20,28 @@ module.exports = function(onSuccess, onError, service, action, args) {
     case 'getObjectFromURI':
       getObjectFromURI(onSuccess, onError, args);
       break;
+    case 'createPlaylist':
+      createPlaylist(onSuccess, onError, args);
+      break;
+    case 'setPlaylistName':
+      setPlaylistName(onSuccess, onError, args);
+      break;
+    case 'setPlaylistDescription':
+      setPlaylistDescription(onSuccess, onError, args);
+      break;
+    case 'setPlaylistCollaborative':
+      setPlaylistCollaborative(onSuccess, onError, args);
+      break;
+    case 'addTracksToPlaylist':
+      addTracksToPlaylist(onSuccess, onError, args);
+      break;
+    case 'deletePlaylist':
+      deletePlaylist(onSuccess, onError, args);
+      break;
     default:
       return onError(new Error('Invalid action'));
   }
 }
-
 
 function authenticate(onSuccess, onError, args) {
   onSuccess({
@@ -75,4 +92,82 @@ function getObjectFromURI(onSuccess, onError, args) {
   }
   
   onSuccess(obj);
+}
+
+function createPlaylist(onSuccess, onError, args) {
+  var data = {
+    name: args[0],
+    version: 1,
+    uri: 'spotify:user:testuser:playlist:s0M3ranD0MiD',
+    collaborative: false,
+    creator: 'testuser',
+    tracks: [],
+    dateModified: new Date()    
+  };
+  
+  onSuccess(data);
+}
+
+function setPlaylistName(onSuccess, onError, args) {
+  var data = {
+    name: args[1],
+    version: 2,
+    uri: args[0],
+    collaborative: false,
+    creator: 'testuser',
+    tracks: [],
+    dateModified: new Date()    
+  };
+  
+  onSuccess(data);
+}
+
+function setPlaylistDescription(onSuccess, onError, args) {
+  var data = {
+    name: 'My Amazing Playlist',
+    version: 2,
+    uri: args[0],
+    collaborative: false,
+    creator: 'testuser',
+    tracks: [],
+    dateModified: new Date()    
+  };
+  
+  onSuccess(data);
+}
+
+function setPlaylistCollaborative(onSuccess, onError, args) {
+  var data = {
+    name: 'My Amazing Playlist',
+    version: 2,
+    uri: args[0],
+    collaborative: true,
+    creator: 'testuser',
+    tracks: [],
+    dateModified: new Date()    
+  };
+  
+  onSuccess(data);
+}
+
+function addTracksToPlaylist(onSuccess, onError, args) {
+  var tracks = args[1];
+  
+  var data = {
+    name: 'My Amazing Playlist',
+    version: 2,
+    uri: args[0],
+    collaborative: true,
+    creator: 'testuser',
+    tracks: [
+      {name: 'Let\'s Dance - 1999 Digital Remaster', uri: tracks[0]}  
+    ],
+    dateModified: new Date()    
+  };
+    
+  onSuccess(data);
+}
+
+function deletePlaylist(onSuccess, onError, args) {
+  onSuccess();
 }

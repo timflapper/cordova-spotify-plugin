@@ -27,29 +27,73 @@ module.exports = Playlist;
 Playlist.prototype.setName = function(name, session, callback) {
   spotify.exec( 'setPlaylistName', 
                 [ this.uri, name, session ],
-                callback );
+                done );
+  
+  function done(error, data) {
+    var playlist;
+    
+    if (error) 
+      return callback(error);
+      
+    playlist = new Playlist(data);
+    
+    callback(null, playlist);
+  }
 }
 
-Playlist.prototype.setDescription = function(desc, session, callback) {
+Playlist.prototype.setDescription = function(description, session, callback) {
   spotify.exec( 'setPlaylistDescription', 
-                [ this.uri, name, session ],
-                callback );  
+                [ this.uri, description, session ],
+                done );
+
+  function done(error, data) {
+    var playlist;
+
+    if (error) 
+      return callback(error);
+
+    playlist = new Playlist(data);
+
+    callback(null, playlist);
+  }                          
 }
 
 Playlist.prototype.setCollaborative = function(collaborative, session, callback) {
   spotify.exec( 'setPlaylistCollaborative', 
                 [ this.uri, collaborative, session ],
-                callback );    
+                done );    
+
+  function done(error, data) {
+    var playlist;
+
+    if (error) 
+      return callback(error);
+
+    playlist = new Playlist(data);
+
+    callback(null, playlist);
+  }
 }
 
 Playlist.prototype.addTracks = function(tracks, session, callback) {
   spotify.exec( 'addTracksToPlaylist', 
                 [ this.uri, tracks, session ],
-                callback );
+                done );
+                
+  function done(error, data) {
+    var playlist;
+
+    if (error) 
+      return callback(error);
+
+    playlist = new Playlist(data);
+
+    callback(null, playlist);
+  }
 }
 
 Playlist.prototype.delete = function(session, callback) {
   spotify.exec( 'deletePlaylist', 
                 [ this.uri, session ],
-                callback );      
+                callback );    
 }

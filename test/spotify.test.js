@@ -60,7 +60,7 @@ describe('spotify.authenticate()', function() {
 });
 
 describe('spotify.search()', function() {  
-  it('Should return an array with all parameters filled', function(done) { 
+  it('Should return an array when all arguments are passed', function(done) { 
     spotify.search('Ben Folds', 'artist', 20, session, callback);
     
     function callback(error, result) {
@@ -71,7 +71,7 @@ describe('spotify.search()', function() {
     }
   });
   
-  it('And should return an array without offset', function(done) {
+  it('And should return an array when offset is omitted', function(done) {
     spotify.search('Ben Folds', 'artist', session, callback);
     
     function callback(error, result) {
@@ -136,7 +136,7 @@ describe('spotify.getObjectFromURI()', function() {
 
 describe('spotify.getPlaylistsForUser()', function() {
   
-  it('should return an array with all parameters filled', function(done) {
+  it('should return an array', function(done) {
     spotify.getPlaylistsForUser('testUser', session, callback);
     
     function callback(error, result) {
@@ -145,5 +145,18 @@ describe('spotify.getPlaylistsForUser()', function() {
       result.should.be.an.instanceOf(Array);
       done();
     };
+  });
+});
+
+describe('spotify.createPlaylist()', function() {
+  it('should return a playlist', function(done) {
+    spotify.createPlaylist('My Amazing New Playlist', session, callback);
+    
+    function callback(error, playlist) {
+      (error === null).should.be.true;
+      
+      playlist.should.be.an.instanceOf(spotify.Playlist);
+      done();
+    }
   });
 });
