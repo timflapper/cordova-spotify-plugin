@@ -6,7 +6,7 @@ var world = require('./lib/world')
   , session = world.session
   , spotify = world.spotify;
 
-describe('album()', function() {
+describe('spotify.Album()', function() {
   it('should return an Album', function(done) {
     spotify.Album('spotify:album:4FtOLTQqwnxpaABrJWYdBy', session, callback);
     

@@ -24,23 +24,18 @@ function Artist(uri, session, callback) {
     });
   });
 
-  function onSuccess(data) {
-    props = data;
-    
-    if (callback) 
-      return callback(null, track);
-  }
-
-  function onError(error) {
-    if (callback)
-      return callback(error);
-  }
-  
   spotify.exec( 'artistFromURI',
-                [ uri, session ],
-                callback );
+              [ uri, session ],
+              done );
+              
+  function done(error, data) {
+    if (error)
+      return callback(error);
   
-  return track;
+    props = data;
+      
+    callback(null, artist);
+  }
 }
 
 Artist.prototype = {};

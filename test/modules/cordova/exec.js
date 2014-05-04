@@ -20,6 +20,9 @@ module.exports = function(onSuccess, onError, service, action, args) {
     case 'albumFromURI':
       albumFromURI(onSuccess, onError, args);
     break;
+    case 'artistFromURI':
+      artistFromURI(onSuccess, onError, args);
+    break;
     default:
       return onError(new Error('Invalid action'));
       break;
@@ -55,4 +58,11 @@ function albumFromURI(onSuccess, onError, args) {
     , album = data.albums[uri];
     
   onSuccess(album);
+}
+
+function artistFromURI(onSuccess, onError, args) {    
+  var uri = args[0]
+    , artist = data.artists[uri];
+    
+  onSuccess(artist);
 }

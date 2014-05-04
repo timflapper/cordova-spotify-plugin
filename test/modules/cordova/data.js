@@ -1,6 +1,9 @@
 var SPImage = require('../../../www/lib/image');
 
-var albums = {};
+var albums = {}
+  , artists = {}
+  , tracks = {}
+  , playlists = {};
 
 var albumCovers = [{
   large: SPImage({
@@ -20,6 +23,29 @@ var albumCovers = [{
   })
 }];
 
+var artistImages = [{
+  small: {
+    width: 64,
+    height: 52,
+    url: 'https://d3rt1990lpmkn.cloudfront.net/original/e095f9cd4b4c7354cbac5833bb87ed8a1ef6c601'
+  },
+  medium: {
+    width: 200,
+    height: 163,
+    url: 'https://d3rt1990lpmkn.cloudfront.net/original/34f314e1fc688a385377db7ee4c95bbaed3b6736'
+  },
+  large: {
+    width: 640,
+    height: 521,
+    url: 'https://d3rt1990lpmkn.cloudfront.net/original/fa6c1901c9b71493bfd3f792d46af2505d45685b'
+  },
+  xlarge: {
+    width: 1000,
+    height: 814,
+    url: 'https://d3rt1990lpmkn.cloudfront.net/original/17bc1410db1c5d6abee55f2e270bcd104cc56c2f'
+  },
+}];
+
 albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
     name: 'Rockin\' The Suburbs',
     uri: 'spotify:album:4FtOLTQqwnxpaABrJWYdBy',
@@ -27,7 +53,7 @@ albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
     externalIds: {
       upc: '074646161029'
     },
-    availableTerritories: ['AD', 'AR', 'AT', 'AU', 'BE', 'BG', 'BO', 'BR', 'CA', 'CH', 'CL', 'CO', 'CR', 'CY', 'CZ', 'DE', 'DK', 'DO', 'EC', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'GT', 'HK', 'HN', 'HR', 'HU', 'IE', 'IS', 'IT', 'LI', 'LT', 'LU', 'LV', 'MC', 'MT', 'MX', 'MY', 'NI', 'NL', 'NO', 'NZ', 'PA', 'PE', 'PH', 'PL', 'PT', 'PY', 'RO', 'SE', 'SG', 'SI', 'SK', 'SV', 'TR', 'TW', 'US', 'UY'],
+    availableTerritories: ['AD', 'AR', 'AT', 'NL'],
     artists: [{
       uri: 'spotify:artist:55tif8708yyDQlSjh3Trdu',
       name: 'Ben Folds'
@@ -35,16 +61,7 @@ albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
     tracks: [
       {uri: 'spotify:track:2hDQU47XuGq9CdYRIQD1m6', name: 'Annie Waits'},
       {uri: 'spotify:track:5djxeOKKsF7BhHvz7iFOjw', name: 'Zak And Sara'},
-      {uri: 'spotify:track:0f9fM6DdpJM79NQ1XbHcjJ', name: 'Still Fighting It'},
-      {uri: 'spotify:track:2E3y6Tmfgs0NRIPxrZQuRH', name: 'Gone'},
-      {uri: 'spotify:track:2Oq7FNjSS7hdVYqWqmDcQr', name: 'Fred Jones Part 2'},
-      {uri: 'spotify:track:1JsrhWs2mx0DkdNS2wwDSQ', name: 'The Ascent Of Stan'},
-      {uri: 'spotify:track:5fpbJ17L8Cw0OYcOdIG224', name: 'Losing Lisa'},
-      {uri: 'spotify:track:2wlrGjzCYco5dCH3MxjibS', name: 'Carrying Cathy'},
-      {uri: 'spotify:track:0QmSEMpnWRrVZ1o9oyjZF3', name: 'Not The Same'},
-      {uri: 'spotify:track:3BOQOd4qPpdiwvqMQyh2Yg', name: 'Rockin\' The Suburbs'},
-      {uri: 'spotify:track:7ny1jOJSZAF6VBb7x9DRO2', name: 'Fired'},
-      {uri: 'spotify:track:1fujSajijBpJlr5mRGKHJN', name: 'The Luckiest'}
+      {uri: 'spotify:track:0f9fM6DdpJM79NQ1XbHcjJ', name: 'Still Fighting It'}
     ],
     releaseDate: {
       year: 2001,
@@ -63,6 +80,50 @@ albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
     smallestCover: albumCovers[0].small,
     popularity: 62
   };
-  
+
+artists['spotify:artist:55tif8708yyDQlSjh3Trdu'] = {
+  name: 'Ben Folds',
+  uri: 'spotify:artist:55tif8708yyDQlSjh3Trdu',
+  sharingURL: 'https://open.spotify.com/artist/55tif8708yyDQlSjh3Trdu',
+  genres: [
+  'Adult Alternative Pop/Rock',
+  'Alternative Pop/Rock',
+  'Alternative/Indie Rock',
+  'Pop/Rock'
+  ],
+  images: artistImages[0],
+  smallestImage: artistImages[0].small,
+  largestImage: artistImages[0].xlarge,
+  popularity: 50
+};
+
+tracks[''] = {
+  name: null,
+  uri: null,
+  sharingURL: null,
+  previewURL: null,
+  duration: null,
+  artists: null,
+  album: null,
+  trackNumber: null,
+  discNumber: null,
+  popularity: null,
+  flaggedExplicit: null,
+  externalIds: null,
+  availableTerritories: null  
+};
+
+playlists[''] = {
+  name: null,
+  version: null,
+  uri: null,
+  collaborative: null,
+  creator: null,
+  tracks: null,
+  dateModified: null
+}
   
 exports.albums = albums;
+exports.artists = artists;
+exports.tracks = tracks;
+exports.playlists = playlists;
