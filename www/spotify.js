@@ -33,3 +33,25 @@ spotify.search = function(query, type, offset, callback) {
                 [ query, type, offset ], 
                 callback );
 };
+
+spotify.getPlaylistsForUser = function(session, username, callback) {
+  var args;
+  
+  if (typeof username === 'function') {
+    if (callback !== undefined) {
+      throw new Error('Only session and callback allowed if username is omitted. Third argument of type ' + (typeof callback) + 'detected.');
+    }
+    
+    callback = username, username = undefined;
+  }
+  
+  if (username === undefined) {
+    args = [];
+  } else {
+    args = [username];
+  }
+    
+  spotify.exec( 'getPlaylistsForUser', 
+                args, 
+                callback );    
+}
