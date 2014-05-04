@@ -1,3 +1,5 @@
+var spotify = undefined;
+
 var defaultProps = {
   name: null,
   uri: null,
@@ -20,7 +22,7 @@ function Album(uri, session, callback) {
   var callback = callback || null
     , props = {}
     , album = new AlbumData();
-  
+    
   Object.keys(defaultProps).forEach(function(prop, index) {
     Object.defineProperty(album, prop, {
       get: function() { return props[prop] || defaultProps[prop]; },
@@ -28,27 +30,28 @@ function Album(uri, session, callback) {
     });
   });
 
-  function onSuccess(data) {
-    props = data;
-    
-    if (callback) 
-      return callback(null, track);
-  }
-
-  function onError(error) {
-    if (callback)
-      return callback(error);
-  }
-  
   spotify.exec( 'albumFromURI',
                 [ uri, session ],
-                callback );
-  
-  return track;
+                done );
+                
+  function done(error, data) {
+    if (error)
+      return callback(error);
+    
+    props = data;
+    
+    console.log(data);
+    
+    callback(null, album);
+  }
 }
 
 Album.prototype = {};
 AlbumData.prototype = Object.create(Album.prototype);
 AlbumData.prototype.constructor = AlbumData;
 
-module.exports = Album;
+module.exports = function(plugin) {
+  spotify = plugin;
+  
+  return Album;
+}

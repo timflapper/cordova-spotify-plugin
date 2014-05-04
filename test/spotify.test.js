@@ -1,8 +1,12 @@
+'use strict';
+
 var should = require('should');
 
-var spotify = require('../www/spotify');
+var world = require('./lib/world')
+  , session = world.session
+  , spotify = world.spotify;
 
-describe('spotify.exec', function() {
+describe('spotify.exec()', function() {
   it('should call the callback function with a result if the action is correct', function(done) {    
     spotify.exec('doTestAction', [], function(error, result) {
       (error === null).should.be.true;
@@ -29,7 +33,7 @@ describe('spotify.exec', function() {
   });
 });
 
-describe('spotify.authenticate', function() {
+describe('spotify.authenticate()', function() {
   it('should return a spotify.Session object with scopes ["login"]', function(done) {
     
     spotify.authenticate( 'someClientId', 'http://localhost:1234/swap', ['login'], onResult);
@@ -44,13 +48,51 @@ describe('spotify.authenticate', function() {
   
   it('should return a spotify.Session object without scopes', function(done) {
     
-    spotify.authenticate( 'someClientId', 'http://localhost:1234/swap', onResult);
+    spotify.authenticate( 'someClientId', 'http://localhost:1234/swap', callback);
     
-    function onResult(error, result) {
+    function callback(error, result) {
       (error === null).should.be.true;
       
       result.should.be.an.instanceOf(spotify.Session);
       done();
     }    
+  });
+});
+
+describe('spotify.search()', function() {  
+  it('Should return an array with all parameters filled', function(done) { 
+    spotify.search('Ben Folds', 'artist', 20, session, callback);
+    
+    function callback(error, result) {
+      (error === null).should.be.true;
+      
+      result.should.be.an.instanceOf(Array);
+      done();
+    }
+  });
+  
+  it('And should return an array without offset', function(done) {
+    spotify.search('Ben Folds', 'artist', session, callback);
+    
+    function callback(error, result) {
+      (error === null).should.be.true;
+      
+      result.should.be.an.instanceOf(Array);
+      done();
+    }    
+  });
+});
+
+describe('spotify.getPlaylistsForUser()', function() {
+  
+  it('should return an array with all parameters filled', function(done) {
+    spotify.getPlaylistsForUser('testUser', session, callback);
+    
+    function callback(error, result) {
+      (error === null).should.be.true;
+      
+      result.should.be.an.instanceOf(Array);
+      done();
+    };
   });
 });

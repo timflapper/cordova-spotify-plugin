@@ -2,7 +2,7 @@ var exec = require('cordova/exec');
 
 var spotify = {};
 
-spotify.Album = require('./lib/album');
+spotify.Album = require('./lib/album')(spotify);
 spotify.Artist = require('./lib/artist');
 spotify.AudioPlayer = require('./lib/audio-player');
 spotify.Image = require('./lib/image');
@@ -20,7 +20,7 @@ spotify.exec = function(action, params, callback) {
   } else if (callback === undefined) {
     throw new Error('Callback is a mandatory argument');    
   }
-  
+    
   function onSuccess(result) { callback(null, result); }
   function onError(error) { callback(error); }
   

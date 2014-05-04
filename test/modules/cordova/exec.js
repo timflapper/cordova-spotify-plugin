@@ -1,33 +1,61 @@
-module.exports = function(onSuccess, onError, service, action, args) {  
-  if (service !== 'SpotifyPlugin') {
-    return onError(new Error('Invalid service'));
-  }
-  
+'use strict';
+
+var data = require('./data');
+
+module.exports = function(onSuccess, onError, service, action, args) {
+    
   switch (action) {
-    case 'doTestAction':
+      case 'doTestAction':
       return onSuccess([true]);
-    break;
+      break;
     case 'authenticate':
-      authenticate(args[0], args[1], args[2], function(error, session) {
-        if (error !== null) 
-          return onError(error);
-          
-          onSuccess(session);
-      });
+      authenticate(onSuccess, onError, args);
+      break;
+    case 'search':
+        search(onSuccess, onError, args);
+      break;
+    case 'getPlaylistsForUser':
+      getPlaylistsForUser(onSuccess, onError, args);
+    break;
+    case 'albumFromURI':
+      albumFromURI(onSuccess, onError, args);
     break;
     default:
       return onError(new Error('Invalid action'));
-    break;
+      break;
   }
 }
 
 
-function authenticate(clientId, tokenExchangeURL, scopes, callback) {
- if (clientId !== 'someClientId')
-   return callback(new Error('Invalid clientId'));
- 
-  callback(null, {
-    username: 'testUser',
+function authenticate(onSuccess, onError, args) {
+  onSuccess({
+    username: 'testuser',
     credential: 'someR4nd0mCr3d3nt14ls'
   });
+}
+
+function search(onSuccess, onError, args) {
+  var result = [
+    {name: 'Ben Folds', uri: 'spotify:artist:55tif8708yyDQlSjh3Trdu'}
+  ];
+    
+  onSuccess(result);
+}
+
+function getPlaylistsForUser(onSuccess, onError, args) {
+  var result = [
+    {name: 'Some Playlist', uri: 'spotify:user:testuser:playlist:nOT1A2rEaL3uRL'}
+  ];
+  
+  onSuccess(result);
+}
+
+function albumFromURI(onSuccess, onError, args) {  
+  var album = data.albums(args[0]);
+  
+  console.log(data.albums);
+    
+  console.log(args);
+  
+  onSuccess(album);
 }

@@ -1,6 +1,4 @@
-# Cordova Spotify Plugin
-
-**This plugin is not yet functional**
+# Cordova Spotify Plugin **This plugin is not yet functional**
 
 This plugin provides a javascript API to Spotify's iOS SDK.
 
@@ -17,9 +15,9 @@ To set up a token exchange service you have two options:
 
 ### Use the ruby script from the Spotify iOS SDK Demo Projects
 
-* [Download the Spotify iOS SDK](https://github.com/spotify/ios-sdk/releases)
-* Follow the instructions from the [Spotify iOS SDK beginner's tutorial](https://developer.spotify.com/technologies/spotify-ios-sdk/tutorial/).	
+- [Download the Spotify iOS SDK](https://github.com/spotify/ios-sdk/releases)
+- Follow the instructions from the [Spotify iOS SDK beginner's tutorial](https://developer.spotify.com/technologies/spotify-ios-sdk/tutorial/).	
 
 ### Make your own
 
-Explanation coming soon...
+- Explanation coming soon...
