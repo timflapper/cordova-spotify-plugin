@@ -43,6 +43,6 @@ function Artist(uri, session, callback) {
 
 Artist.prototype = {};
 ArtistData.prototype = Object.create(Artist.prototype);
-ArtistData.prototype.constructor = TrackData;
+ArtistData.prototype.constructor = ArtistData;
 
 module.exports = Artist;

@@ -16,32 +16,25 @@
     <clobbers target="spotify"/>
   </js-module>
 
-  <js-module name="Spotify.Session" src="www/lib/session.js">
-    <clobbers target="spotify.Session"/>
+  <js-module name="Spotify/lib/session" src="www/lib/session.js">
   </js-module>
 
-  <js-module name="Spotify.Album" src="www/lib/album.js">
-    <clobbers target="spotify.Album"/>
+  <js-module name="Spotify/lib/album" src="www/lib/album.js">
   </js-module>
 
-  <js-module name="Spotify.Artist" src="www/lib/artist.js">
-    <clobbers target="spotify.Artist"/>
+  <js-module name="Spotify/lib/artist" src="www/lib/artist.js">    
   </js-module>
 
-  <js-module name="Spotify.Track" src="www/lib/track.js">
-    <clobbers target="spotify.Track"/>
+  <js-module name="Spotify/lib/track" src="www/lib/track.js">
   </js-module>
   
-  <js-module name="Spotify.Playlist" src="www/lib/playlist.js">
-    <clobbers target="spotify.Playlist"/>
+  <js-module name="Spotify/lib/playlist" src="www/lib/playlist.js">
   </js-module>
 
-  <js-module name="Spotify.AudioPlayer" src="www/lib/audio-player.js">
-    <clobbers target="spotify.AudioPlayer"/>
+  <js-module name="Spotify/lib/audio-player" src="www/lib/audio-player.js">
   </js-module>
   
-  <js-module name="Spotify.Image" src="www/lib/image.js">
-    <clobbers target="spotify.Image"/>
+  <js-module name="Spotify/lib/image" src="www/lib/image.js">
   </js-module>
   
   <platform name="ios">

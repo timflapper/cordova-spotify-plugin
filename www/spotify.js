@@ -1,5 +1,14 @@
-var exec = require('cordova/exec')
-  , spotify = exports;
+var exec = require('cordova/exec');
+
+var spotify = {};
+
+spotify.Album = require('./lib/album');
+spotify.Artist = require('./lib/artist');
+spotify.AudioPlayer = require('./lib/audio-player');
+spotify.Image = require('./lib/image');
+spotify.Playlist = require('./lib/playlist');
+spotify.Session = require('./lib/Session');
+spotify.Track = require('./lib/Track');
 
 spotify.exec = function(action, params, callback) {
   if (typeof params === 'function') {
@@ -8,22 +17,33 @@ spotify.exec = function(action, params, callback) {
       }
 
       callback = params, params = [];
+  } else if (callback === undefined) {
+    throw new Error('Callback is a mandatory argument');    
   }
   
   function onSuccess(result) { callback(null, result); }
   function onError(error) { callback(error); }
   
-  exec( onSuccess, onError, service, 'SpotifyPlugin', params );
+  exec( onSuccess, onError, 'SpotifyPlugin', action, params );
 };
 
-spotify.authenticate =function(clientId, tokenExchangeURL, scopes, callback) {
+spotify.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
   var params;
     
   if (callback === undefined) callback = scopes, scopes = ['login'];
-      
+  
+  function done(error, data) {    
+    if (error !== null)
+      return callback(error);
+    
+    var sess = spotify.Session(data);
+    
+    callback(null, sess);
+  }
+    
   spotify.exec( 'authenticate',
                 [ clientId, tokenExchangeURL, scopes ],
-                callback );
+                done );
 };
 
 spotify.search = function(query, searchType, offset, session, callback) {
@@ -45,3 +65,7 @@ spotify.getPlaylistsForUser = function(username, session, callback) {
                 [ username, session ],
                 callback );    
 }
+
+
+
+module.exports = spotify;
