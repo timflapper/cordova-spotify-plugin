@@ -8,21 +8,85 @@
 
 #import "SpotifyAuthentication.h"
 
+static NSString *const CALLBACK_URL = @"spotify-ios-sdk-beta://callback";
+
 @interface SpotifyAuthentication()
-@property (readwrite) NSString *callbackId;
-@property (readwrite) NSString *tokenSwapUrl;
+@property NSURL *callbackUrl;
+
+@property (copy) NSURL *tokenSwapUrl;
+@property (copy) SpotifyLoginBlock loginCallback;
 @end
 
 @implementation SpotifyAuthentication
--(id)initWithCallbackId:(NSString *)callbackId tokenSwapUrl:(NSString *)tokenSwapUrl
++(SpotifyAuthentication *)defaultInstance
+{
+    static dispatch_once_t once;
+    static SpotifyAuthentication *instance;
+    
+    dispatch_once(&once, ^{
+        instance = [SpotifyAuthentication new];
+    });
+    
+    return instance;
+}
+
+-(id)init
 {
     self = [super init];
     
     if (self) {
-        self.callbackId = callbackId;
-        self.tokenSwapUrl = tokenSwapUrl;
+        self.callbackUrl = [NSURL URLWithString:CALLBACK_URL];
     }
     
     return self;
 }
+
+-(void)loginWithClientId:(NSString *)clientId tokenSwapUrl:(NSURL *)tokenSwapUrl scopes:(NSArray *)scopes callback:(SpotifyLoginBlock)callback
+{
+    
+    self.tokenSwapUrl = tokenSwapUrl;
+    self.loginCallback = callback;
+    
+    SPTAuth *auth = [SPTAuth defaultInstance];
+
+    NSURL *loginURL = [auth loginURLForClientId:clientId
+                            declaredRedirectURL:self.callbackUrl
+                                         scopes:scopes];
+
+    [[UIApplication sharedApplication] openURL:loginURL];
+}
+
+-(BOOL)openURL:(NSURL *)url
+{
+    if([[SPTAuth defaultInstance] canHandleURL:url withDeclaredRedirectURL: self.callbackUrl]) {
+        if (self.tokenSwapUrl == nil || self.loginCallback == nil)
+            return NO;
+
+        [[SPTAuth defaultInstance]
+             handleAuthCallbackWithTriggeredAuthURL:url
+             tokenSwapServiceEndpointAtURL:self.tokenSwapUrl
+             callback:^(NSError *error, SPTSession *session) {
+                 self.tokenSwapUrl = nil;
+                 
+                 if (error != nil) {
+                     NSLog(@"Error on handleAuthCallback: %@", error);
+                     
+                     self.loginCallback(error, nil);
+
+                     self.loginCallback = nil;
+
+                     return;
+                 }
+                 
+                 NSDictionary *result = @{@"username": session.canonicalUsername, @"credential": session.credential};
+                 
+                 self.loginCallback(nil, result);
+                 
+                 self.loginCallback = nil;
+             }];
+    }
+    
+    return NO;
+}
+
 @end

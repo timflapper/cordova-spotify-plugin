@@ -7,10 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Spotify/Spotify.h>
+
+typedef void (^SpotifyLoginBlock)(NSError *error, NSDictionary *session);
 
 @interface SpotifyAuthentication : NSObject
-@property (readonly) NSString *callbackId;
-@property (readonly) NSString *tokenSwapUrl;
 
--(id)initWithCallbackId:(NSString *)callbackId tokenSwapUrl:(NSString *)tokenSwapUrl;
++(SpotifyAuthentication *)defaultInstance;
+
+-(void)loginWithClientId:(NSString *)clientId tokenSwapUrl:(NSURL *)tokenSwapUrl scopes:(NSArray *)scopes callback:(SpotifyLoginBlock)callback;
+
+-(BOOL)openURL:(NSURL *)url;
+
 @end

@@ -1,18 +1,19 @@
 //
-//  SpotifyPlugin_Tests.m
-//  SpotifyPlugin Tests
+//  SpotifyPluginTests.m
+//  SpotifyPluginTests
 //
 //  Created by Tim Flapper on 05/05/14.
-//  Copyright (c) 2014 Tim Flapper. All rights reserved.
+//
 //
 
+#import "SpotifyAPIRequest.h"
 #import <XCTest/XCTest.h>
 
-@interface SpotifyPlugin_Tests : XCTestCase
+@interface SpotifyPluginTests : XCTestCase
 
 @end
 
-@implementation SpotifyPlugin_Tests
+@implementation SpotifyPluginTests
 
 - (void)setUp
 {
@@ -28,7 +29,7 @@
 
 - (void)testExample
 {
-    XCTAssertTrue(YES);
+    
 }
 
 @end

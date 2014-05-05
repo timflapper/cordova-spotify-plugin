@@ -4,6 +4,7 @@
 
 #import "AppDelegate+SpotifyPlugin.h"
 #import "SpotifyPlugin.h"
+#import "SpotifyAuthentication.h"
 #import <objc/runtime.h>
 
 @implementation AppDelegate (SpotifyPlugin)
@@ -58,10 +59,8 @@
 -(BOOL)customApplication:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSLog(@"OpenURL Result in AppDelegate+SpotifyPlugin");
-    
-    SpotifyPlugin *plugin = [self getCommandInstance:@"SpotifyPlugin"];
-    
-    if ([plugin authenticateCallback:url])
+ 
+    if ([[SpotifyAuthentication defaultInstance] openURL:url])
         return YES;
     
     return [self customApplication:application openURL:url sourceApplication:sourceApplication annotation:annotation];
