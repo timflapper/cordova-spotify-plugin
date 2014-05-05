@@ -19,11 +19,11 @@
     [[urlSession dataTaskWithURL:url
      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
          
-         NSError *jsonError;
-         
-         NSObject *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-         
-         NSLog(@"%@", result);
+//         NSError *jsonError;
+//         
+//         NSDictionary *result = ;
+//         
+//         NSLog(@"%@", result);
          
 //         NSLog(@"Got response %@ with error %@.\n", response, error);
 //         NSLog(@"DATA:\n%@\nEND DATA\n",

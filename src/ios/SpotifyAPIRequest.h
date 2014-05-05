@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SpotifyJSON.h"
 
 @interface SpotifyAPIRequest : NSObject
 -(void)test;

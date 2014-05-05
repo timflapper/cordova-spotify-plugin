@@ -11,9 +11,9 @@ var defaultProps = {
   releaseDate: null,
   type: null,
   genres: null,
-  covers: null,
-  largestCover: null,
-  smallestCover: null,
+  images: null,
+  largestImage: null,
+  smallestImage: null,
   popularity: null
 };
 

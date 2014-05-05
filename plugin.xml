@@ -63,14 +63,17 @@
     	</array>
     </config-file>
 
-    <header-file src="src/ios/AppDelegate+SpotifyPlugin.h"/>
-    <source-file src="src/ios/AppDelegate+SpotifyPlugin.m"/>
-    <header-file src="src/ios/SpotifyAuthentication.h"/>
-    <source-file src="src/ios/SpotifyAuthentication.m"/>
+    <header-file src="src/ios/SpotifyJSON.h"/>
+    <source-file src="src/ios/SpotifyJSON.m"/>
     <header-file src="src/ios/SpotifyAPIRequest.h"/>
     <source-file src="src/ios/SpotifyAPIRequest.m"/>
+    <header-file src="src/ios/SpotifyAuthentication.h"/>
+    <source-file src="src/ios/SpotifyAuthentication.m"/>
     <header-file src="src/ios/SpotifyPlugin.h"/>
     <source-file src="src/ios/SpotifyPlugin.m"/>
+
+    <header-file src="src/ios/AppDelegate+SpotifyPlugin.h"/>
+    <source-file src="src/ios/AppDelegate+SpotifyPlugin.m"/>
 
     <framework src="src/ios/lib/Spotify.framework" custom="true" />
     <framework src="AVFoundation.framework"/>

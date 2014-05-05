@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface SpotifyJSON : NSObject
-
++(NSDictionary *)parseData:(NSData *)data;
 @end

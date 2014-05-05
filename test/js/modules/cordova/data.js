@@ -75,9 +75,9 @@ albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
       'Alternative/Indie Rock',
       'Pop/Rock'
     ],
-    covers: albumCovers[0],
-    largestCover: albumCovers[0].large,
-    smallestCover: albumCovers[0].small,
+    images: albumCovers[0],
+    largestImage: albumCovers[0].large,
+    smallestImage: albumCovers[0].small,
     popularity: 62
   };
 
