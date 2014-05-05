@@ -1,57 +1,100 @@
-/********* CDVSpotify Cordova Plugin.m Cordova Plugin Implementation *******/
+//
+//  SpotifyPlugin.m
+//
 
 #import "SpotifyPlugin.h"
 
 @interface SpotifyPlugin() {
     NSString *callbackId;
+    NSString *callbackUrl;
+    NSString *tokenSwapUrl;
 }
 
 @end
 
 @implementation SpotifyPlugin
 
-- (void)trackFromURI:(CDVInvokedUrlCommand*)command
+- (void)authenticate:(CDVInvokedUrlCommand*)command
 {
+    NSLog(@"SpotifyPlugin authenticate");
+    
+    callbackUrl = @"spotify-ios-sdk-beta://callback";
     callbackId = command.callbackId;
+    tokenSwapUrl = [command.arguments objectAtIndex:1];
     
-    NSDictionary *track = @{
-        @"name": @"Boobo blabla",
-        @"album": @{@"name": @"Albumpie", @"uri": @"Wheee"},
-        @"uri": [command.arguments objectAtIndex:0]
-    };
-
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:track];
+    NSString *clientId = [command.arguments objectAtIndex:0];
+    NSArray *scopes = [command.arguments objectAtIndex:2];
     
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        SPTAuth *auth = [SPTAuth defaultInstance];
+        
+        NSURL *loginURL = [auth loginURLForClientId:clientId
+                                declaredRedirectURL:[NSURL URLWithString:callbackUrl]
+                                             scopes:scopes];
+        
+        [[UIApplication sharedApplication] performSelector:@selector(openURL:)
+                                                withObject:loginURL];
+    }];
+//    NSDictionary *session = @{@"username": @"fake", @"credential": @"faker"};
+//    
+//    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:session] callbackId:command.callbackId];
 }
 
-//- (void)sendTrackObject:(SPTTrack *)object
-//{
-//    
-//    NSDictionary *track = [self SPTTrackToDictionary:object];
-//    
-//    CDVPluginResult* pluginResult = nil;
-//    
-//    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:track];
-//    
-//    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
-//}
-//
-//-(NSDictionary *)SPTTrackToDictionary:(SPTTrack *)object
-//{
-//    return @{@"name": object.name,
-//            @"uri": object.uri,
-//            @"sharingURL": object.sharingURL,
-//            @"previewURL": object.previewURL,
-//            @"duration": [NSNumber numberWithDouble: object.duration],
-//            @"artists": object.artists,
-//            @"album": object.album,
-//            @"trackNumber": [NSNumber numberWithDouble: object.trackNumber],
-//            @"discNumber": [NSNumber numberWithDouble: object.discNumber],
-//            @"popularity": [NSNumber numberWithDouble: object.popularity],
-//            @"flaggedExplicit": object.flaggedExplicit ? @YES : @NO,
-//            @"externalIds": object.externalIds,
-//            @"availableTerritories": object.availableTerritories};
-//}
+- (void)search:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"SpotifyPlugin search");
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]] callbackId:command.callbackId];
+}
+
+- (void)getPlaylistsForUser:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"SpotifyPlugin getPlaylistsForUser");
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]] callbackId:command.callbackId];
+}
+
+- (void)getObjectFromURI:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"SpotifyPlugin getObjectFromURI");
+    
+    NSDictionary *obj = @{@"name": @"fake", @"uri": @"Faker"};
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:obj] callbackId:command.callbackId];
+    
+}
+
+- (void)createPlaylist:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"SpotifyPlugin createPlaylist");
+    
+    NSDictionary *playlist = @{@"name": @"Blablabla"};
+ 
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:playlist] callbackId:command.callbackId];
+}
+
+
+- (BOOL)authenticateCallback:(NSURL *)authURL
+{
+    if([[SPTAuth defaultInstance] canHandleURL:authURL withDeclaredRedirectURL:[NSURL URLWithString:callbackUrl]]) {
+        
+        [[SPTAuth defaultInstance]
+         handleAuthCallbackWithTriggeredAuthURL:authURL
+         tokenSwapServiceEndpointAtURL:[NSURL URLWithString:tokenSwapUrl]
+         callback:^(NSError *error, SPTSession *session) {
+             if (error != nil) {
+                 //                 NSLog(@"Auth Error");
+                 NSLog(@"*** Auth error: %@", error);
+                 return;
+             }
+             
+             NSLog(@"Session result: %@", session);
+         }];
+        
+        return YES;
+    }
+    
+    return NO;
+}
 
 @end

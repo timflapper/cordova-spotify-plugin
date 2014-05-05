@@ -1,4 +1,4 @@
-var spotify = require('../spotify');
+var spotify = undefined;
 
 var defaultProps = {
   name: null,
@@ -22,7 +22,11 @@ function Playlist(obj) {
 
 }
 
-module.exports = Playlist;
+module.exports = function(parent) {
+  spotify = parent;
+  
+  return Playlist;
+}
 
 Playlist.prototype.setName = function(name, session, callback) {
   spotify.exec( 'setPlaylistName', 

@@ -1,4 +1,4 @@
-var spotify = require('../spotify');
+var spotify = undefined;
 
 var noop = function() {};
 
@@ -14,8 +14,11 @@ function AudioPlayer(companyName, appName) {
   AudioPlayer.init.call(this, companyName, appName);
 }
 
-module.exports = AudioPlayer;
-
+module.exports = function(parent) {
+  spotify = parent;
+  
+  return AudioPlayer;
+}
 AudioPlayer.prototype._id = undefined;
 AudioPlayer.prototype._companyName = undefined;
 AudioPlayer.prototype._appName = undefined;

@@ -1,3 +1,5 @@
+var spotify = undefined;
+
 var defaultProps = {
   name: null,
   uri: null,
@@ -26,4 +28,8 @@ function Track(obj) {
 
 }
 
-module.exports = Track;
+module.exports = function(parent) {
+  spotify = parent;
+  
+  return Track;
+}

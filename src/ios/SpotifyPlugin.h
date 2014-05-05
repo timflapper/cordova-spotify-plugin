@@ -1,9 +1,5 @@
 //
 //  SpotifyPlugin.h
-//  SpotifyPlugin
-//
-//  Created by Tim Flapper on 30/04/14.
-//
 //
 
 #import <Spotify/Spotify.h>
@@ -13,5 +9,11 @@
     // Member variables go here.
 }
 
-- (void)trackFromURI:(CDVInvokedUrlCommand*)command;
+- (void)authenticate:(CDVInvokedUrlCommand*)command;
+- (void)search:(CDVInvokedUrlCommand*)command;
+- (void)getPlaylistsForUser:(CDVInvokedUrlCommand*)command;
+- (void)getObjectFromURI:(CDVInvokedUrlCommand*)command;
+- (void)createPlaylist:(CDVInvokedUrlCommand*)command;
+
+- (BOOL)authenticateCallback:(NSURL *)authURL;
 @end

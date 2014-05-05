@@ -1,10 +1,12 @@
+var spotify = undefined;
+
 var defaultProps = {
   url: null,
   width: null,
   height: null
 };
 
-function SPTImage(obj) {  
+function Image(obj) {  
   var self = this;
     
   Object.keys(defaultProps).forEach(function(prop, index) {
@@ -15,4 +17,8 @@ function SPTImage(obj) {
   });
 }
 
-module.exports = SPTImage;
+module.exports = function(parent) {
+  spotify = parent;
+  
+  return Image;
+}

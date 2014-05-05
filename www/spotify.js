@@ -2,13 +2,13 @@ var exec = require('cordova/exec');
 
 var spotify = module.exports = {};
 
-spotify.AudioPlayer = require('./lib/audio-player');
-spotify.Album = require('./lib/album');
-spotify.Artist = require('./lib/artist');
-spotify.Playlist = require('./lib/playlist');
-spotify.Session = require('./lib/session');
-spotify.Track = require('./lib/track');
-spotify.Image = require('./lib/image');
+spotify.AudioPlayer = require('./lib/audio-player')(spotify);
+spotify.Album = require('./lib/album')(spotify);
+spotify.Artist = require('./lib/artist')(spotify);
+spotify.Playlist = require('./lib/playlist')(spotify);
+spotify.Session = require('./lib/session')(spotify);
+spotify.Track = require('./lib/track')(spotify);
+spotify.Image = require('./lib/image')(spotify);
 
 spotify.exec = function(action, params, callback) {
   if (typeof params === 'function') {
@@ -29,7 +29,7 @@ spotify.exec = function(action, params, callback) {
 
 spotify.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
   var params;
-    
+  
   if (callback === undefined) callback = scopes, scopes = ['login'];
   
   function done(error, data) {    
