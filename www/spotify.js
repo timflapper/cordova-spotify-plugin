@@ -60,7 +60,7 @@ spotify.search = function(query, searchType, offset, session, callback) {
                 callback );
 };
 
-spotify.getObjectFromURI = function(uri, session, callback) {
+spotify.requestItemAtURI = function(uri, session, callback) {
   var action, objectType, matches;
 
   matches = /^spotify:(?:(?:user:[^:]*:)(?=playlist:[a-zA-Z0-9]*$)|(?:(?=artist|album|track)))(playlist|artist|album|track):[a-zA-Z0-9]*$/.exec(uri);
@@ -70,7 +70,7 @@ spotify.getObjectFromURI = function(uri, session, callback) {
     
   objectType = matches[1];
   
-  spotify.exec( 'getObjectFromURI',
+  spotify.exec( 'requestItemAtURI',
                 [ uri, session ], 
                 done );
   

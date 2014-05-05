@@ -4,6 +4,7 @@
 
 #import <Spotify/Spotify.h>
 #import "Cordova/CDV.h"
+#import "SpotifyAuthentication.h"
 
 @interface SpotifyPlugin : CDVPlugin {
     // Member variables go here.

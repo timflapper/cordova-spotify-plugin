@@ -62,17 +62,20 @@
     		</dict>
     	</array>
     </config-file>
-    
+
+    <header-file src="src/ios/AppDelegate+SpotifyPlugin.h"/>
+    <source-file src="src/ios/AppDelegate+SpotifyPlugin.m"/>
+    <header-file src="src/ios/SpotifyAuthentication.h"/>
+    <source-file src="src/ios/SpotifyAuthentication.m"/>    
     <header-file src="src/ios/SpotifyPlugin.h"/>
     <source-file src="src/ios/SpotifyPlugin.m"/>
     <header-file src="src/ios/SpotifyPlugin+Playlist.h"/>
     <source-file src="src/ios/SpotifyPlugin+Playlist.m"/>
     <header-file src="src/ios/SpotifyPlugin+AudioPlayer.h"/>
     <source-file src="src/ios/SpotifyPlugin+AudioPlayer.m"/>
-    <header-file src="src/ios/AppDelegate+SpotifyPlugin.h"/>
-    <source-file src="src/ios/AppDelegate+SpotifyPlugin.m"/>
 
     <framework src="src/ios/Spotify.framework" custom="true" />
     <framework src="AVFoundation.framework"/>
+    
   </platform>
 </plugin>
