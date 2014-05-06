@@ -8,7 +8,7 @@ test: test-js test-ios
 	
 test-js:
 	@echo "==JavaScript Unit tests=="
-	NODE_PATH=test/js/modules mocha test/js --reporter spec
+	npm test
 
 test-ios:
 	@echo "==XCode Unit tests=="

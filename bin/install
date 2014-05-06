@@ -34,7 +34,7 @@ function downloadCordovaLib() {
     return downloadSpotifyFramework();
   }
   
-  console.log('Donwloading CordovaLib');
+  console.log('Downloading CordovaLib');
 
   var req = request.get({
     url: 'https://github.com/apache/cordova-ios/archive/3.4.1.tar.gz'
@@ -65,7 +65,7 @@ function downloadSpotifyFramework() {
     return createXcodeProj();
   }
 
-  console.log('Donwloading Spotify.framework');
+  console.log('Downloading Spotify.framework');
 
   var req = request.get({
 url: 'https://github.com/spotify/ios-sdk/archive/beta-2.tar.gz'
