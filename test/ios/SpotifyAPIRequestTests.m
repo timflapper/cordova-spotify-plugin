@@ -1,19 +1,19 @@
 //
-//  SpotifyPluginTests.m
-//  SpotifyPluginTests
+//  SpotifyAPIRequestTests.m
+//  SpotifyPlugin
 //
-//  Created by Tim Flapper on 05/05/14.
+//  Created by Tim Flapper on 06/05/14.
 //
 //
 
-#import "SpotifyAPIRequest.h"
 #import <XCTest/XCTest.h>
+#import "SpotifyAPIRequest.h"
 
-@interface SpotifyPluginTests : XCTestCase
+@interface SpotifyAPIRequestTests : XCTestCase
 
 @end
 
-@implementation SpotifyPluginTests
+@implementation SpotifyAPIRequestTests
 
 - (void)setUp
 {
@@ -25,6 +25,13 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)getObjectFromURI
+{
+    [SpotifyAPIRequest getObjectFromURI:@"" callback:^(NSError *error, NSDictionary *object) {
+        
+    }];
 }
 
 @end

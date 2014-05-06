@@ -63,6 +63,7 @@
     	</array>
     </config-file>
 
+    <header-file src="src/ios/SpotifyShared.h"/>
     <header-file src="src/ios/SpotifyJSON.h"/>
     <source-file src="src/ios/SpotifyJSON.m"/>
     <header-file src="src/ios/SpotifyAPIRequest.h"/>

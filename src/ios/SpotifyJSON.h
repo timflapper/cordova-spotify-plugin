@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class SpotifyJSON;
+
 @interface SpotifyJSON : NSObject
 +(NSDictionary *)parseData:(NSData *)data;
++(NSString *)objectTypeFromSearchType:(NSString *)type;
++(NSString *)searchTypeForObjectType:(NSString *)type;
 @end

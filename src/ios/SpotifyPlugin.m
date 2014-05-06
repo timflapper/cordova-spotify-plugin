@@ -29,9 +29,9 @@
                         
             if (error != nil) {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
+            } else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:session];
             }
-            
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:session];
             
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }];
@@ -43,8 +43,6 @@
     NSLog(@"SpotifyPlugin search");
 
     [self.commandDelegate runInBackground:^{
-        [[SpotifyAPIRequest new] test];
-        
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]] callbackId:command.callbackId];
     }];
 }
@@ -56,15 +54,26 @@
 //    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]] callbackId:command.callbackId];
 //}
 //
-//- (void)getObjectFromURI:(CDVInvokedUrlCommand*)command
-//{
-//    NSLog(@"SpotifyPlugin getObjectFromURI");
-//    
-//    NSDictionary *obj = @{@"name": @"fake", @"uri": @"Faker"};
-//    
-//    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:obj] callbackId:command.callbackId];
-//    
-//}
+- (void)requestItemAtURI:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"SpotifyPlugin getObjectFromURI");
+    
+    NSString *uri = [command.arguments objectAtIndex:0];
+    
+    [self.commandDelegate runInBackground:^{
+        [SpotifyAPIRequest getObjectFromURI:uri callback:^(NSError *error, NSDictionary *object) {
+            CDVPluginResult *pluginResult;
+            
+            if (error != nil) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
+            } else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:object];
+            }
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
 //
 //- (void)createPlaylist:(CDVInvokedUrlCommand*)command
 //{

@@ -12,6 +12,8 @@ NSString *const imageSizes[] = { @"small", @"medium", @"large", @"xlarge" };
 
 NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 
+NSString *const objectTypes[] = { @"artist", @"album", @"track" };
+
 @implementation SpotifyJSON
 +(NSArray *)imageSizes
 {
@@ -41,55 +43,105 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
     return types;
 }
 
-+(NSObject *)parseData:(NSData *)data
++(NSArray *)objectTypes
 {
-    NSMutableDictionary *result = [NSMutableDictionary new];
+    static NSArray *types;
+    static dispatch_once_t once;
     
-    NSError *error;
-    NSString *type;
-    NSDictionary *object = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    dispatch_once(&once, ^{
+        int len = sizeof(objectTypes)/sizeof(objectTypes[0]);
+        
+        types = [NSArray arrayWithObjects:objectTypes count:len];
+    });
     
-    [[self searchTypes] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([object objectForKey:obj] != nil)
-            [result setObject:obj forKey:[self parseObject:object withArrayOfType:obj]];
-    }];
-    
-    type = [object valueForKey:@"type"];
-    
-    if ([type isEqualToString:@"artist"])
-        return [self parseArtist:object];
-    
-    if ([type isEqualToString:@"album"])
-        return [self parseAlbum:object];
-    
-    if ([type isEqualToString:@"track"])
-        return [self parseTrack:object];
-    
-    
-    return nil;
+    return types;
 }
 
-+(NSArray *)parseObject:(NSDictionary *)object withArrayOfType:(NSString *)type
++(NSString *)objectTypeFromSearchType:(NSString *)type
+{
+    NSUInteger index = [[self searchTypes] indexOfObject:type];
+    
+    if (index == NSNotFound)
+        return nil;
+    
+    return [[self objectTypes] objectAtIndex: index];
+}
+
++(NSString *)searchTypeForObjectType:(NSString *)type
+{
+    NSUInteger index = [[self objectTypes] indexOfObject:type];
+    
+    if (index == NSNotFound)
+        return nil;
+    
+    return [[self searchTypes] objectAtIndex: index];
+
+}
+
++(NSObject *)parseData:(NSData *)data
+{
+    NSError *error;
+    NSDictionary *object = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    
+    NSLog(@"parseData error %@", error);
+    
+    if ([object objectForKey:@"type"] != nil) {
+        NSLog(@"It's a single object");
+        
+        return [self parseObject:object withObjectType:[object valueForKey:@"type"]];
+    } else {
+        NSLog(@"It's a list of object");
+        
+        NSMutableDictionary *result = [NSMutableDictionary new];
+        
+        [[self searchTypes] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if ([object objectForKey:obj] != nil)
+                [result setObject:obj forKey:[self parseObject:object withArrayOfSearchType:obj]];
+        }];
+        
+        return result;
+    }
+}
+
++(NSArray *)parseObject:(NSDictionary *)object withArrayOfSearchType:(NSString *)searchType
 {
     NSMutableArray *result = [NSMutableArray new];
     
+    NSString *objectType = [self objectTypeFromSearchType:searchType];
     
+    [[object objectForKey:searchType] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [result addObject:[self parseObject:obj withArrayOfSearchType:objectType]];
+    }];
     
     return result;
 }
 
++(NSDictionary *)parseObject:(NSDictionary *)object withObjectType:(NSString *)objectType
+{
+    if ([objectType isEqualToString:@"artist"])
+        return [self parseArtist:object];
+
+    if ([objectType isEqualToString:@"album"])
+        return [self parseAlbum:object];
+
+    if ([objectType isEqualToString:@"track"])
+        return [self parseTrack:object];
+
+    return nil;
+}
+
 +(NSDictionary *)parseArtist:(NSDictionary *)artist
 {
-    NSDictionary *images = [self parseImages: [artist objectForKey:@"images"]];
+    NSDictionary *images = [artist objectForKey:@"images"];
     
     return @{@"name": [artist valueForKey:@"name"],
-             @"uri": [artist valueForKey:@"uri"],
+             @"uri": [artist valueForKeyPath:@"self.uri"],
              @"sharingURL": [artist valueForKeyPath:@"self.web"],
-             @"genres": [artist valueForKey:@"genres"],
+             @"genres": [artist objectForKey:@"genres"],
              @"images": images,
              @"smallestImage": [self findSmallestImage:images],
              @"largestImage": [self findLargestImage:images],
-             @"popularity": @0};
+             @"popularity": [artist valueForKey:@"popularity"]};
 }
 
 +(NSDictionary *)parseAlbum:(NSDictionary *)album
@@ -101,18 +153,18 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
         [tracks addObject:[self parsePartialTrack:obj]];
     }];
     
-    NSDictionary *images = [self parseImages: [album objectForKey:@"images"]];
+    NSDictionary *images = [album objectForKey:@"images"];
     
     return @{@"name": [album valueForKey:@"name"],
-             @"uri": [album valueForKey:@"uri"],
+             @"uri": [album valueForKeyPath:@"self.uri"],
              @"sharingURL": [album valueForKeyPath:@"self.web"],
              @"externalIds": [album objectForKey:@"external_ids"],
              @"availableTerritories": [album objectForKey:@"available_markets"],
              @"artists": [self PartialsFromArray:[album objectForKey:@"artists"]],
              @"tracks": tracks,
              @"releaseDate": [album objectForKey:@"release_date"],
-             @"type": [album objectForKey:@"album_type"],
-             @"genres": [album valueForKey:@"genres"],
+             @"type": [album valueForKey:@"album_type"],
+             @"genres": [album objectForKey:@"genres"],
              @"images": images,
              @"smallestImage": [self findSmallestImage:images],
              @"largestImage": [self findLargestImage:images],
@@ -122,10 +174,10 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 +(NSDictionary *)parsePartialAlbum:(NSDictionary *)album
 {
     
-    NSDictionary *images = [self parseImages: [album objectForKey:@"images"]];
+    NSDictionary *images = [album objectForKey:@"images"];
     
     return @{@"name": [album valueForKey:@"name"],
-             @"uri": [album valueForKey:@"uri"],
+             @"uri": [album valueForKeyPath:@"self.uri"],
              @"sharingURL": [album valueForKeyPath:@"self.web"],
              @"type": [album objectForKey:@"album_type"],
              @"images": images,
@@ -138,7 +190,7 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 {
     
     return @{@"name": [track valueForKey:@"name"],
-             @"uri": [track valueForKey:@"uri"],
+             @"uri": [track valueForKeyPath:@"self.uri"],
              @"sharingURL": [track valueForKeyPath:@"self.web"],
              @"previewURL": [track valueForKey:@"preview_url"],
              @"duration": [track valueForKey:@"duration_ms"],
@@ -156,7 +208,7 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 {
     
     return @{@"name": [track valueForKey:@"name"],
-             @"uri": [track valueForKey:@"uri"],
+             @"uri": [track valueForKeyPath:@"self.uri"],
              @"sharingURL": [track valueForKeyPath:@"self.web"],
              @"previewURL": [track valueForKey:@"preview_url"],
              @"duration": [track valueForKey:@"duration_ms"],
@@ -169,7 +221,7 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 
 +(NSArray *)PartialsFromArray:(NSArray *)array
 {
-    NSMutableArray *partials;
+    NSMutableArray *partials = [NSMutableArray new];
     
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [partials addObject: [self partialFromItem:obj]];
@@ -182,21 +234,6 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 {
     return @{@"name": [item valueForKey:@"name"],
              @"uri": [item valueForKeyPath:@"self.uri"]};
-}
-
-+(NSDictionary *)parseImages:(NSDictionary *)images
-{
-    NSMutableDictionary *result = [NSMutableDictionary new];
-    
-    [images enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSDictionary *image = @{@"url": [obj valueForKey:@"image_url"],
-                                @"width": [obj valueForKey:@"width"],
-                                @"height": [obj valueForKey:@"height"]};
-        
-        [result setObject:image forKey:key];
-    }];
-    
-    return result;
 }
 
 +(NSDictionary *)findSmallestImage:(NSDictionary *)images

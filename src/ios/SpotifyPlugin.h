@@ -4,6 +4,7 @@
 
 #import <Spotify/Spotify.h>
 #import "Cordova/CDV.h"
+#import "SpotifyShared.h"
 
 #import "SpotifyAuthentication.h"
 #import "SpotifyAPIRequest.h"
@@ -15,7 +16,7 @@
 - (void)authenticate:(CDVInvokedUrlCommand*)command;
 - (void)search:(CDVInvokedUrlCommand*)command;
 //- (void)getPlaylistsForUser:(CDVInvokedUrlCommand*)command;
-//- (void)getObjectFromURI:(CDVInvokedUrlCommand*)command;
+- (void)requestItemAtURI:(CDVInvokedUrlCommand*)command;
 //- (void)createPlaylist:(CDVInvokedUrlCommand*)command;
 
 @end

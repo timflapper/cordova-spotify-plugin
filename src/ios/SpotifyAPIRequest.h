@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "SpotifyJSON.h"
 
+#import "SpotifyShared.h"
+
+typedef void (^SpotifyRequestBlock)(NSError *error, NSDictionary *object);
+
 @interface SpotifyAPIRequest : NSObject
--(void)test;
++(void)getObjectFromURI:(NSString *)uri callback:(SpotifyRequestBlock)callback;
 @end
