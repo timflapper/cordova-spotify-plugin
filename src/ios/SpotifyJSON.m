@@ -81,6 +81,7 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
 +(NSObject *)parseData:(NSData *)data
 {
     NSError *error;
+    
     NSDictionary *object = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     
     NSLog(@"parseData error %@", error);
@@ -96,7 +97,7 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
         
         [[self searchTypes] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if ([object objectForKey:obj] != nil)
-                [result setObject:obj forKey:[self parseObject:object withArrayOfSearchType:obj]];
+                [result setObject:[self parseObject:object withArrayOfSearchType:obj] forKey:obj];
         }];
         
         return result;
@@ -110,7 +111,11 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
     NSString *objectType = [self objectTypeFromSearchType:searchType];
     
     [[object objectForKey:searchType] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [result addObject:[self parseObject:obj withArrayOfSearchType:objectType]];
+        NSLog(@"%@", obj);
+        
+        NSDictionary *item = [self parseObject:obj withObjectType:objectType];
+        
+        [result addObject:item];
     }];
     
     return result;

@@ -41,10 +41,27 @@
 - (void)search:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"SpotifyPlugin search");
-
+    
+    NSString *query = [command.arguments objectAtIndex:0];
+    NSString *searchType = [command.arguments objectAtIndex:1];
+    NSInteger offset = [((NSNumber *)[command.arguments objectAtIndex:2]) integerValue];
+    
     [self.commandDelegate runInBackground:^{
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]] callbackId:command.callbackId];
+        [SpotifyAPIRequest searchObjectsWithQuery:query type:searchType offset:offset callback:^(NSError *error, NSArray *objects) {
+            CDVPluginResult *pluginResult;
+            
+            NSLog(@"%@", objects);
+            
+            if (error != nil) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
+            } else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:objects];
+            }
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
     }];
+
 }
 //
 //- (void)getPlaylistsForUser:(CDVInvokedUrlCommand*)command

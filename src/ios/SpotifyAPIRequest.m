@@ -25,9 +25,11 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
 }
 +(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(NSInteger)offset callback:(SpotifyRequestBlock)callback
 {
-    NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, 0, 0, searchType];
+    NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, 20, offset, searchType];
     
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, @"search", queryString]];
+    NSString *urlString = [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, @"search", [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURL *url = [NSURL URLWithString: urlString];
     
     [self getResultFromURL: url callback:callback];
 }
@@ -41,26 +43,26 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                    
                    if (error) {
-                       NSLog(@"getObjectFromURI error %@", error);
+                       NSLog(@"getResultFromURI error %@", error);
                        callback(error, nil);
                        return;
                    }
                    
-                   @try {
+//                   @try {
                        NSDictionary *object = [SpotifyJSON parseData:data];
                        
                        callback(nil, object);
-                   }
-                   @catch(NSException *excepton) {
-                       NSLog(@"getObjectFromURI error %@", error);
-                       
-                       NSString *desc = NSLocalizedString(@"JSON data conversion failed", "");
-                       
-                       NSError *jsonError = [NSError errorWithDomain:ERROR_DOMAIN code:-101 userInfo: @{NSLocalizedDescriptionKey: desc}];
-                       
-                       callback(jsonError, nil);
-                       return;
-                   }
+//                   }
+//                   @catch(NSException *excepton) {
+//                       NSLog(@"getObjectFromURI error %@", error);
+//                       
+//                       NSString *desc = NSLocalizedString(@"JSON data conversion failed", "");
+//                       
+//                       NSError *jsonError = [NSError errorWithDomain:ERROR_DOMAIN code:-101 userInfo: @{NSLocalizedDescriptionKey: desc}];
+//                       
+//                       callback(jsonError, nil);
+//                       return;
+//                   }
                    
                }] resume];
 }
