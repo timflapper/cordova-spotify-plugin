@@ -1,5 +1,7 @@
 # Cordova Spotify Plugin
 
+[![Build Status](https://travis-ci.org/timflapper/cordova-spotify-plugin.svg?branch=pre-0.1)](https://travis-ci.org/timflapper/cordova-spotify-plugin)
+
 ##### **This plugin is not yet functional**
 
 This plugin provides a javascript API to Spotify's iOS SDK.
