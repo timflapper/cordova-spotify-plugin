@@ -32,4 +32,9 @@
     XCTAssertTrue(YES);
 }
 
+- (void)testSomethingElse
+{
+    XCTAssertTrue(YES);
+}
+
 @end
