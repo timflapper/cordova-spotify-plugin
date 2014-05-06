@@ -1,6 +1,6 @@
 'use strict';
 
-var spotify = exports.spotify = require('../../www/spotify');
+var spotify = exports.spotify = require('../../../www/spotify');
 
 exports.session = new spotify.Session({
   username: 'testuser',

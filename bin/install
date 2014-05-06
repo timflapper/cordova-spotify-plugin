@@ -17,6 +17,7 @@ var tmpDir = path.join(devDir, 'tmp');
 var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.4.1/CordovaLib');
 var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-2/Spotify.framework');
 
+var xcshareddataDir = path.join(__dirname, 'xcshareddata');
 var pbxprojFile = path.join(__dirname, 'project.pbxproj');
 var pchFile = path.join(__dirname, 'SpotifyPlugin-Prefix.pch');
 
@@ -92,6 +93,7 @@ function createXcodeProj() {
   shell.rm('-rf', xcodeprojDir);
   shell.mkdir(xcodeprojDir);
   
+  shell.cp('-rf', xcshareddataDir, xcodeprojDir);  
   shell.cp('-f', pbxprojFile, xcodeprojDir);
   shell.cp('-f', pchFile, projectDir);
   

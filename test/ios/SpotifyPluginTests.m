@@ -6,8 +6,8 @@
 //
 //
 
-#import "SpotifyAPIRequest.h"
 #import <XCTest/XCTest.h>
+#import "SpotifyPlugin.h"
 
 @interface SpotifyPluginTests : XCTestCase
 
@@ -25,6 +25,11 @@
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testBla
+{
+    XCTAssertFalse(NO);
 }
 
 @end

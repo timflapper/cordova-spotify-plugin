@@ -27,11 +27,9 @@
     [super tearDown];
 }
 
-- (void)getObjectFromURI
+- (void)testGetObjectFromURI
 {
-    [SpotifyAPIRequest getObjectFromURI:@"" callback:^(NSError *error, NSDictionary *object) {
-        
-    }];
+    XCTAssertTrue(YES);
 }
 
 @end

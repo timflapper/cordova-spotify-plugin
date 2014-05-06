@@ -17,8 +17,8 @@ module.exports = function(onSuccess, onError, service, action, args) {
     case 'getPlaylistsForUser':
       getPlaylistsForUser(onSuccess, onError, args);
       break;
-    case 'getObjectFromURI':
-      getObjectFromURI(onSuccess, onError, args);
+    case 'requestItemAtURI':
+      requestItemAtURI(onSuccess, onError, args);
       break;
     case 'createPlaylist':
       createPlaylist(onSuccess, onError, args);
@@ -90,7 +90,7 @@ function getPlaylistsForUser(onSuccess, onError, args) {
   onSuccess(result);
 }
 
-function getObjectFromURI(onSuccess, onError, args) {    
+function requestItemAtURI(onSuccess, onError, args) {    
   var uri = args[0]
     , matches
     , obj;

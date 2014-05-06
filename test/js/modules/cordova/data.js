@@ -1,4 +1,4 @@
-var SPImage = require('../../../www/lib/image');
+var SPImage = require('../../../../www/lib/image');
 
 var albums = {}
   , artists = {}

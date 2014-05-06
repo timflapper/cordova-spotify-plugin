@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "test": "make test"
+    "test": "NODE_PATH=test/js/modules mocha test/js --reporter spec"
   },
   "repository": {
     "type": "git",

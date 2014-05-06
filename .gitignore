@@ -16,11 +16,11 @@ profile
 *.moved-aside
 DerivedData
 .idea/
-*.xcodeproj
+# *.xcodeproj
 
 # Node.js
 node_modules
 
 # Dev Dependencies
-/SpotifyPlugin-Prefix.pch
-development/
+# /SpotifyPlugin-Prefix.pch
+# development/
