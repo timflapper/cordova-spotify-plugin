@@ -4,7 +4,7 @@ development: install
 install:
 	npm install
 
-test: test-js test-ios
+test: test-ios test-js
 	
 test-js:
 	@echo "==JavaScript Unit tests=="
