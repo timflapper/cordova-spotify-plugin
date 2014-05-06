@@ -22,5 +22,5 @@ DerivedData
 node_modules
 
 # Dev Dependencies
-SpotifyPlugin-Prefix.pch
+/SpotifyPlugin-Prefix.pch
 development/
