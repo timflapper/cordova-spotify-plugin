@@ -23,9 +23,11 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     
     [self getResultFromURL: url callback:callback];
 }
-+(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(NSInteger)offset callback:(SpotifyRequestBlock)callback
++(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(int)offset callback:(SpotifyRequestBlock)callback
 {
-    NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, 20, offset, searchType];
+    int limit = 20;
+    
+    NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, limit, offset, searchType];
     
     NSString *urlString = [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, @"search", [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
@@ -48,21 +50,21 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
                        return;
                    }
                    
-//                   @try {
+                   @try {
                        NSDictionary *object = [SpotifyJSON parseData:data];
                        
                        callback(nil, object);
-//                   }
-//                   @catch(NSException *excepton) {
-//                       NSLog(@"getObjectFromURI error %@", error);
-//                       
-//                       NSString *desc = NSLocalizedString(@"JSON data conversion failed", "");
-//                       
-//                       NSError *jsonError = [NSError errorWithDomain:ERROR_DOMAIN code:-101 userInfo: @{NSLocalizedDescriptionKey: desc}];
-//                       
-//                       callback(jsonError, nil);
-//                       return;
-//                   }
+                   }
+                   @catch(NSException *exception) {
+                       NSLog(@"getObjectFromURI error %@", exception);
+                       
+                       NSString *desc = NSLocalizedString(@"JSON data conversion failed", "");
+                       
+                       NSError *jsonError = [NSError errorWithDomain:ERROR_DOMAIN code:-101 userInfo: @{NSLocalizedDescriptionKey: desc}];
+                       
+                       callback(jsonError, nil);
+                       return;
+                   }
                    
                }] resume];
 }

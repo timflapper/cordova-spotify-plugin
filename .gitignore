@@ -16,8 +16,11 @@ profile
 *.moved-aside
 DerivedData
 .idea/
-# Pods - for those of you who use CocoaPods
-Pods
+*.xcodeproj
 
 # Node.js
 node_modules
+
+# Dev Dependencies
+SpotifyPlugin-Prefix.pch
+development/

@@ -76,8 +76,8 @@
     <header-file src="src/ios/AppDelegate+SpotifyPlugin.h"/>
     <source-file src="src/ios/AppDelegate+SpotifyPlugin.m"/>
 
-    <framework src="src/ios/lib/Spotify.framework" custom="true" />
+    <framework src="../../Spotify.framework" custom="true" />
     <framework src="AVFoundation.framework"/>
-
+        
   </platform>
 </plugin>

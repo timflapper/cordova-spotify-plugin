@@ -14,6 +14,6 @@
 typedef void (^SpotifyRequestBlock)(NSError *err, id obj);
 
 @interface SpotifyAPIRequest : NSObject
-+(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(NSInteger)offset callback:(SpotifyRequestBlock)callback;
++(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(int)offset callback:(SpotifyRequestBlock)callback;
 +(void)getObjectFromURI:(NSString *)uri callback:(SpotifyRequestBlock)callback;
 @end

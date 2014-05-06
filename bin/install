@@ -1,0 +1,99 @@
+#!/usr/bin/env node
+
+var path = require('path')
+  , fs = require('fs')
+  , request = require('request')
+  , shell = require('shelljs')
+  , zlib = require('zlib')
+  , tar = require('tar');
+
+var projectDir = path.resolve(__dirname, '..');
+var xcodeprojDir = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
+var devDir = path.join(projectDir, 'development');
+var cordovaDir = path.join(devDir, 'CordovaLib');
+var spotifyDir = path.join(devDir, 'Spotify.framework');
+
+var tmpDir = path.join(devDir, 'tmp');
+var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.4.1/CordovaLib');
+var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-2/Spotify.framework');
+
+var pbxprojFile = path.join(__dirname, 'project.pbxproj');
+var pchFile = path.join(__dirname, 'SpotifyPlugin-Prefix.pch');
+
+shell.rm('-rf', tmpDir);
+shell.mkdir('-p', tmpDir);
+
+downloadCordovaLib();
+
+function downloadCordovaLib() {
+  var size;
+  if (fs.existsSync(cordovaDir)) {
+    console.log('CordovaLib exists');
+    
+    return downloadSpotifyFramework();
+  }
+  
+  console.log('Donwloading CordovaLib');
+
+  var req = request.get({
+    url: 'https://github.com/apache/cordova-ios/archive/3.4.1.tar.gz'
+  }, function(err, res, body) {
+    if (err || res.statusCode != 200) {
+      shell.rm('-rf', tmpDir);
+    } else {
+      size = body.length;
+    }
+  });
+
+  req.pipe(zlib.createUnzip())
+  .pipe(tar.Extract({path:tmpDir}))
+  .on('error', function(err) {
+    shell.rm('-rf', tmpDir);
+  })
+  .on('end', function() {
+    shell.mv('-f', cordovaTmpDir, devDir);
+    downloadSpotifyFramework();
+  });
+}
+
+function downloadSpotifyFramework() {
+  var size;
+  if (fs.existsSync(spotifyDir)) {
+    console.log('Spotify.framework exists');
+    
+    return createXcodeProj();
+  }
+
+  console.log('Donwloading Spotify.framework');
+
+  var req = request.get({
+url: 'https://github.com/spotify/ios-sdk/archive/beta-2.tar.gz'
+  }, function(err, res, body) {
+    if (err || res.statusCode != 200) {
+      shell.rm('-rf', tmpDir);
+    } else {
+      size = body.length;
+    }
+  });
+
+  req.pipe(zlib.createUnzip())
+  .pipe(tar.Extract({path:tmpDir}))
+  .on('error', function(err) {
+    shell.rm('-rf', tmpDir);
+  })
+  .on('end', function() {
+    shell.mv('-f', spotifyTmpDir, devDir);
+    createXcodeProj();
+  });
+}
+
+function createXcodeProj() {
+  shell.rm('-rf', tmpDir);
+  shell.rm('-rf', xcodeprojDir);
+  shell.mkdir(xcodeprojDir);
+  
+  shell.cp('-f', pbxprojFile, xcodeprojDir);
+  shell.cp('-f', pchFile, projectDir);
+  
+  console.log('done');
+}
