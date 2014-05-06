@@ -9,3 +9,9 @@ install:
   - make development
 script:
   - make test
+cache:
+  directories:
+  - development
+  - SpotifyPlugin.xcodeproj
+  - SpotifyPlugin-Prefix.pch
+  - node_modules
