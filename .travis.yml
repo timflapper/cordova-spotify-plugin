@@ -1,8 +1,10 @@
-language: node_js
-node_js:
-  - "0.10"
-
 language: objective-c
 xcode_project: SpotifyPlugin.xcodeproj
 xcode_scheme: SpotifyPlugin
 xcode_sdk: iphonesimulator
+before_install:
+  - brew update
+  - brew upgrade xctool
+after_script:
+  - npm install  
+  - npm test
