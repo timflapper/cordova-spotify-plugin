@@ -5,6 +5,7 @@ xcode_sdk: iphonesimulator
 before_install:
   - brew update
   - brew upgrade xctool
-after_script:
-  - npm install  
-  - npm test
+install:
+  - make development
+script:
+  - make test
