@@ -12,10 +12,12 @@ var xcodeprojDir = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
 var devDir = path.join(projectDir, 'development');
 var cordovaDir = path.join(devDir, 'CordovaLib');
 var spotifyDir = path.join(devDir, 'Spotify.framework');
+var OHHTTPStubsDir = path.join(devDir, 'OHHTTPStubs');
 
 var tmpDir = path.join(devDir, 'tmp');
 var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.4.1/CordovaLib');
 var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-2/Spotify.framework');
+var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.0/OHHTTPStubs');
 
 var xcshareddataDir = path.join(__dirname, 'xcshareddata');
 var pbxprojFile = path.join(__dirname, 'project.pbxproj');
@@ -62,7 +64,7 @@ function downloadSpotifyFramework() {
   if (fs.existsSync(spotifyDir)) {
     console.log('Spotify.framework exists');
     
-    return createXcodeProj();
+    return downloadOHHTTPStubs();
   }
 
   console.log('Downloading Spotify.framework');
@@ -84,6 +86,37 @@ url: 'https://github.com/spotify/ios-sdk/archive/beta-2.tar.gz'
   })
   .on('end', function() {
     shell.mv('-f', spotifyTmpDir, devDir);
+    downloadOHHTTPStubs();
+  });
+}
+
+function downloadOHHTTPStubs() {
+  var size;
+  if (fs.existsSync(OHHTTPStubsDir)) {
+    console.log('OHHTTPStubs exists');
+    
+    return createXcodeProj();
+  }
+
+  console.log('Downloading OHHTTPStubs');
+
+  var req = request.get({
+url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.0.tar.gz'
+  }, function(err, res, body) {
+    if (err || res.statusCode != 200) {
+      shell.rm('-rf', tmpDir);
+    } else {
+      size = body.length;
+    }
+  });
+
+  req.pipe(zlib.createUnzip())
+  .pipe(tar.Extract({path:tmpDir}))
+  .on('error', function(err) {
+    shell.rm('-rf', tmpDir);
+  })
+  .on('end', function() {
+    shell.mv('-f', OHHTTPStubsTmpDir, devDir);
     createXcodeProj();
   });
 }

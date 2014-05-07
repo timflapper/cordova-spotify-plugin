@@ -1,0 +1,43 @@
+{
+  "genres" : [
+    "Album Rock",
+    "Art Rock",
+    "British Invasion",
+    "British Psychedelia",
+    "Hard Rock",
+    "Pop/Rock",
+    "Prog-Rock",
+    "Psychedelic"
+  ],
+  "images" : {
+    "medium" : {
+      "height" : 195,
+      "width" : 200,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/792a417e8500405180a7746908afd7d5e3a30585"
+    },
+    "xlarge" : {
+      "height" : 977,
+      "width" : 1000,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/b954149fed21dcbafe1cee4c30454eb934c384ee"
+    },
+    "large" : {
+      "height" : 625,
+      "width" : 640,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/63562bf58a1af52f9800c3ae225d49a476af212f"
+    },
+    "small" : {
+      "height" : 63,
+      "width" : 64,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/a9b0636c32bb27f0590dbb283019614e861b2ed2"
+    }
+  },
+  "id" : "0k17h0D3J5VfsdmQ1iZtE9",
+  "popularity" : 61,
+  "self" : {
+    "href" : "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
+    "web" : "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    "uri" : "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+  },
+  "type" : "artist",
+  "name" : "Pink Floyd"
+}

@@ -44,18 +44,19 @@
     
     NSString *query = [command.arguments objectAtIndex:0];
     NSString *searchType = [command.arguments objectAtIndex:1];
-    NSInteger offset = [((NSNumber *)[command.arguments objectAtIndex:2]) integerValue];
+    int offset = [((NSNumber *)[command.arguments objectAtIndex:2]) integerValue];
     
     [self.commandDelegate runInBackground:^{
-        [SpotifyAPIRequest searchObjectsWithQuery:query type:searchType offset:offset callback:^(NSError *error, NSArray *objects) {
+        [SpotifyAPIRequest searchObjectsWithQuery:query type:searchType offset:offset limit:LIMIT_DEFAULT callback:^(NSError *error, NSData *data) {
             CDVPluginResult *pluginResult;
             
-            NSLog(@"%@", objects);
+            NSDictionary *objects = [SpotifyJSON parseData:data error:&error];
             
             if (error != nil) {
+                NSLog(@"** SpotifyPlugin search ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:objects];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:objects];
             }
             
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -78,13 +79,16 @@
     NSString *uri = [command.arguments objectAtIndex:0];
     
     [self.commandDelegate runInBackground:^{
-        [SpotifyAPIRequest getObjectFromURI:uri callback:^(NSError *error, NSDictionary *object) {
+        [SpotifyAPIRequest getObjectFromURI:uri callback:^(NSError *error, NSData *data) {
             CDVPluginResult *pluginResult;
             
+            NSDictionary *objects = [SpotifyJSON parseData:data error:&error];
+            
             if (error != nil) {
+                NSLog(@"** SpotifyPlugin search ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:object];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:objects];
             }
             
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];

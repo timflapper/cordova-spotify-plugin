@@ -7,11 +7,11 @@ install:
 test: test-ios test-js
 	
 test-js:
-	@echo "==JavaScript Unit tests=="
-	npm test
+	@echo "\n\n\x1b[32m\x1b[1m==JavaScript Unit tests==\x1b[0m\n"
+	@npm test
 
 test-ios:
-	@echo "==XCode Unit tests=="
-	xctool -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -sdk iphonesimulator build test
+	@echo "\n\n\x1b[32m\x1b[1m==XCode Unit tests==\x1b[0m\n"
+	@xctool -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -sdk iphonesimulator test
 	
 .PHONY: test

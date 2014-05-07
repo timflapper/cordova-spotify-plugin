@@ -27,9 +27,4 @@
     [super tearDown];
 }
 
-- (void)testBla
-{
-    XCTAssertFalse(NO);
-}
-
 @end

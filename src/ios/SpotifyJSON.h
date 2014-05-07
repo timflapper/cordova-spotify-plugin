@@ -11,7 +11,11 @@
 @class SpotifyJSON;
 
 @interface SpotifyJSON : NSObject
-+(NSDictionary *)parseData:(NSData *)data;
++(NSArray *)searchTypes;
++(NSArray *)objectTypes;
+
 +(NSString *)objectTypeFromSearchType:(NSString *)type;
 +(NSString *)searchTypeForObjectType:(NSString *)type;
+
++(NSDictionary *)parseData:(NSData *)data error:(NSError **)error;
 @end

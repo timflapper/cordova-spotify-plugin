@@ -18,7 +18,7 @@ static NSString *const CALLBACK_URL = @"spotify-ios-sdk-beta://callback";
 @end
 
 @implementation SpotifyAuthentication
-+(SpotifyAuthentication *)defaultInstance
++(instancetype)defaultInstance
 {
     static dispatch_once_t once;
     static SpotifyAuthentication *instance;

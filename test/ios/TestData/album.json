@@ -1,0 +1,391 @@
+{
+  "id" : "0UrDDTOre9XuD3xJHTFEJg",
+  "tracks" : [
+    {
+      "duration_ms" : 239560,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/3ecf73d2c8b99aa6e123c4f23ccf5df84e0864a8",
+      "track_number" : 1,
+      "id" : "2kqd7gl3Q4AoEVwytgKcVJ",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/2kqd7gl3Q4AoEVwytgKcVJ",
+        "web" : "https://open.spotify.com/track/2kqd7gl3Q4AoEVwytgKcVJ",
+        "uri" : "spotify:track:2kqd7gl3Q4AoEVwytgKcVJ"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Amongster"
+    },
+    {
+      "duration_ms" : 266160,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/aa34c640b52cc9ea61de1ac78f828a078096682c",
+      "track_number" : 2,
+      "id" : "5aCLoEN5dNwzpnqeunMi9D",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/5aCLoEN5dNwzpnqeunMi9D",
+        "web" : "https://open.spotify.com/track/5aCLoEN5dNwzpnqeunMi9D",
+        "uri" : "spotify:track:5aCLoEN5dNwzpnqeunMi9D"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "I See My Mother"
+    },
+    {
+      "duration_ms" : 252360,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/ecbdfc954e5eef4b223855dd0793b8f8b646488e",
+      "track_number" : 3,
+      "id" : "353r1UL9lDtgEIdPuPvuVH",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/353r1UL9lDtgEIdPuPvuVH",
+        "web" : "https://open.spotify.com/track/353r1UL9lDtgEIdPuPvuVH",
+        "uri" : "spotify:track:353r1UL9lDtgEIdPuPvuVH"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Violent Games"
+    },
+    {
+      "duration_ms" : 300520,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/f958167af24940a0d874ff53cc3256096d5db43a",
+      "track_number" : 4,
+      "id" : "7kmna8LKfhNW7lD99K5NJb",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/7kmna8LKfhNW7lD99K5NJb",
+        "web" : "https://open.spotify.com/track/7kmna8LKfhNW7lD99K5NJb",
+        "uri" : "spotify:track:7kmna8LKfhNW7lD99K5NJb"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Dark Star"
+    },
+    {
+      "duration_ms" : 222013,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/30d1330b558f5fb734f8f2500bc19b8668511bea",
+      "track_number" : 5,
+      "id" : "1q1JhABnsBxbeWsgwlLll7",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/1q1JhABnsBxbeWsgwlLll7",
+        "web" : "https://open.spotify.com/track/1q1JhABnsBxbeWsgwlLll7",
+        "uri" : "spotify:track:1q1JhABnsBxbeWsgwlLll7"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Form"
+    },
+    {
+      "duration_ms" : 259493,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/f958f81778ffc495548f33f64bd1e1283b66cb42",
+      "track_number" : 6,
+      "id" : "0I9e6yF24bF9wP74KJkB3N",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/0I9e6yF24bF9wP74KJkB3N",
+        "web" : "https://open.spotify.com/track/0I9e6yF24bF9wP74KJkB3N",
+        "uri" : "spotify:track:0I9e6yF24bF9wP74KJkB3N"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "The Maker"
+    },
+    {
+      "duration_ms" : 244426,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/9e61bb7339e464bb4b13df907ce93b53e2d03c42",
+      "track_number" : 7,
+      "id" : "5d47h8XfBJ0nM68JdEFudI",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/5d47h8XfBJ0nM68JdEFudI",
+        "web" : "https://open.spotify.com/track/5d47h8XfBJ0nM68JdEFudI",
+        "uri" : "spotify:track:5d47h8XfBJ0nM68JdEFudI"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Lay Your Cards Out"
+    },
+    {
+      "duration_ms" : 199733,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/1d8d498338e7d0fa461aef11d1b3789f16cdd41b",
+      "track_number" : 8,
+      "id" : "1CQptKW9YE23idQhLeOvPe",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/1CQptKW9YE23idQhLeOvPe",
+        "web" : "https://open.spotify.com/track/1CQptKW9YE23idQhLeOvPe",
+        "uri" : "spotify:track:1CQptKW9YE23idQhLeOvPe"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Fist, Teeth, Money"
+    },
+    {
+      "duration_ms" : 279493,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/3f96c2466024169cb231ca414c7c33665559fc0c",
+      "track_number" : 9,
+      "id" : "50vFoRcEhdDuxCqvTu4b8c",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/50vFoRcEhdDuxCqvTu4b8c",
+        "web" : "https://open.spotify.com/track/50vFoRcEhdDuxCqvTu4b8c",
+        "uri" : "spotify:track:50vFoRcEhdDuxCqvTu4b8c"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Happy Be Fine"
+    },
+    {
+      "duration_ms" : 304440,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/028eb7acc96f3b5f60717c803348873ed1330438",
+      "track_number" : 10,
+      "id" : "7sXdYCINHkV004z4Igvn17",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/7sXdYCINHkV004z4Igvn17",
+        "web" : "https://open.spotify.com/track/7sXdYCINHkV004z4Igvn17",
+        "uri" : "spotify:track:7sXdYCINHkV004z4Igvn17"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Wandering Star"
+    },
+    {
+      "duration_ms" : 176240,
+      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/ae841fb9884f40b81b25b9d4bfd7984f7b0873d3",
+      "track_number" : 11,
+      "id" : "4Fvs6t70Y0Ht1pfbUUblBf",
+      "disc_number" : 1,
+      "explicit" : false,
+      "self" : {
+        "href" : "https://api.spotify.com/v1/tracks/4Fvs6t70Y0Ht1pfbUUblBf",
+        "web" : "https://open.spotify.com/track/4Fvs6t70Y0Ht1pfbUUblBf",
+        "uri" : "spotify:track:4Fvs6t70Y0Ht1pfbUUblBf"
+      },
+      "type" : "track",
+      "artists" : [
+        {
+          "id" : "34vLhockmYhf3LgznwyNaQ",
+          "self" : {
+            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+          },
+          "type" : "artist",
+          "name" : "POLIÇA"
+        }
+      ],
+      "name" : "Leading to Death"
+    }
+  ],
+  "album_type" : "album",
+  "artists" : [
+    {
+      "id" : "34vLhockmYhf3LgznwyNaQ",
+      "self" : {
+        "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
+        "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
+        "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
+      },
+      "type" : "artist",
+      "name" : "POLIÇA"
+    }
+  ],
+  "popularity" : 62,
+  "available_markets" : [
+    "AD",
+    "AT",
+    "BE",
+    "BG",
+    "CH",
+    "CZ",
+    "DE",
+    "DK",
+    "EE",
+    "ES",
+    "FI",
+    "GB",
+    "GR",
+    "HK",
+    "HU",
+    "IE",
+    "IS",
+    "IT",
+    "LI",
+    "LT",
+    "LU",
+    "LV",
+    "MC",
+    "MT",
+    "MY",
+    "NL",
+    "NO",
+    "PH",
+    "PL",
+    "PT",
+    "RO",
+    "SE",
+    "SG",
+    "SI",
+    "SK",
+    "TR",
+    "TW"
+  ],
+  "type" : "album",
+  "self" : {
+    "href" : "https://api.spotify.com/v1/albums/0UrDDTOre9XuD3xJHTFEJg",
+    "web" : "https://open.spotify.com/album/0UrDDTOre9XuD3xJHTFEJg",
+    "uri" : "spotify:album:0UrDDTOre9XuD3xJHTFEJg"
+  },
+  "images" : {
+    "medium" : {
+      "height" : 300,
+      "width" : 300,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/1b07f0876d82fda4b65df0637658c8cd4dc7f225"
+    },
+    "large" : {
+      "height" : 640,
+      "width" : 640,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/cc6659599cb06f74aa710f3d9c95362ba6084e81"
+    },
+    "small" : {
+      "height" : 64,
+      "width" : 64,
+      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/705c238e8bc1d5051a53c88716daa5ba6531afad"
+    }
+  },
+  "genres" : [],
+  "release_date" : {
+    "day" : 30,
+    "month" : 4,
+    "year" : 2012
+  },
+  "name" : "Give You The Ghost",
+  "external_ids" : [
+    {
+      "id" : "5060146093385",
+      "type" : "upc"
+    }
+  ]
+}

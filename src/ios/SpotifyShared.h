@@ -2,4 +2,13 @@
 //  SpotifyShared.h
 //
 
-static NSString *const ERROR_DOMAIN = @"com.timflapper.spotify.ErrorDomain";
+
+#import "SpotifyPluginError.h"
+
+#define LIMIT_MIN 1
+#define LIMIT_DEFAULT 20
+#define LIMIT_MAX 50
+
+#define OFFSET_MIN 0
+#define OFFSET_DEFAULT OFFSET_MIN
+#define OFFSET_MAX 999999999

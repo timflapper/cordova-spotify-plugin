@@ -12,20 +12,51 @@ static NSString *const API_URL_BASE = @"https://api.spotify.com/v1";
 static NSString *const API_URL_PATTERN = @"%@/%@/%@";
 
 @implementation SpotifyAPIRequest
+//static NSURLSessionConfiguration *sessConfig;
+//static NSURLSession *urlSession;
++(void)setup
+{
+//    sessConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    urlSession = [NSURLSession sessionWithConfiguration: sessConfig delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
+
+}
 +(void)getObjectFromURI:(NSString *)uri callback:(SpotifyRequestBlock)callback
 {
     NSArray * uriArray = [uri componentsSeparatedByString:@":"];
     
     NSString * endpoint = [SpotifyJSON searchTypeForObjectType:[uriArray objectAtIndex:1]];
     NSString * objectID = [uriArray objectAtIndex:2];
-    
+        
     NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, endpoint, objectID]];
     
     [self getResultFromURL: url callback:callback];
 }
-+(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(int)offset callback:(SpotifyRequestBlock)callback
+
++(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(int)offset limit:(int)limit callback:(SpotifyRequestBlock)callback
 {
-    int limit = 20;
+    NSError *error;
+    
+    NSString *cleanQuery = [query stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([cleanQuery length] == 0) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginEmptyQueryError description:@"Query cannot be empty"];
+    } else if (limit < LIMIT_MIN) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadLimitError description:@"Limit needs to be larger than 0"];
+    } else if (limit > LIMIT_MAX) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadLimitError description:@"Limit too large"];
+    } else if (offset < OFFSET_MIN) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadOffsetError description:@"Offset needs to be larger than 0"];
+    } else if (offset > OFFSET_MAX) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadOffsetError description:@"Offset too large"];
+    } else if ([[SpotifyJSON objectTypes] indexOfObject:searchType] == NSNotFound) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadSearchTypeError description:@"Search type is invalid"];
+    }
+
+    if (error != nil) {
+        callback(error, nil);
+        return;
+    }
     
     NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, limit, offset, searchType];
     
@@ -33,15 +64,15 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     
     NSURL *url = [NSURL URLWithString: urlString];
     
+    NSLog(@"URL %@", url);
+    
     [self getResultFromURL: url callback:callback];
 }
 
 +(void)getResultFromURL:(NSURL *)url callback:(SpotifyRequestBlock)callback
 {
-    NSURLSessionConfiguration *sessConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration: sessConfig delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
-    [[urlSession dataTaskWithURL:url
+    [[[NSURLSession sharedSession] dataTaskWithRequest:[[NSURLRequest alloc] initWithURL:url]
                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                    
                    if (error) {
@@ -50,21 +81,7 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
                        return;
                    }
                    
-                   @try {
-                       NSDictionary *object = [SpotifyJSON parseData:data];
-                       
-                       callback(nil, object);
-                   }
-                   @catch(NSException *exception) {
-                       NSLog(@"getObjectFromURI error %@", exception);
-                       
-                       NSString *desc = NSLocalizedString(@"JSON data conversion failed", "");
-                       
-                       NSError *jsonError = [NSError errorWithDomain:ERROR_DOMAIN code:-101 userInfo: @{NSLocalizedDescriptionKey: desc}];
-                       
-                       callback(jsonError, nil);
-                       return;
-                   }
+                   callback(nil, data);
                    
                }] resume];
 }

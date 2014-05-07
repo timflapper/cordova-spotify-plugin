@@ -7,6 +7,7 @@
 //
 
 #import "SpotifyJSON.h"
+#import "SpotifyShared.h"
 
 NSString *const imageSizes[] = { @"small", @"medium", @"large", @"xlarge" };
 
@@ -15,6 +16,17 @@ NSString *const searchTypes[] = { @"artists", @"albums", @"tracks" };
 NSString *const objectTypes[] = { @"artist", @"album", @"track" };
 
 @implementation SpotifyJSON
++(instancetype)defaultInstance
+{
+    static dispatch_once_t once;
+    static SpotifyJSON *instance;
+    
+    dispatch_once(&once, ^{
+        instance = [self new];
+    });
+    
+    return instance;
+}
 +(NSArray *)imageSizes
 {
     static NSArray *sizes;
@@ -78,20 +90,29 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
 
 }
 
-+(NSObject *)parseData:(NSData *)data
++(NSObject *)parseData:(NSData *)data error:(NSError **)error
 {
-    NSError *error;
+        
+    NSError *serializeError;
     
-    NSDictionary *object = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    NSDictionary *object = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&serializeError];
     
-    NSLog(@"parseData error %@", error);
+    if (serializeError != nil) {
+//        NSLog(@"parseData error: %@", serializeError);
+        
+        *error = [SpotifyPluginError errorWithCode:SpotifyPluginInvalidJSONError description:@"Data is not valid JSON"];
+        
+        return nil;
+    }
+
+    if ([object objectForKey:@"error"] != nil) {
+        return object;
+    }
     
     if ([object objectForKey:@"type"] != nil) {
-        NSLog(@"It's a single object");
-        
         return [self parseObject:object withObjectType:[object valueForKey:@"type"]];
+
     } else {
-        NSLog(@"It's a list of object");
         
         NSMutableDictionary *result = [NSMutableDictionary new];
         
@@ -111,8 +132,6 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
     NSString *objectType = [self objectTypeFromSearchType:searchType];
     
     [[object objectForKey:searchType] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSLog(@"%@", obj);
-        
         NSDictionary *item = [self parseObject:obj withObjectType:objectType];
         
         [result addObject:item];
