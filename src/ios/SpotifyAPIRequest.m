@@ -12,28 +12,51 @@ static NSString *const API_URL_BASE = @"https://api.spotify.com/v1";
 static NSString *const API_URL_PATTERN = @"%@/%@/%@";
 
 @implementation SpotifyAPIRequest
-//static NSURLSessionConfiguration *sessConfig;
-//static NSURLSession *urlSession;
-+(void)setup
+
++ (void)getObjectFromURI:(NSString *)uri callback:(SpotifyRequestBlock)callback
 {
-//    sessConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-//    urlSession = [NSURLSession sessionWithConfiguration: sessConfig delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSError *error = nil;
+    NSString * objectType;
+    NSString * objectID;
+    
+    NSString *pattern = @"^spotify:(?:(?:user:[^:]*:)(?=playlist:[a-zA-Z0-9]*$)|(?:(?=artist|album|track)))(playlist|artist|album|track):([a-zA-Z0-9]*)$";
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:kNilOptions error:&error];
+    
+    if (error) {
+        NSLog(@"REGEX ERROR %@", error);
+        
+        callback(error, nil);
+        return;
+    }
+    
+    NSTextCheckingResult *match = [regex firstMatchInString:uri options:0 range:NSMakeRange(0, uri.length)];
+
+    if (match == nil) {
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginInvalidSpotifyURIError description:[NSString stringWithFormat:@"URI appears to be invalid %@", uri]];
+        
+        callback(error, nil);
+        return;
+    }
     
 
-}
-+(void)getObjectFromURI:(NSString *)uri callback:(SpotifyRequestBlock)callback
-{
-    NSArray * uriArray = [uri componentsSeparatedByString:@":"];
+    objectType = [uri substringWithRange: [match rangeAtIndex:1]];
+
+    objectID = [uri substringWithRange: [match rangeAtIndex:2]];
     
-    NSString * endpoint = [SpotifyJSON searchTypeForObjectType:[uriArray objectAtIndex:1]];
-    NSString * objectID = [uriArray objectAtIndex:2];
-        
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, endpoint, objectID]];
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, objectType, objectID]];
+
+    [self getResultFromURL: url callback:callback];
+}
+
++ (void)getObjectByID:(NSString *)objectID type:(NSString *)objectType callback:(SpotifyRequestBlock)callback {
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, objectType, objectID]];
     
     [self getResultFromURL: url callback:callback];
 }
 
-+(void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(int)offset limit:(int)limit callback:(SpotifyRequestBlock)callback
++ (void)searchObjectsWithQuery:(NSString *)query type:(NSString *)searchType offset:(int)offset limit:(int)limit callback:(SpotifyRequestBlock)callback
 {
     NSError *error;
     
@@ -64,12 +87,10 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     
     NSURL *url = [NSURL URLWithString: urlString];
     
-    NSLog(@"URL %@", url);
-    
     [self getResultFromURL: url callback:callback];
 }
 
-+(void)getResultFromURL:(NSURL *)url callback:(SpotifyRequestBlock)callback
++ (void)getResultFromURL:(NSURL *)url callback:(SpotifyRequestBlock)callback
 {
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:[[NSURLRequest alloc] initWithURL:url]
@@ -85,4 +106,5 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
                    
                }] resume];
 }
+
 @end

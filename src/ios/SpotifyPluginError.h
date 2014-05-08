@@ -15,7 +15,8 @@ typedef NS_ENUM(NSInteger, SpotifyPluginErrorCode) {
     SpotifyPluginBadLimitError = -1002,
     SpotifyPluginBadOffsetError = -1003,
     SpotifyPluginBadSearchTypeError = -1004,
-    SpotifyPluginInvalidJSONError = -1005
+    SpotifyPluginInvalidJSONError = -1005,
+    SpotifyPluginInvalidSpotifyURIError = -1006
 };
 
 @interface SpotifyPluginError : NSError

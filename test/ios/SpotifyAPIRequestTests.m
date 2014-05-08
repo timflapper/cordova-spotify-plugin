@@ -26,7 +26,7 @@
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+   
     [super tearDown];
 }
 
@@ -47,6 +47,7 @@
         
         responseArrived = YES;
         
+//        XCTFail(@"Test fail");
         XCTAssertNil(err);
         XCTAssertNotNil(data);
     }];
@@ -263,4 +264,90 @@
 }
 
 
+- (void)testGetObjectByIDTrack
+{
+    
+    __block BOOL responseArrived = NO;
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"track.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    [SpotifyAPIRequest getObjectByID:@"5TTRvmYwjbeDPB1FzbUfk5" type:@"track" callback:^(NSError *err, NSData *data) {
+        
+        responseArrived = YES;
+        
+        XCTAssertNil(err);
+        XCTAssertNotNil(data);
+    }];
+    
+    NSTimeInterval timeout = 2;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    
+    [OHHTTPStubs removeAllStubs];
+}
+
+
+- (void)testGetObjectFromURICorrectAlbum
+{
+    
+    __block BOOL responseArrived = NO;
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"album.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    [SpotifyAPIRequest getObjectByID:@"14ic9WwfMl5PfOa04bLZQP" type:@"album" callback:^(NSError *err, NSData *data) {
+        
+        responseArrived = YES;
+        
+        XCTAssertNil(err);
+        XCTAssertNotNil(data);
+    }];
+    
+    NSTimeInterval timeout = 2;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    
+    [OHHTTPStubs removeAllStubs];
+}
+
+- (void)testGetObjectFromURICorrectArtist
+{
+    
+    __block BOOL responseArrived = NO;
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"artist.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    [SpotifyAPIRequest getObjectByID:@"02uYdhMhCgdB49hZlYRm9o" type:@"artist" callback:^(NSError *err, NSData *data) {
+        responseArrived = YES;
+        
+        XCTAssertNil(err);
+        XCTAssertNotNil(data);
+    }];
+    
+    NSTimeInterval timeout = 2;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    
+    [OHHTTPStubs removeAllStubs];
+}
 @end

@@ -1,0 +1,85 @@
+//
+//  MockCommandDelegate.m
+//  SpotifyPlugin
+//
+//  Created by Tim Flapper on 08/05/14.
+//
+//
+
+#import "MockCommandDelegate.h"
+
+@interface MockCommandDelegate() {
+    mockPluginResultCallback _callback;
+}
+@end
+
+@implementation MockCommandDelegate
+
+- (id)init
+{
+    self = [super init];
+    
+    if (self) {
+        
+    }
+    
+    return self;
+}
+
+- (void)mockPluginResult:(mockPluginResultCallback)callback
+{
+    _callback = callback;
+}
+
+- (void)sendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId
+{
+    _callback(result, callbackId);
+}
+
+#pragma mark neccesary but unused protocol methods
+
+- (NSString*)pathForResource:(NSString*)resourcepath
+{
+    return @"";
+}
+
+- (id)getCommandInstance:(NSString*)pluginName
+{
+    return nil;
+}
+
+- (BOOL)execute:(CDVInvokedUrlCommand*)command
+{
+    return YES;
+}
+
+- (void)evalJs:(NSString*)js
+{
+    
+}
+
+- (void)evalJs:(NSString*)js scheduledOnRunLoop:(BOOL)scheduledOnRunLoop
+{
+    
+}
+
+- (void)runInBackground:(void (^)())block
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+}
+
+- (NSString*)userAgent
+{
+    return @"";
+}
+
+- (BOOL)URLIsWhitelisted:(NSURL*)url
+{
+    return YES;
+}
+
+- (NSDictionary*)settings
+{
+    return @{};
+}
+@end

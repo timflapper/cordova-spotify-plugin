@@ -158,7 +158,8 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
 {
     NSDictionary *images = [artist objectForKey:@"images"];
     
-    return @{@"name": [artist valueForKey:@"name"],
+    return @{@"type": @"artist",
+             @"name": [artist valueForKey:@"name"],
              @"uri": [artist valueForKeyPath:@"self.uri"],
              @"sharingURL": [artist valueForKeyPath:@"self.web"],
              @"genres": [artist objectForKey:@"genres"],
@@ -179,7 +180,8 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
     
     NSDictionary *images = [album objectForKey:@"images"];
     
-    return @{@"name": [album valueForKey:@"name"],
+    return @{@"type": @"album",
+             @"name": [album valueForKey:@"name"],
              @"uri": [album valueForKeyPath:@"self.uri"],
              @"sharingURL": [album valueForKeyPath:@"self.web"],
              @"externalIds": [album objectForKey:@"external_ids"],
@@ -213,7 +215,8 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
 +(NSDictionary *)parseTrack:(NSDictionary *)track
 {
     
-    return @{@"name": [track valueForKey:@"name"],
+    return @{@"type": @"track",
+             @"name": [track valueForKey:@"name"],
              @"uri": [track valueForKeyPath:@"self.uri"],
              @"sharingURL": [track valueForKeyPath:@"self.web"],
              @"previewURL": [track valueForKey:@"preview_url"],
@@ -230,7 +233,7 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
 
 +(NSDictionary *)parsePartialTrack:(NSDictionary *)track
 {
-    
+
     return @{@"name": [track valueForKey:@"name"],
              @"uri": [track valueForKeyPath:@"self.uri"],
              @"sharingURL": [track valueForKeyPath:@"self.web"],

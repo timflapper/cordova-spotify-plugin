@@ -33,9 +33,7 @@ AudioPlayer.init = function(companyName, appName) {
   this._companyName = companyName;
   this._appName = appName;
   
-  this._events = {};
-  
-  spotify.exec('addAudioPlayerEventListener', [this._id], this.__eventListener.bind(this));
+  this._events = {};  
 }
 
 AudioPlayer.prototype.destroy = function(callback) {
@@ -109,7 +107,9 @@ AudioPlayer.prototype.login = function(session, callback) {
   
   function done(error, id) {
     self._id = id;
-        
+    
+    spotify.exec('addAudioPlayerEventListener', [self._id], self.__eventListener.bind(this));
+    
     if (error !== null) {
       self.dispatchEvent(EVENT_ERROR, error);
 

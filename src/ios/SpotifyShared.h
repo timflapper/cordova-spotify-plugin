@@ -12,3 +12,5 @@
 #define OFFSET_MIN 0
 #define OFFSET_DEFAULT OFFSET_MIN
 #define OFFSET_MAX 999999999
+
+typedef void (^SpotifyEventCallback)(NSArray *args);

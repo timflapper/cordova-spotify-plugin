@@ -63,21 +63,27 @@ spotify.search = function(query, searchType, offset, session, callback) {
 spotify.requestItemAtURI = function(uri, session, callback) {
   var action, objectType, matches;
 
-  matches = /^spotify:(?:(?:user:[^:]*:)(?=playlist:[a-zA-Z0-9]*$)|(?:(?=artist|album|track)))(playlist|artist|album|track):[a-zA-Z0-9]*$/.exec(uri);
+  if (typeof session === 'function') {
+    if (callback !== undefined) {
+      throw new Error('Only query, searchType, session and callback allowed if offset is omitted. Fifth argument of type ' + (typeof callback) + 'detected.');
+    }
     
-  if (matches === null)
-    return callback(new Error('URI appears to be invalid %s', uri));
-    
-  objectType = matches[1];
-  
+    callback = session, session = null;
+  }
+
   spotify.exec( 'requestItemAtURI',
                 [ uri, session ], 
                 done );
   
   function done(error, data) {
+    if (error) {
+      
+      return callback(error);
+    }
+    
     var res;
         
-    switch(objectType) {
+    switch(data.type) {
       case 'track':
         res = new spotify.Track(data);
         break;
