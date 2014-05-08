@@ -9,7 +9,7 @@ var defaultProps = {
   artists: null,
   tracks: null,
   releaseDate: null,
-  type: null,
+  albumType: null,
   genres: null,
   images: null,
   largestImage: null,

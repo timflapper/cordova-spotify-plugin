@@ -189,7 +189,7 @@ NSString *const objectTypes[] = { @"artist", @"album", @"track" };
              @"artists": [self PartialsFromArray:[album objectForKey:@"artists"]],
              @"tracks": tracks,
              @"releaseDate": [album objectForKey:@"release_date"],
-             @"type": [album valueForKey:@"album_type"],
+             @"albumType": [album valueForKey:@"album_type"],
              @"genres": [album objectForKey:@"genres"],
              @"images": images,
              @"smallestImage": [self findSmallestImage:images],

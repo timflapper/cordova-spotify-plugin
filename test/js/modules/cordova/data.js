@@ -47,6 +47,7 @@ var artistImages = [{
 }];
 
 albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
+    type: 'album',
     name: 'Rockin\' The Suburbs',
     uri: 'spotify:album:4FtOLTQqwnxpaABrJWYdBy',
     sharingURL: 'http://open.spotify.com/album/4FtOLTQqwnxpaABrJWYdBy',
@@ -68,7 +69,7 @@ albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
       month: 9,
       day: 11
     },
-    type: 'album',
+    albumType: 'album',
     genres: [
       'Adult Alternative Pop/Rock',
       'Alternative Pop/Rock',
@@ -82,6 +83,7 @@ albums['spotify:album:4FtOLTQqwnxpaABrJWYdBy'] = {
   };
 
 artists['spotify:artist:55tif8708yyDQlSjh3Trdu'] = {
+  type: 'artist',
   name: 'Ben Folds',
   uri: 'spotify:artist:55tif8708yyDQlSjh3Trdu',
   sharingURL: 'https://open.spotify.com/artist/55tif8708yyDQlSjh3Trdu',
@@ -98,6 +100,7 @@ artists['spotify:artist:55tif8708yyDQlSjh3Trdu'] = {
 };
 
 tracks['spotify:track:0F0MA0ns8oXwGw66B2BSXm'] = {
+  type: 'track',  
   name: 'Let\'s Dance - 1999 Digital Remaster',
   uri: 'spotify:track:0F0MA0ns8oXwGw66B2BSXm',
   sharingURL: 'https://open.spotify.com/track/0F0MA0ns8oXwGw66B2BSXm',
@@ -118,6 +121,7 @@ tracks['spotify:track:0F0MA0ns8oXwGw66B2BSXm'] = {
 };
 
 playlists['spotify:user:testuser:playlist:87234DfaD43fdsdfDx'] = {
+  type: 'playlist',
   name: 'My Super Funky Playlist',
   version: 1,
   uri: 'spotify:user:testuser:playlist:87234DfaD43fdsdfDx',

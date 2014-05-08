@@ -24,10 +24,6 @@ AudioPlayer.prototype._companyName = undefined;
 AudioPlayer.prototype._appName = undefined;
 AudioPlayer.prototype._events = undefined;
 
-AudioPlayer.prototype.__eventListener = function(error, result) {
-  this.dispatchEvent.apply(this, result);
-}
-
 AudioPlayer.init = function(companyName, appName) {
   
   this._companyName = companyName;
@@ -73,6 +69,10 @@ AudioPlayer.prototype.dispatchEvent = function(event) {
   }
 }
 
+AudioPlayer.prototype.__eventListener = function(error, result) {
+  this.dispatchEvent.apply(this, result);
+}
+
 AudioPlayer.prototype.addEventListener = function(event, listener) {  
   if (typeof listener !== 'function') 
     throw new Error('listener must be a function');
@@ -108,13 +108,13 @@ AudioPlayer.prototype.login = function(session, callback) {
   function done(error, id) {
     self._id = id;
     
-    spotify.exec('addAudioPlayerEventListener', [self._id], self.__eventListener.bind(this));
-    
     if (error !== null) {
       self.dispatchEvent(EVENT_ERROR, error);
 
       return callback(error);
     }
+    
+    spotify.exec('addAudioPlayerEventListener', [self._id], self.__eventListener.bind(self)); 
     
     self.dispatchEvent(EVENT_LOGIN);
     
