@@ -60,7 +60,7 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                    
                    if (error) {
-                       NSLog(@"getResultFromURI error %@", error);
+                       //NSLog(@"getResultFromURI error %@", error);
                        callback(error, nil);
                        return;
                    }
