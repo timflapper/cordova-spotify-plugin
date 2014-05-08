@@ -45,6 +45,10 @@
     </config-file>
 
     <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+      <string>CLOBBER</string>
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
   	<array>
   		<dict>
   			<key>CFBundleTypeRole</key>
@@ -58,7 +62,11 @@
   		</dict>
   	</array>
     </config-file>
-        
+    
+    <config-file target="*-Info.plist" parent="UIBackgroundModes">
+      <string>CLOBBER</string>
+    </config-file>
+    
     <config-file target="*-Info.plist" parent="UIBackgroundModes">
     <array>
       <string>audio</string>
