@@ -117,11 +117,20 @@
         [SPTRequest playlistsForUser:username withSession:session callback:^(NSError *error, SPTPlaylistList * list) {
             CDVPluginResult *pluginResult;
             
+//            NSLog(@"error %@", error);
+            
+            NSMutableArray *items = [NSMutableArray new];
+            
+            [list.items enumerateObjectsUsingBlock:^(SPTPartialPlaylist *playlist, NSUInteger idx, BOOL *stop) {
+                [items addObject:@{@"uri": [playlist.uri absoluteString], @"name": playlist.name}];
+            }];
+            
+            
             if (error != nil) {
 //                NSLog(@"** SpotifyPlugin getPlaylistsForUser ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:list.items];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:items];
             }
             
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];

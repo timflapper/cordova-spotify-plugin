@@ -13,43 +13,6 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
 
 @implementation SpotifyAPIRequest
 
-+ (void)getObjectFromURI:(NSString *)uri callback:(SpotifyRequestBlock)callback
-{
-    
-    NSError *error = nil;
-    NSString * objectType;
-    NSString * objectID;
-    
-    NSString *pattern = @"^spotify:(?:(?:user:[^:]*:)(?=playlist:[a-zA-Z0-9]*$)|(?:(?=artist|album|track)))(playlist|artist|album|track):([a-zA-Z0-9]*)$";
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:kNilOptions error:&error];
-    
-    if (error) {
-//        NSLog(@"REGEX ERROR %@", error);
-        
-        callback(error, nil);
-        return;
-    }
-    
-    NSTextCheckingResult *match = [regex firstMatchInString:uri options:0 range:NSMakeRange(0, uri.length)];
-
-    if (match == nil) {
-        error = [SpotifyPluginError errorWithCode:SpotifyPluginInvalidSpotifyURIError description:[NSString stringWithFormat:@"URI appears to be invalid %@", uri]];
-        
-        callback(error, nil);
-        return;
-    }
-    
-
-    objectType = [uri substringWithRange: [match rangeAtIndex:1]];
-
-    objectID = [uri substringWithRange: [match rangeAtIndex:2]];
-    
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, objectType, objectID]];
-
-    [self getResultFromURL: url callback:callback];
-}
-
 + (void)getObjectByID:(NSString *)objectID type:(NSString *)objectType callback:(SpotifyRequestBlock)callback {
     NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, objectType, objectID]];
     

@@ -10,5 +10,6 @@
 
 NSData *getDataFromTestDataFile(NSString *filename) {    
     NSString *path = [[NSBundle bundleForClass: [SpotifyJSON class]] pathForResource:filename ofType:@"" inDirectory:@"TestData"];
+    
     return [NSData dataWithContentsOfFile:path];
 }

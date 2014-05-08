@@ -294,7 +294,7 @@
 }
 
 
-- (void)testGetObjectFromURICorrectAlbum
+- (void)testGetObjectByIDTrackAlbum
 {
     
     __block BOOL responseArrived = NO;
@@ -323,7 +323,7 @@
     [OHHTTPStubs removeAllStubs];
 }
 
-- (void)testGetObjectFromURICorrectArtist
+- (void)testGetObjectByIDArtist
 {
     
     __block BOOL responseArrived = NO;
