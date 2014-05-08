@@ -25,7 +25,7 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:kNilOptions error:&error];
     
     if (error) {
-        NSLog(@"REGEX ERROR %@", error);
+//        NSLog(@"REGEX ERROR %@", error);
         
         callback(error, nil);
         return;

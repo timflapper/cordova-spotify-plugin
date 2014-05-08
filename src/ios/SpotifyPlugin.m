@@ -20,7 +20,7 @@
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"SpotifyPlugin authenticate");
+//    NSLog(@"SpotifyPlugin authenticate");
     
     NSString *clientId = [command.arguments objectAtIndex:0];
     NSURL *tokenSwapUrl = [NSURL URLWithString: [command.arguments objectAtIndex:1]];
@@ -54,7 +54,7 @@
                      SPTSession *session;
                      
                      if (error != nil) {
-                         NSLog(@"Error on handleAuthCallback: %@", error);
+//                         NSLog(@"Error on handleAuthCallback: %@", error);
                          
                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
                      } else {
@@ -81,7 +81,7 @@
 
 - (void)search:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"SpotifyPlugin search");
+//    NSLog(@"SpotifyPlugin search");
     
     NSString *query = [command.arguments objectAtIndex:0];
     NSString *searchType = [command.arguments objectAtIndex:1];
@@ -94,7 +94,7 @@
             NSDictionary *objects = [SpotifyJSON parseData:data error:&error];
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin search ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin search ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:objects];
@@ -108,7 +108,7 @@
 
 - (void)getPlaylistsForUser:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"SpotifyPlugin getPlaylistsForUser");
+//    NSLog(@"SpotifyPlugin getPlaylistsForUser");
     
     NSString *username = [command.arguments objectAtIndex:0];
     SPTSession *session = [self convertSession: [command.arguments objectAtIndex:1]];
@@ -118,7 +118,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin getPlaylistsForUser ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin getPlaylistsForUser ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:list.items];
@@ -131,7 +131,7 @@
 
 - (void)requestItemAtURI:(CDVInvokedUrlCommand*)command
 {
-    NSLog(@"SpotifyPlugin getObjectFromURI");
+//    NSLog(@"SpotifyPlugin getObjectFromURI");
     
     SPTSession *session = nil;
     NSString *uri = [command.arguments objectAtIndex:0];
@@ -152,7 +152,7 @@
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:kNilOptions error:&error];
         
         if (error) {
-            NSLog(@"REGEX ERROR %@", error);
+//            NSLog(@"REGEX ERROR %@", error);
         } else {
             NSTextCheckingResult *match = [regex firstMatchInString:uri options:0 range:NSMakeRange(0, uri.length)];
             
@@ -169,7 +169,7 @@
                         CDVPluginResult *pluginResult;
                         
                         if (error != nil) {
-                            NSLog(@"** SpotifyPlugin search ERROR: %@", error);
+//                            NSLog(@"** SpotifyPlugin search ERROR: %@", error);
                             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
                         } else {
                             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
@@ -185,7 +185,7 @@
                         NSDictionary *object = [SpotifyJSON parseData:data error:&error];
                         
                         if (error != nil) {
-                            NSLog(@"** SpotifyPlugin search ERROR: %@", error);
+//                            NSLog(@"** SpotifyPlugin search ERROR: %@", error);
                             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
                         } else {
                             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:object];
@@ -217,7 +217,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin CreateAudioPlayerAndLogin ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin CreateAudioPlayerAndLogin ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 [audioPlayers addObject:player];
@@ -262,7 +262,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin playURI ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin playURI ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -285,7 +285,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin seekToOffset ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin seekToOffset ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -320,7 +320,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin setIsPlaying ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin setIsPlaying ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -355,7 +355,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin setVolume ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin setVolume ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -437,7 +437,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin createPlaylist ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin createPlaylist ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
@@ -462,7 +462,7 @@
         SPTPlaylistSnapshot *playlist = [[SPTPlaylistSnapshot alloc] initWithDecodedJSONObject:@{@"uri": uri} error:&error];
         
         if (error != nil) {
-            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
+//            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -473,7 +473,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
@@ -498,7 +498,7 @@
         SPTPlaylistSnapshot *playlist = [[SPTPlaylistSnapshot alloc] initWithDecodedJSONObject:@{@"uri": uri} error:&error];
         
         if (error != nil) {
-            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
+//            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -509,7 +509,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin setPlaylistDescription ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin setPlaylistDescription ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
@@ -534,7 +534,7 @@
         SPTPlaylistSnapshot *playlist = [[SPTPlaylistSnapshot alloc] initWithDecodedJSONObject:@{@"uri": uri} error:&error];
         
         if (error != nil) {
-            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
+//            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -545,7 +545,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin setPlaylistCollaborative ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin setPlaylistCollaborative ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
@@ -578,7 +578,7 @@
         SPTPlaylistSnapshot *playlist = [[SPTPlaylistSnapshot alloc] initWithDecodedJSONObject:@{@"uri": uri} error:&error];
         
         if (error != nil) {
-            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
+//            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -589,7 +589,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin addTracksToPlaylist ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin addTracksToPlaylist ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
@@ -614,7 +614,7 @@
         SPTPlaylistSnapshot *playlist = [[SPTPlaylistSnapshot alloc] initWithDecodedJSONObject:@{@"uri": uri} error:&error];
         
         if (error != nil) {
-            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
+//            NSLog(@"** SpotifyPlugin setPlaylistName ERROR: %@", error);
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             
             [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -625,7 +625,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin deletePlaylist ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin deletePlaylist ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: [self convertPlaylist:playlist]];
