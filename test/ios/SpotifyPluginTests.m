@@ -185,5 +185,108 @@
     [OHHTTPStubs removeAllStubs];
 }
 
+- (void)testRequestItemAtURITrack
+{
+    MockCommandDelegate *commandDelegate = [[MockCommandDelegate alloc] init];
+    SpotifyPlugin *plugin = [[SpotifyPlugin alloc] init];
+    NSArray *args = @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm", @{@"username": @"justsomefakeuser", @"credential": @"a3mFAyzr0JlUCtipI39eDoq41xHY54WOUMoY3KmIJIrzyaywru94mEr8A7Tb8W_Yb75DZmpUKZF0plTxFN96UNZHowOVl98YQWyzqShOrQoKXzOcAgA6XQoLLX0HLAFjhGvDgIHRojSLhsL"}];
+    
+    __block BOOL responseArrived = NO;
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"track.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    plugin.commandDelegate = commandDelegate;
+    
+    [plugin pluginInitialize];
+    
+    [plugin requestItemAtURI:[[CDVInvokedUrlCommand alloc]initWithArguments:args callbackId:@"test" className:nil methodName:nil]];
+    
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        responseArrived = YES;
+    }];
+    
+    NSTimeInterval timeout = 1;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    
+    [OHHTTPStubs removeAllStubs];
+}
+
+- (void)testRequestItemAtURIAlbum
+{
+    MockCommandDelegate *commandDelegate = [[MockCommandDelegate alloc] init];
+    SpotifyPlugin *plugin = [[SpotifyPlugin alloc] init];
+    NSArray *args = @[@"spotify:album:0UrDDTOre9XuD3xJHTFEJg", @{@"username": @"justsomefakeuser", @"credential": @"a3mFAyzr0JlUCtipI39eDoq41xHY54WOUMoY3KmIJIrzyaywru94mEr8A7Tb8W_Yb75DZmpUKZF0plTxFN96UNZHowOVl98YQWyzqShOrQoKXzOcAgA6XQoLLX0HLAFjhGvDgIHRojSLhsL"}];
+    
+    __block BOOL responseArrived = NO;
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"album.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    plugin.commandDelegate = commandDelegate;
+    
+    [plugin pluginInitialize];
+    
+    [plugin requestItemAtURI:[[CDVInvokedUrlCommand alloc]initWithArguments:args callbackId:@"test" className:nil methodName:nil]];
+    
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        responseArrived = YES;
+    }];
+    
+    NSTimeInterval timeout = 1;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    
+    [OHHTTPStubs removeAllStubs];
+}
+
+- (void)testRequestItemAtURIArtist
+{
+    MockCommandDelegate *commandDelegate = [[MockCommandDelegate alloc] init];
+    SpotifyPlugin *plugin = [[SpotifyPlugin alloc] init];
+    NSArray *args = @[@"spotify:artist:0k17h0D3J5VfsdmQ1iZtE9", @{@"username": @"justsomefakeuser", @"credential": @"a3mFAyzr0JlUCtipI39eDoq41xHY54WOUMoY3KmIJIrzyaywru94mEr8A7Tb8W_Yb75DZmpUKZF0plTxFN96UNZHowOVl98YQWyzqShOrQoKXzOcAgA6XQoLLX0HLAFjhGvDgIHRojSLhsL"}];
+    
+    __block BOOL responseArrived = NO;
+    
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"artist.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    plugin.commandDelegate = commandDelegate;
+    
+    [plugin pluginInitialize];
+    
+    [plugin requestItemAtURI:[[CDVInvokedUrlCommand alloc]initWithArguments:args callbackId:@"test" className:nil methodName:nil]];
+    
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        responseArrived = YES;
+    }];
+    
+    NSTimeInterval timeout = 1;
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    
+    [OHHTTPStubs removeAllStubs];
+}
+
+
 
 @end

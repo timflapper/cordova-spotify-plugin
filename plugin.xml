@@ -45,22 +45,24 @@
     </config-file>
 
     <config-file target="*-Info.plist" parent="CFBundleURLTypes">
-    	<string>CLOBBER</string>
+  	<array>
+  		<dict>
+  			<key>CFBundleTypeRole</key>
+  			<string>Editor</string>
+  			<key>CFBundleURLName</key>
+  			<string>Spotify Auth</string>
+  			<key>CFBundleURLSchemes</key>
+  			<array>
+  				<string>spotify-ios-sdk-beta</string>
+  			</array>
+  		</dict>
+  	</array>
     </config-file>
-
-    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
-    	<array>
-    		<dict>
-    			<key>CFBundleTypeRole</key>
-    			<string>Editor</string>
-    			<key>CFBundleURLName</key>
-    			<string>Spotify Auth</string>
-    			<key>CFBundleURLSchemes</key>
-    			<array>
-    				<string>spotify-ios-sdk-beta</string>
-    			</array>
-    		</dict>
-    	</array>
+        
+    <config-file target="*-Info.plist" parent="UIBackgroundModes">
+    <array>
+      <string>audio</string>
+    </array>
     </config-file>
 
     <header-file src="src/ios/SpotifyPlugin.h"/>

@@ -10,15 +10,15 @@
 
 
 @interface SpotifyAudioPlayer()
-@property (copy) SpotifyEventCallback eventCallback;
+@property (strong) SpotifyEventCallback eventCallback;
 @end
 
 @implementation SpotifyAudioPlayer
-@synthesize eventCallback, delegate, playbackDelegate;
+@synthesize delegate, playbackDelegate;
 
 -(id)initWithCompanyName:(NSString *)companyName appName:(NSString *)appName
 {
-    self = [super init];
+    self = [super initWithCompanyName:companyName appName:appName];
     
     if (self) {
         delegate = self;
@@ -28,24 +28,30 @@
     return self;
 }
 
+- (void)dispatch:(NSArray *)args
+{
+    if (self.eventCallback)
+        self.eventCallback(args);
+}
+
 -(void)registerEventCallback:(SpotifyEventCallback)callback
 {
-    eventCallback = callback;
+    self.eventCallback = callback;
 }
 
 -(void)audioStreamingDidLogin:(SPTAudioStreamingController *)audioStreaming
 {
-    eventCallback(@[@"login"]);
+    [self dispatch:@[@"login"]];
 }
 
 -(void)audioStreamingDidLogout:(SPTAudioStreamingController *)audioStreaming
 {
-    eventCallback(@[@"logout"]);
+    [self dispatch:@[@"logout"]];
 }
 
 -(void)audioStreamingDidLosePermissionForPlayback:(SPTAudioStreamingController *)audioStreaming
 {
-    eventCallback(@[@"permissionLost"]);
+    [self dispatch:@[@"permissionLost"]];
 }
 
 -(void)audioStreamingDidBecomeActivePlaybackDevice:(SPTAudioStreamingController *)audioStreaming
@@ -65,8 +71,7 @@
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangePlaybackStatus:(BOOL)isPlaying
 {
-    
-    eventCallback(@[@"playbackStatus", [NSNumber numberWithBool:isPlaying]]);
+    [self dispatch:@[@"playbackStatus", [NSNumber numberWithBool:isPlaying]]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeRepeatStatus:(BOOL)isRepeated
@@ -86,22 +91,23 @@
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeVolume:(SPVolume)volume
 {
-//     eventCallback(@[@"volume", [NSNumber numberWithDouble:volume]]);
+
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didEncounterError:(NSError *)error
 {
-     eventCallback(@[@"error", error.localizedDescription]);
+     [self dispatch:@[@"error", error.localizedDescription]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didReceiveMessage:(NSString *)message
 {
-     eventCallback(@[@"message", message]);
+    
+    [self dispatch:@[@"message", message]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didSeekToOffset:(NSTimeInterval)offset
 {
-     eventCallback(@[@"seekToOffset", [NSNumber numberWithInt:offset]]);
+    [self dispatch:@[@"seekToOffset", [NSNumber numberWithInt:offset]]];
 }
 
 -(void)audioStreamingDidSkipToNextTrack:(SPTAudioStreamingController *)audioStreaming

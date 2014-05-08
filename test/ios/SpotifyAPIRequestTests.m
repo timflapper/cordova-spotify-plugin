@@ -294,7 +294,7 @@
 }
 
 
-- (void)testGetObjectByIDTrackAlbum
+- (void)testGetObjectByIDAlbum
 {
     
     __block BOOL responseArrived = NO;

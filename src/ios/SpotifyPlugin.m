@@ -226,7 +226,7 @@
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
-//                NSLog(@"** SpotifyPlugin CreateAudioPlayerAndLogin ERROR: %@", error);
+                NSLog(@"** SpotifyPlugin CreateAudioPlayerAndLogin ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 [audioPlayers addObject:player];
@@ -243,18 +243,25 @@
 
 - (void)addAudioPlayerEventListener:(CDVInvokedUrlCommand*)command
 {
-    __weak SpotifyPlugin * weakSelf = self;
-    
-    NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
+//    __block SpotifyPlugin * weakSelf = self;
     
     [self.commandDelegate runInBackground:^{
+        NSLog(@"ADDING CALLBACK");
+    
+        NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
+        __block NSString *callbackId = command.callbackId;
+        
+        __block id<CDVCommandDelegate> delegate = self.commandDelegate;
+        
         [[self getAudioPlayerByID:playerID] registerEventCallback:^(NSArray *args) {
+            
+            NSLog(@"CALLBACK FIRED %@", args);
             
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:args];
             
             [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
             
-            [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            [delegate sendPluginResult:pluginResult callbackId:callbackId];
         }];
     }];
 }

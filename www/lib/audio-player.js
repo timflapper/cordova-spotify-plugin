@@ -122,11 +122,11 @@ AudioPlayer.prototype.login = function(session, callback) {
   }
   
   spotify.exec( 'createAudioPlayerAndLogin',
-                [ this.companyName, this.appName, session ],
+                [ this._companyName, this._appName, session ],
                 done );
 }
 
-AudioPlayer.prototype.playURI = function(uri, callback) {
+AudioPlayer.prototype.playURI = function(uri, callback) {  
  spotify.exec('playURI', [this._id, uri], callback); 
 }
 
