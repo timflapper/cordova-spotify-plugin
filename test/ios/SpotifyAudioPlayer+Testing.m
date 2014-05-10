@@ -45,7 +45,7 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
 + (void)setNextCallback:(mockResultCallback)block afterDelayInSeconds:(NSTimeInterval)delayInSeconds
 {
     objc_setAssociatedObject([self class], delayInSecondsKey, [NSNumber numberWithDouble:delayInSeconds], OBJC_ASSOCIATION_RETAIN);
-    [self setNextCallback:block];
+    objc_setAssociatedObject([self class], nextCallbackKey, block, OBJC_ASSOCIATION_COPY);
 }
 
 + (void)setNextMethodReturn:(id)returnValue
@@ -63,7 +63,10 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     mockResultCallback callback = objc_getAssociatedObject([self class], nextCallbackKey);
     NSTimeInterval delayInSeconds = ((NSNumber *)objc_getAssociatedObject([self class], delayInSecondsKey)).doubleValue;
     
-    if (delayInSeconds > 0 && callback) {
+    if (! callback)
+        return;
+    
+    if (delayInSeconds > 0) {
         runBlockAfterDelayInSeconds(delayInSeconds, ^{
             callback(block);
         });

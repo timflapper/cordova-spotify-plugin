@@ -40,6 +40,7 @@
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-artists.json")
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
@@ -52,10 +53,9 @@
         XCTAssertNotNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
-
 }
 
 - (void)testSearchAlbumsCorrect
@@ -79,11 +79,9 @@
         XCTAssertNotNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
-
-    
 }
 
 - (void)testSearchTracksCorrect
@@ -107,7 +105,7 @@
         XCTAssertNotNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -133,7 +131,7 @@
         XCTAssertNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
 }
@@ -159,7 +157,7 @@
         XCTAssertNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
 }
@@ -185,7 +183,7 @@
         XCTAssertNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
 }
@@ -211,7 +209,7 @@
         XCTAssertNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
 }
@@ -237,7 +235,7 @@
         XCTAssertNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
@@ -265,7 +263,7 @@
         XCTAssertNotNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
@@ -293,7 +291,7 @@
         XCTAssertNotNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
@@ -320,7 +318,7 @@
         XCTAssertNotNil(data);
     }];
     
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }

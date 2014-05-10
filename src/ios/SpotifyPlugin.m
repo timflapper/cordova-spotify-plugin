@@ -85,7 +85,7 @@
     
     NSString *query = [command.arguments objectAtIndex:0];
     NSString *searchType = [command.arguments objectAtIndex:1];
-    int offset = [((NSNumber *)[command.arguments objectAtIndex:2]) integerValue];
+    int offset = [((NSNumber *)[command.arguments objectAtIndex:2]) intValue];
     
     [self.commandDelegate runInBackground:^{
         [SpotifyAPIRequest searchObjectsWithQuery:query type:searchType offset:offset limit:LIMIT_DEFAULT callback:^(NSError *error, NSData *data) {
@@ -230,7 +230,7 @@
             } else {
                 [audioPlayers addObject:player];
                 
-                NSInteger playerID = [audioPlayers indexOfObject:player];
+                int playerID = (int)[audioPlayers indexOfObject:player];
                 
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:playerID];
             }
@@ -769,7 +769,7 @@
 {
     return @{@"type":@"playlist",
              @"name":playlist.name,
-             @"version":[NSNumber numberWithInt:playlist.version],
+             @"version":[NSNumber numberWithInteger:playlist.version],
              @"uri":playlist.uri,
              @"collaborative":[NSNumber numberWithBool:playlist.collaborative],
              @"creator":playlist.creator,

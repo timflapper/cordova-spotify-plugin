@@ -32,8 +32,13 @@
 
 - (void)sendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {
-    if (self.callback)
-        self.callback(result, callbackId);
+    
+    double delayInSeconds = 0.05;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (self.callback)
+            self.callback(result, callbackId);
+    });
 }
 
 #pragma mark neccesary but unused protocol methods

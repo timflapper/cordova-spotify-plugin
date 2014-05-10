@@ -26,10 +26,10 @@
 {
     [super setUp];
     
-    plugin = [[SpotifyPlugin alloc] init];
+    plugin = [SpotifyPlugin new];
     [plugin pluginInitialize];
     
-    commandDelegate = [[MockCommandDelegate alloc] init];
+    commandDelegate = [MockCommandDelegate new];
     
     plugin.commandDelegate = commandDelegate;
     
@@ -76,11 +76,7 @@
                                                         object:callbackURL]];
     });
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -115,11 +111,7 @@
                                                         object:callbackURL]];
     });
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -142,11 +134,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -169,11 +157,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -196,11 +180,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -223,11 +203,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -256,11 +232,7 @@
     
     [plugin getPlaylistsForUser:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -289,11 +261,7 @@
     
     [plugin getPlaylistsForUser:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -318,11 +286,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -347,11 +311,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -376,11 +336,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -405,11 +361,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -422,7 +374,7 @@
     
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         callback(nil);
-    } afterDelayInSeconds:0.3];
+    } afterDelayInSeconds:0.1];
     
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -431,11 +383,7 @@
     
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:@[@"TestCompany", @"TestApp", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -457,11 +405,7 @@
     
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -487,11 +431,6 @@
                                               @"SPAudioStreamingMetadataAlbumName": @"#1",
                                               @"SPAudioStreamingMetadataAlbumURI": @"spotify:album:3OCiJ6mbOzJdzTrk8R9hy2",
                                               @"SPAudioStreamingMetadataTrackDuration": @"288.306"}];
-    
-    [SpotifyAudioPlayer setNextCallback:^(SpotifyEventCallback callback) {
-        /* We're using setNextMethodReturn for the playbackDelegate */
-        callback(nil);
-    } afterDelayInSeconds:0.3];
     
     [plugin addAudioPlayerEventListener:[self createTestURLCommand:@[@1]]];
     
@@ -1054,11 +993,7 @@
     
     [plugin createPlaylist: [self createTestURLCommand: @[@"My New Playlist", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1081,7 +1016,7 @@
     
     [plugin createPlaylist: [self createTestURLCommand: @[@"", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1097,7 +1032,7 @@
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"single-playlist.json")
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
-
+    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
@@ -1105,7 +1040,7 @@
     
     [plugin setPlaylistName: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"My New Playlist Name", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1128,7 +1063,7 @@
     
     [plugin setPlaylistName: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1151,10 +1086,10 @@
     
     [plugin setPlaylistDescription: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"My New Playlist Description", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
-
+    
 }
 
 - (void)testSetPlaylistDescriptionFailed
@@ -1175,7 +1110,7 @@
     
     [plugin setPlaylistDescription: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"", session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1199,11 +1134,7 @@
     
     [plugin setPlaylistCollaborative: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @0, session]]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1228,10 +1159,6 @@
     [plugin setPlaylistCollaborative: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @0, session]]];
     
     waitForSecondsOrDone(10, &responseArrived);
-{
-    
-}
-
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1255,10 +1182,6 @@
     [plugin addTracksToPlaylist: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm"], session]]];
     
     waitForSecondsOrDone(10, &responseArrived);
-{
-    
-}
-
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1281,11 +1204,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1293,7 +1212,7 @@
 
 - (void)testDeletePlaylistSuccess
 {
-/* TODO: Implement once adding / deleting playlist works */
+    /* TODO: Implement once adding / deleting playlist works */
 }
 
 - (void)testDeletePlaylistFailed
@@ -1314,11 +1233,7 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
+    waitForSecondsOrDone(8, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1344,17 +1259,11 @@
     
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         callback(nil);
-    }];
+    } afterDelayInSeconds:0.05];
     
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
-    
-}
-
-    
-    return;
+    waitForSecondsOrDone(30, &responseArrived);
 }
 
 

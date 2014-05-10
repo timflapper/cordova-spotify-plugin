@@ -9,9 +9,9 @@
 #import "SpotifyPlugin.h"
 #import <XCTest/XCTest.h>
 
-NSData *getDataFromTestDataFile(NSString *filename) {    
+NSData *getDataFromTestDataFile(NSString *filename) {
     NSString *path = [[NSBundle bundleForClass: [SpotifyPlugin class]] pathForResource:filename ofType:@"" inDirectory:@"TestData"];
-    
+        
     return [NSData dataWithContentsOfFile:path];
 }
 
