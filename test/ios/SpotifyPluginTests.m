@@ -76,7 +76,11 @@
                                                         object:callbackURL]];
     });
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -111,7 +115,11 @@
                                                         object:callbackURL]];
     });
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -134,7 +142,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -157,7 +169,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -180,7 +196,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -203,7 +223,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -232,7 +256,11 @@
     
     [plugin getPlaylistsForUser:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -261,7 +289,11 @@
     
     [plugin getPlaylistsForUser:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -286,7 +318,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -311,7 +347,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -336,7 +376,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -361,7 +405,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -383,7 +431,11 @@
     
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:@[@"TestCompany", @"TestApp", session]]];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -405,7 +457,11 @@
     
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -984,7 +1040,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1007,7 +1067,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1031,7 +1095,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1054,7 +1122,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1077,7 +1149,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
@@ -1101,7 +1177,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1125,7 +1205,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1149,7 +1233,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1172,7 +1260,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1195,7 +1287,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1224,7 +1320,11 @@
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1254,7 +1354,11 @@
     
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
     
-    waitForSecondsOrDone(1, &responseArrived);
+    waitForSecondsOrDone(4, &responseArrived);
+{
+    
+}
+
     
     return;
 }
