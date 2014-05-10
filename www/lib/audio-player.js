@@ -23,37 +23,45 @@ AudioPlayer.prototype._id = undefined;
 AudioPlayer.prototype._companyName = undefined;
 AudioPlayer.prototype._appName = undefined;
 AudioPlayer.prototype._events = undefined;
+AudioPlayer.prototype._destroyed = false;
 
 AudioPlayer.init = function(companyName, appName) {
   
   this._companyName = companyName;
   this._appName = appName;
   
-  this._events = {};  
+  this._events = {};
 }
 
 AudioPlayer.prototype.destroy = function(callback) {
-  spotify.exec('destroyAudioPlayer', [this._id], callback);
+  var self = this;
+  this._destroyed = true;
+  
+  spotify.exec('destroyAudioPlayer', [this._id], function(error) {
+    self._id = null;
+    self._companyName = null;
+    self._appName = null;
+    self._events = null;
+    
+    callback(error);
+  });
 }
 
-AudioPlayer.prototype.dispatchEvent = function(event) {
-  var i, args, listeners;
-
+AudioPlayer.prototype.dispatchEvent = function(event, args) {
+  if (this._destroyed) return;
+  
+  var i, listeners;
+  
+  args = args || [];
+  
   if ((event in this._events) === false) {
     if (event === EVENT_ERROR)
-      throw new Error(arguments[1]);
+      throw new Error(args[1]);
       
-    if (event === EVENT_MESSAGE) {
-      alert(arguments[1]);
-    }
+    if (event === EVENT_MESSAGE)
+      alert(args[1]);
     
     return;
-  }
-  
-  if (arguments.length > 1) {
-    args = arguments.slice(1);
-  } else {
-    args = [];
   }
   
   listeners = this._events[event];
@@ -70,10 +78,13 @@ AudioPlayer.prototype.dispatchEvent = function(event) {
 }
 
 AudioPlayer.prototype.__eventListener = function(error, result) {
-  this.dispatchEvent.apply(this, result);
+  this.dispatchEvent.call(this, result.type, result.args);
 }
 
 AudioPlayer.prototype.addEventListener = function(event, listener) {  
+  if (this._destroyed)
+      throw new Error('AudioPlayer has been destroyed');
+  
   if (typeof listener !== 'function') 
     throw new Error('listener must be a function');
   
@@ -83,7 +94,7 @@ AudioPlayer.prototype.addEventListener = function(event, listener) {
   this._events[event].push(listener);
 }
 
-AudioPlayer.prototype.removeEventListener = function(event, listener) {
+AudioPlayer.prototype.removeEventListener = function(event, listener) {  
   if (typeof listener !== 'function') 
     throw new Error('listener must be a function');
  

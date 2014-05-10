@@ -10,7 +10,7 @@
 
 
 @interface SpotifyAudioPlayer()
-@property (strong) SpotifyEventCallback eventCallback;
+//@property (strong) SpotifyEventCallback eventCallback;
 @end
 
 @implementation SpotifyAudioPlayer
@@ -28,30 +28,35 @@
     return self;
 }
 
-- (void)dispatch:(NSArray *)args
+- (void)dispatchEvent:(NSString *)type
 {
-    if (self.eventCallback)
-        self.eventCallback(args);
+    [self dispatchEvent:type withArguments:@[]];
 }
 
--(void)registerEventCallback:(SpotifyEventCallback)callback
+- (void)dispatchEvent:(NSString *)type withArguments:(NSArray *)args
 {
-    self.eventCallback = callback;
+    
+    NSDictionary *info = @{@"type": type,
+                           @"args": args};
+    
+    NSNotification *note = [NSNotification notificationWithName:@"event" object:self userInfo:info];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:note];
 }
 
 -(void)audioStreamingDidLogin:(SPTAudioStreamingController *)audioStreaming
 {
-    [self dispatch:@[@"login"]];
+    [self dispatchEvent:@"login"];
 }
 
 -(void)audioStreamingDidLogout:(SPTAudioStreamingController *)audioStreaming
 {
-    [self dispatch:@[@"logout"]];
+
 }
 
 -(void)audioStreamingDidLosePermissionForPlayback:(SPTAudioStreamingController *)audioStreaming
 {
-    [self dispatch:@[@"permissionLost"]];
+    [self dispatchEvent:@"permissionLost"];
 }
 
 -(void)audioStreamingDidBecomeActivePlaybackDevice:(SPTAudioStreamingController *)audioStreaming
@@ -71,7 +76,8 @@
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangePlaybackStatus:(BOOL)isPlaying
 {
-    [self dispatch:@[@"playbackStatus", [NSNumber numberWithBool:isPlaying]]];
+    
+    [self dispatchEvent:@"playbackStatus" withArguments:@[[NSNumber numberWithBool:isPlaying]]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeRepeatStatus:(BOOL)isRepeated
@@ -86,7 +92,7 @@
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata
 {
-    
+ [self dispatchEvent:@"trackChanged" withArguments:@[trackMetadata]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeVolume:(SPVolume)volume
@@ -96,18 +102,19 @@
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didEncounterError:(NSError *)error
 {
-     [self dispatch:@[@"error", error.localizedDescription]];
+    
+    [self dispatchEvent:@"error" withArguments:@[error.localizedDescription]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didReceiveMessage:(NSString *)message
 {
     
-    [self dispatch:@[@"message", message]];
+    [self dispatchEvent:@"message" withArguments:@[message]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didSeekToOffset:(NSTimeInterval)offset
 {
-    [self dispatch:@[@"seekToOffset", [NSNumber numberWithInt:offset]]];
+    [self dispatchEvent:@"seekToOffset" withArguments:@[[NSNumber numberWithDouble:offset]]];
 }
 
 -(void)audioStreamingDidSkipToNextTrack:(SPTAudioStreamingController *)audioStreaming

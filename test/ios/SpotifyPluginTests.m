@@ -468,20 +468,34 @@
 
 - (void)testAddAudioPlayerEventListenerAndEvent
 {
+    __block int responses = 0;
     __block BOOL responseArrived = NO;
     
     [self loginAudioPlayer];
     
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        
+        if (++responses == 2)
+            responseArrived = YES;
+    }];
+    
+    [SpotifyAudioPlayer setNextMethodReturn:@{@"SPAudioStreamingMetadataTrackName": @"Emerge",
+                                              @"SPAudioStreamingMetadataTrackURI": @"spotify:track:3vyKSb9sAdXl0kQ1KnS9fY",
+                                              @"SPAudioStreamingMetadataArtistName": @"Fischerspooner",
+                                              @"SPAudioStreamingMetadataArtistURI": @"spotify:artist:5R7K1GezC0jy24v1R2n4x3",
+                                              @"SPAudioStreamingMetadataAlbumName": @"#1",
+                                              @"SPAudioStreamingMetadataAlbumURI": @"spotify:album:3OCiJ6mbOzJdzTrk8R9hy2",
+                                              @"SPAudioStreamingMetadataTrackDuration": @"288.306"}];
+    
     [SpotifyAudioPlayer setNextCallback:^(SpotifyEventCallback callback) {
-        callback(@[@"login"]);
+        /* We're using setNextMethodReturn for the playbackDelegate */
+        callback(nil);
     } afterDelayInSeconds:0.3];
     
     [plugin addAudioPlayerEventListener:[self createTestURLCommand:@[@1]]];
     
-    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
-        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
-        responseArrived = YES;
-    }];
+    [plugin playURI:[self createTestURLCommand: @[@1, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
     
     waitForSecondsOrDone(2, &responseArrived);
     

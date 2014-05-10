@@ -10,8 +10,10 @@
 #import <objc/runtime.h>
 
 static char const * const nextCallbackKey = "__nextCallbackForTesting";
-static char const * const nextReturnKey = "__nextReturnForTesting";
 static char const * const delayInSecondsKey = "__delayInSecondsTesting";
+static char const * const nextReturnKey = "__nextReturnForTesting";
+static char const * const nextEventKey = "__nextEventForTesting";
+
 
 void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t block) {
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
@@ -23,29 +25,6 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class class = [self class];
-        
-        SEL originalSelector = @selector(registerEventCallback:);
-        SEL swizzledSelector = @selector(swizzled_registerEventCallback:);
-        
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        
-        BOOL didAddMethod =
-        class_addMethod(class,
-                        originalSelector,
-                        method_getImplementation(swizzledMethod),
-                        method_getTypeEncoding(swizzledMethod));
-        
-        if (didAddMethod) {
-            class_replaceMethod(class,
-                                swizzledSelector,
-                                method_getImplementation(originalMethod),
-                                method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
-        
         [self clearTestValues];
     });
 }
@@ -55,6 +34,7 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     objc_setAssociatedObject([self class], nextCallbackKey, nil, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject([self class], delayInSecondsKey, @0, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject([self class], nextReturnKey, nil, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject([self class], nextEventKey, nil, OBJC_ASSOCIATION_RETAIN);
 }
 
 + (void)setNextCallback:(mockResultCallback)block
@@ -73,9 +53,9 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     objc_setAssociatedObject([self class], nextReturnKey, returnValue, OBJC_ASSOCIATION_RETAIN);
 }
 
-+ (id)getNextMethodReturn
++ (void)setNextEvent:(NSDictionary *)event
 {
-    return objc_getAssociatedObject([self class], nextReturnKey);
+    objc_setAssociatedObject([self class], nextEventKey, event, OBJC_ASSOCIATION_RETAIN);
 }
 
 + (void)invokeNextCallback:(id)block
@@ -92,6 +72,16 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     }
 }
 
++ (id)getNextMethodReturn
+{
+    return objc_getAssociatedObject([self class], nextReturnKey);
+}
+
++ (NSDictionary *)getNextEvent
+{
+    return objc_getAssociatedObject([self class], nextEventKey);
+}
+
 - (id)initWithCompanyName:(NSString *)companyName appName:(NSString *)appName
 {
     self = [super init];
@@ -99,19 +89,22 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     return self;
 }
 
-- (void)swizzled_registerEventCallback:(SpotifyEventCallback)callback
-{
-    [[self class] invokeNextCallback:callback];
-}
-
 - (void)loginWithSession:(SPTSession *)session callback:(SPTErrorableOperationCallback)block
 {
     [[self class] invokeNextCallback:block];
+    
+    [self audioStreamingDidLogin:self];
+//    [self audio]
 }
 
 - (void)playURI:(NSURL *)uri callback:(SPTErrorableOperationCallback)block
 {
     [[self class] invokeNextCallback:block];
+    
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+    
+    [self audioStreaming:self didChangePlaybackStatus:YES];
 }
 
 - (void)seekToOffset:(NSTimeInterval)offset callback:(SPTErrorableOperationCallback)block
@@ -128,6 +121,8 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
 
 - (void)setIsPlaying:(BOOL)playing callback:(SPTErrorableOperationCallback)block
 {
+    [self audioStreaming:self didChangePlaybackStatus:playing];
+    
     [[self class] invokeNextCallback:block];
 }
 
@@ -141,6 +136,7 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
 - (void)setVolume:(SPVolume)volume callback:(SPTErrorableOperationCallback)block
 {
     [[self class] invokeNextCallback:block];
+    [self audioStreaming:self didChangeVolume:volume];
 }
 
 - (NSDictionary *)currentTrackMetadata

@@ -18,4 +18,6 @@ typedef void (^mockResultCallback)(id callback);
 + (void)setNextCallback:(mockResultCallback)block afterDelayInSeconds:(NSTimeInterval)delayInSeconds;
 
 + (void)setNextMethodReturn:(id)returnValue;
+
++ (void)setNextEvent:(NSDictionary *)event;
 @end

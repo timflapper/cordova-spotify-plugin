@@ -243,9 +243,9 @@
 - (void)addAudioPlayerEventListener:(CDVInvokedUrlCommand*)command
 {
     [self.commandDelegate runInBackground:^{
-
-        __block NSString *callbackId = command.callbackId;
-        __block id<CDVCommandDelegate> delegate = self.commandDelegate;
+//
+//        __block NSString *callbackId = command.callbackId;
+//        __block id<CDVCommandDelegate> delegate = self.commandDelegate;
         
         NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
         SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
@@ -253,19 +253,22 @@
         if (player == nil) {
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
             
-            [delegate sendPluginResult:pluginResult callbackId:callbackId];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             
             return;
         }
         
-        [[self getAudioPlayerByID:playerID] registerEventCallback:^(NSArray *args) {
-                        
-            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:args];
-            
-            [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
-            
-            [delegate sendPluginResult:pluginResult callbackId:callbackId];
-        }];
+        player.callbackIdForEventListener = command.callbackId;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventNotificationFromAudioPlayer:) name:@"event" object:player];
+//        [[self getAudioPlayerByID:playerID] registerEventCallback:^(NSArray *args) {
+//                        
+//            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:args];
+//            
+//            [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+//            
+//            [delegate sendPluginResult:pluginResult callbackId:callbackId];
+//        }];
     }];
 }
 
@@ -731,6 +734,19 @@
         }];
     }];
     
+}
+
+#pragma mark Notification handlers
+
+- (void) eventNotificationFromAudioPlayer:(NSNotification *)note
+{
+    SpotifyAudioPlayer *player = note.object;
+    
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:note.userInfo];
+
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:player.callbackIdForEventListener];
 }
 
 #pragma mark Convenience methods

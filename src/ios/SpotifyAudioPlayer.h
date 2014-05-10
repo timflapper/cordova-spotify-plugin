@@ -10,6 +10,5 @@
 #import "SpotifyShared.h"
 
 @interface SpotifyAudioPlayer : SPTAudioStreamingController<SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate>
--(void)registerEventCallback:(SpotifyEventCallback)callback;
-
+@property NSString *callbackIdForEventListener;
 @end
