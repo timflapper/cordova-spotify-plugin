@@ -60,9 +60,7 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                         
-                                         NSLog(@"RESPONSE %@", response);
-                                         
+                                                                                  
                                          if (error) {
                                              //NSLog(@"getResultFromURI error %@", error);
                                              callback(error, nil);
