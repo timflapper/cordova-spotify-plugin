@@ -9,3 +9,7 @@
 #import <Foundation/Foundation.h>
 
 NSData *getDataFromTestDataFile(NSString *filename);
+
+void waitForSecondsOrDone(NSTimeInterval noOfSeconds, BOOL *done);
+
+NSError *errorForTesting();

@@ -14,7 +14,7 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
 @implementation SpotifyAPIRequest
 
 + (void)getObjectByID:(NSString *)objectID type:(NSString *)objectType callback:(SpotifyRequestBlock)callback {
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, objectType, objectID]];
+    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, [SpotifyJSON searchTypeForObjectType:objectType], objectID]];
     
     [self getResultFromURL: url callback:callback];
 }
@@ -38,7 +38,7 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     } else if ([[SpotifyJSON objectTypes] indexOfObject:searchType] == NSNotFound) {
         error = [SpotifyPluginError errorWithCode:SpotifyPluginBadSearchTypeError description:@"Search type is invalid"];
     }
-
+    
     if (error != nil) {
         callback(error, nil);
         return;
@@ -55,19 +55,25 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
 
 + (void)getResultFromURL:(NSURL *)url callback:(SpotifyRequestBlock)callback
 {
+        
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-    [[[NSURLSession sharedSession] dataTaskWithRequest:[[NSURLRequest alloc] initWithURL:url]
-               completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                   
-                   if (error) {
-                       //NSLog(@"getResultFromURI error %@", error);
-                       callback(error, nil);
-                       return;
-                   }
-                   
-                   callback(nil, data);
-                   
-               }] resume];
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request
+                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                         
+                                         NSLog(@"RESPONSE %@", response);
+                                         
+                                         if (error) {
+                                             //NSLog(@"getResultFromURI error %@", error);
+                                             callback(error, nil);
+                                             return;
+                                         }
+                                         
+                                         callback(nil, data);
+                                         
+                                     }] resume];
 }
+
+
 
 @end

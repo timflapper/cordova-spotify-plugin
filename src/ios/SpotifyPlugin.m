@@ -117,19 +117,16 @@
         [SPTRequest playlistsForUser:username withSession:session callback:^(NSError *error, SPTPlaylistList * list) {
             CDVPluginResult *pluginResult;
             
-//            NSLog(@"error %@", error);
-            
-            NSMutableArray *items = [NSMutableArray new];
-            
-            [list.items enumerateObjectsUsingBlock:^(SPTPartialPlaylist *playlist, NSUInteger idx, BOOL *stop) {
-                [items addObject:@{@"uri": [playlist.uri absoluteString], @"name": playlist.name}];
-            }];
-            
-            
             if (error != nil) {
 //                NSLog(@"** SpotifyPlugin getPlaylistsForUser ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
+                NSMutableArray *items = [NSMutableArray new];
+                
+                [list.items enumerateObjectsUsingBlock:^(SPTPartialPlaylist *playlist, NSUInteger idx, BOOL *stop) {
+                    [items addObject:@{@"uri": [playlist.uri absoluteString], @"name": playlist.name}];
+                }];
+                                
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:items];
             }
             
@@ -213,6 +210,8 @@
     }];
 }
 
+#pragma mark AudioPlayer methods
+
 - (void)createAudioPlayerAndLogin:(CDVInvokedUrlCommand*)command
 {
     NSString *companyName = [command.arguments objectAtIndex:0];
@@ -224,9 +223,9 @@
         
         [player loginWithSession:session callback:^(NSError *error) {
             CDVPluginResult *pluginResult;
-            
+
             if (error != nil) {
-                NSLog(@"** SpotifyPlugin CreateAudioPlayerAndLogin ERROR: %@", error);
+//                NSLog(@"** SpotifyPlugin CreateAudioPlayerAndLogin ERROR: %@", error);
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
             } else {
                 [audioPlayers addObject:player];
@@ -243,20 +242,24 @@
 
 - (void)addAudioPlayerEventListener:(CDVInvokedUrlCommand*)command
 {
-//    __block SpotifyPlugin * weakSelf = self;
-    
     [self.commandDelegate runInBackground:^{
-        NSLog(@"ADDING CALLBACK");
-    
-        NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
+
         __block NSString *callbackId = command.callbackId;
-        
         __block id<CDVCommandDelegate> delegate = self.commandDelegate;
         
+        NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
+        SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
+        
+        if (player == nil) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+            
+            [delegate sendPluginResult:pluginResult callbackId:callbackId];
+            
+            return;
+        }
+        
         [[self getAudioPlayerByID:playerID] registerEventCallback:^(NSArray *args) {
-            
-            NSLog(@"CALLBACK FIRED %@", args);
-            
+                        
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:args];
             
             [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
@@ -274,7 +277,17 @@
     NSURL *uri = [NSURL URLWithString: [command.arguments objectAtIndex:1]];
     
     [self.commandDelegate runInBackground:^{
-        [[self getAudioPlayerByID:playerID] playURI:uri callback:^(NSError *error) {
+        SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
+        
+        if (player == nil) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            
+            return;
+        }
+        
+        [player playURI:uri callback:^(NSError *error) {
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
@@ -297,7 +310,17 @@
     NSTimeInterval offset = ((NSNumber *)[command.arguments objectAtIndex:1]).doubleValue;
     
     [self.commandDelegate runInBackground:^{
-        [[self getAudioPlayerByID:playerID] seekToOffset:offset callback:^(NSError *error) {
+        SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
+        
+        if (player == nil) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            
+            return;
+        }
+        
+        [player seekToOffset:offset callback:^(NSError *error) {
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
@@ -315,11 +338,19 @@
 
 - (void)getIsPlaying:(CDVInvokedUrlCommand*)command
 {
+    CDVPluginResult *pluginResult;
+    
     NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
     
-    BOOL isPlaying = [[self getAudioPlayerByID:playerID] isPlaying];
+    SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
     
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool: isPlaying];
+    if (player == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];    
+    } else {
+        BOOL isPlaying = [player isPlaying];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool: isPlaying];
+    }
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -332,7 +363,17 @@
     BOOL isPlaying = ((NSNumber *)[command.arguments objectAtIndex:1]).boolValue;
     
     [self.commandDelegate runInBackground:^{
-        [[self getAudioPlayerByID:playerID] setIsPlaying:isPlaying callback:^(NSError *error) {
+        SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
+        
+        if (player == nil) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            
+            return;
+        }
+        
+        [player setIsPlaying:isPlaying callback:^(NSError *error) {
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
@@ -349,14 +390,21 @@
 
 - (void)getVolume:(CDVInvokedUrlCommand*)command
 {
+    CDVPluginResult *pluginResult;
+    
     NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
     
-    SPVolume volume = [[self getAudioPlayerByID:playerID] volume];
+    SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
     
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble: volume];
+    if (player == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+    } else {
+        SPVolume volume = [player volume];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble: volume];
+    }
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    
 }
 
 - (void)setVolume:(CDVInvokedUrlCommand*)command
@@ -367,7 +415,17 @@
     SPVolume volume = ((NSNumber *)[command.arguments objectAtIndex:1]).doubleValue;
     
     [self.commandDelegate runInBackground:^{
-        [[self getAudioPlayerByID:playerID] setVolume:volume callback:^(NSError *error) {
+        SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
+        
+        if (player == nil) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            
+            return;
+        }
+        
+        [player setVolume:volume callback:^(NSError *error) {
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
@@ -384,31 +442,48 @@
 
 -(void)getLoggedIn:(CDVInvokedUrlCommand*)command
 {
+    CDVPluginResult *pluginResult;
+    
     NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
     
-    BOOL loggedIn = [[self getAudioPlayerByID:playerID] loggedIn];
+    SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
     
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool: loggedIn];
+    if (player == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+    } else {
+        BOOL loggedIn = [player loggedIn];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool: loggedIn];
+    }
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    
 }
 
 - (void)getCurrentTrack:(CDVInvokedUrlCommand*)command
 {
+    CDVPluginResult *pluginResult;
+    
     NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
     
-    NSDictionary *data = [[self getAudioPlayerByID:playerID] currentTrackMetadata];
+    SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
     
-    NSDictionary *track = @{@"name": [data valueForKey:@"SPAudioStreamingMetadataTrackName"],
-                            @"uri": [data valueForKey:@"SPAudioStreamingMetadataTrackURI"],
-                            @"artist": @{@"name": [data valueForKey:@"SPAudioStreamingMetadataArtistName"],
-                                         @"uri": [data valueForKey:@"SPAudioStreamingMetadataArtistURI"]},
-                            @"album": @{@"name": [data valueForKey:@"SPAudioStreamingMetadataAlbumName"],
-                                        @"uri":[data valueForKey:@"SPAudioStreamingMetadataAlbumURI"]},
-                            @"duration": [data valueForKey:@"SPAudioStreamingMetadataTrackDuration"]};
-    
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: track];
+    if (player == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+    } else {
+        NSDictionary *data = [player currentTrackMetadata];
+        NSDictionary *track = nil;
+        if (data != nil) {
+            track = @{@"name": [data valueForKey:@"SPAudioStreamingMetadataTrackName"],
+                                    @"uri": [data valueForKey:@"SPAudioStreamingMetadataTrackURI"],
+                                    @"artist": @{@"name": [data valueForKey:@"SPAudioStreamingMetadataArtistName"],
+                                                 @"uri": [data valueForKey:@"SPAudioStreamingMetadataArtistURI"]},
+                                    @"album": @{@"name": [data valueForKey:@"SPAudioStreamingMetadataAlbumName"],
+                                                @"uri":[data valueForKey:@"SPAudioStreamingMetadataAlbumURI"]},
+                                    @"duration": [data valueForKey:@"SPAudioStreamingMetadataTrackDuration"]};
+        }
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: track];
+    }
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
@@ -416,20 +491,25 @@
 
 - (void)getCurrentPlaybackPosition:(CDVInvokedUrlCommand*)command
 {
+    CDVPluginResult *pluginResult;
+    
     NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
     
-    NSTimeInterval position = [[self getAudioPlayerByID:playerID] currentPlaybackPosition];
+    SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
     
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble: position];
+    if (player == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
+    } else {
+        NSTimeInterval position = [player currentPlaybackPosition];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble: position];
+    }
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
 }
 
-- (SpotifyAudioPlayer*)getAudioPlayerByID:(NSInteger)playerID
-{
-    return [audioPlayers objectAtIndex:playerID];
-}
+#pragma mark Single Playlist methods
 
 - (void)createPlaylist:(CDVInvokedUrlCommand*)command
 {
@@ -652,6 +732,17 @@
     }];
     
 }
+
+#pragma mark Convenience methods
+
+- (SpotifyAudioPlayer*)getAudioPlayerByID:(NSInteger)playerID
+{
+    if (playerID >= [audioPlayers count])
+        return nil;
+    
+    return [audioPlayers objectAtIndex:playerID withDefault:nil];
+}
+
 
 -(SPTSession *)convertSession:(NSDictionary *)data
 {

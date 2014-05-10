@@ -21,6 +21,9 @@
 		22A1DDFC191AF5C800CA8224 /* TestData in Resources */ = {isa = PBXBuildFile; fileRef = 22A1DDFB191AF5C800CA8224 /* TestData */; };
 		22A1DE02191AFB5500CA8224 /* SpotifyAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1DE01191AFB5500CA8224 /* SpotifyAudioPlayer.m */; };
 		22A1DE0B191B414C00CA8224 /* MockCommandDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1DE0A191B414C00CA8224 /* MockCommandDelegate.m */; };
+		22DC65B3191BC2B8004A0578 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22DC65B2191BC2B8004A0578 /* AssetsLibrary.framework */; };
+		22DC65B5191BC2CA004A0578 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22DC65B4191BC2CA004A0578 /* CoreLocation.framework */; };
+		22DC65B7191BC2F8004A0578 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22DC65B6191BC2F8004A0578 /* MobileCoreServices.framework */; };
 		22DF346A1919667000608EB4 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 227CAAB019195600000FB481 /* libCordova.a */; };
 		22E0FB9E1917E9EC008027C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E0FB9D1917E9EC008027C0 /* Foundation.framework */; };
 		22E0FBAD1917E9ED008027C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E0FB9D1917E9EC008027C0 /* Foundation.framework */; };
@@ -29,6 +32,7 @@
 		22E0FBC71917EA3A008027C0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E0FBC61917EA3A008027C0 /* AVFoundation.framework */; };
 		22E0FBF119180585008027C0 /* SpotifyAPIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E0FBF019180585008027C0 /* SpotifyAPIRequest.m */; };
 		22E0FBF419180DC9008027C0 /* SpotifyJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E0FBF319180DC9008027C0 /* SpotifyJSON.m */; };
+		22ED983A191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22ED9839191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,20 +57,6 @@
 			remoteGlobalIDString = 098368CE168FC7920082B1A4;
 			remoteInfo = "OHHTTPStubs iOS Tests";
 		};
-		22A1DDA1191A2DF100CA8224 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 22A1DD96191A2DF100CA8224 /* OHHTTPStubs.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 27CE42E4184CD21D00484665;
-			remoteInfo = "OHHTTPStubs Mac";
-		};
-		22A1DDA3191A2DF100CA8224 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 22A1DD96191A2DF100CA8224 /* OHHTTPStubs.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 27CE42F9184CD21D00484665;
-			remoteInfo = "OHHTTPStubs Mac Tests";
-		};
 		22DF346B19196B5300608EB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 227CAAAB19195600000FB481 /* CordovaLib.xcodeproj */;
@@ -84,12 +74,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		096EC76718164F6E97DBCC7F /* libPods-SpotifyPluginTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpotifyPluginTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		227CAAAB19195600000FB481 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = development/CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		227CAAB119195610000FB481 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = development/Spotify.framework; sourceTree = "<group>"; };
 		227FD18B1919FB4200C30B45 /* SpotifyPluginError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifyPluginError.h; sourceTree = "<group>"; };
 		227FD18C1919FB4200C30B45 /* SpotifyPluginError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyPluginError.m; sourceTree = "<group>"; };
-		22A1DD92191A2C1F00CA8224 /* libPods-SpotifyPluginTests-OHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SpotifyPluginTests-OHHTTPStubs.a"; path = "Pods/build/Debug-iphoneos/libPods-SpotifyPluginTests-OHHTTPStubs.a"; sourceTree = "<group>"; };
 		22A1DD96191A2DF100CA8224 /* OHHTTPStubs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OHHTTPStubs.xcodeproj; path = development/OHHTTPStubs/OHHTTPStubs.xcodeproj; sourceTree = "<group>"; };
 		22A1DDC9191AF2FB00CA8224 /* SpotifyAPIRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyAPIRequestTests.m; sourceTree = "<group>"; };
 		22A1DDCB191AF2FB00CA8224 /* SpotifyJSONTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyJSONTests.m; sourceTree = "<group>"; };
@@ -102,6 +90,9 @@
 		22A1DE01191AFB5500CA8224 /* SpotifyAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyAudioPlayer.m; sourceTree = "<group>"; };
 		22A1DE09191B414C00CA8224 /* MockCommandDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockCommandDelegate.h; sourceTree = "<group>"; };
 		22A1DE0A191B414C00CA8224 /* MockCommandDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockCommandDelegate.m; sourceTree = "<group>"; };
+		22DC65B2191BC2B8004A0578 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		22DC65B4191BC2CA004A0578 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		22DC65B6191BC2F8004A0578 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		22E0FB9A1917E9EC008027C0 /* libSpotifyPlugin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSpotifyPlugin.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		22E0FB9D1917E9EC008027C0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		22E0FBAA1917E9ED008027C0 /* SpotifyPluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpotifyPluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +107,8 @@
 		22E0FBF219180DC9008027C0 /* SpotifyJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifyJSON.h; sourceTree = "<group>"; };
 		22E0FBF319180DC9008027C0 /* SpotifyJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyJSON.m; sourceTree = "<group>"; };
 		22E0FC8A19186DDE008027C0 /* SpotifyShared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyShared.h; sourceTree = "<group>"; };
+		22ED9838191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SpotifyAudioPlayer+Testing.h"; sourceTree = "<group>"; };
+		22ED9839191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SpotifyAudioPlayer+Testing.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +127,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22DC65B7191BC2F8004A0578 /* MobileCoreServices.framework in Frameworks */,
+				22DC65B5191BC2CA004A0578 /* CoreLocation.framework in Frameworks */,
+				22DC65B3191BC2B8004A0578 /* AssetsLibrary.framework in Frameworks */,
 				22A1DDA5191A2E3A00CA8224 /* libOHHTTPStubs.a in Frameworks */,
 				22A1DD94191A2C3300CA8224 /* libSpotifyPlugin.a in Frameworks */,
 				22E0FBC41917EA27008027C0 /* XCTest.framework in Frameworks */,
@@ -160,8 +156,6 @@
 			children = (
 				22A1DD9E191A2DF100CA8224 /* libOHHTTPStubs.a */,
 				22A1DDA0191A2DF100CA8224 /* OHHTTPStubs iOS Tests.octest */,
-				22A1DDA2191A2DF100CA8224 /* OHHTTPStubs.framework */,
-				22A1DDA4191A2DF100CA8224 /* OHHTTPStubs Mac Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -191,6 +185,8 @@
 		22A1DDE9191AF33B00CA8224 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				22ED9838191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.h */,
+				22ED9839191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.m */,
 				22A1DDD7191AF2FB00CA8224 /* testShared.h */,
 				22A1DDD8191AF2FB00CA8224 /* testShared.m */,
 				22A1DE09191B414C00CA8224 /* MockCommandDelegate.h */,
@@ -224,13 +220,14 @@
 		22E0FB9C1917E9EC008027C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				22A1DD92191A2C1F00CA8224 /* libPods-SpotifyPluginTests-OHHTTPStubs.a */,
+				22DC65B6191BC2F8004A0578 /* MobileCoreServices.framework */,
+				22DC65B4191BC2CA004A0578 /* CoreLocation.framework */,
+				22DC65B2191BC2B8004A0578 /* AssetsLibrary.framework */,
 				227CAAB119195610000FB481 /* Spotify.framework */,
 				22E0FBC61917EA3A008027C0 /* AVFoundation.framework */,
 				22E0FBC31917EA27008027C0 /* XCTest.framework */,
 				22E0FBC11917EA21008027C0 /* UIKit.framework */,
 				22E0FB9D1917E9EC008027C0 /* Foundation.framework */,
-				096EC76718164F6E97DBCC7F /* libPods-SpotifyPluginTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -363,20 +360,6 @@
 			remoteRef = 22A1DD9F191A2DF100CA8224 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		22A1DDA2191A2DF100CA8224 /* OHHTTPStubs.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OHHTTPStubs.framework;
-			remoteRef = 22A1DDA1191A2DF100CA8224 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		22A1DDA4191A2DF100CA8224 /* OHHTTPStubs Mac Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "OHHTTPStubs Mac Tests.octest";
-			remoteRef = 22A1DDA3191A2DF100CA8224 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -410,6 +393,7 @@
 				22A1DDE7191AF2FB00CA8224 /* testShared.m in Sources */,
 				22A1DDDC191AF2FB00CA8224 /* SpotifyJSONTests.m in Sources */,
 				22A1DDDA191AF2FB00CA8224 /* SpotifyAPIRequestTests.m in Sources */,
+				22ED983A191C6FC400AB6265 /* SpotifyAudioPlayer+Testing.m in Sources */,
 				22A1DDDE191AF2FB00CA8224 /* SpotifyPluginTests.m in Sources */,
 				22A1DE0B191B414C00CA8224 /* MockCommandDelegate.m in Sources */,
 			);
@@ -434,13 +418,19 @@
 		22E0FB651917E931008027C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
 		22E0FB661917E931008027C0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
@@ -494,21 +484,12 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-weak_framework",
-					CoreFoundation,
-					"-weak_framework",
-					UIKit,
-					"-weak_framework",
-					AVFoundation,
-					"-weak_framework",
-					CoreMedia,
-				);
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/SpotifyPlugin;
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
@@ -556,21 +537,12 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = (
-					"-weak_framework",
-					CoreFoundation,
-					"-weak_framework",
-					UIKit,
-					"-weak_framework",
-					AVFoundation,
-					"-weak_framework",
-					CoreMedia,
-				);
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/SpotifyPlugin;
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
@@ -617,12 +589,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "test/ios/SpotifyPluginTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				MACH_O_TYPE = mh_bundle;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-framework",
 					XCTest,
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -666,11 +639,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "test/ios/SpotifyPluginTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-framework",
 					XCTest,
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

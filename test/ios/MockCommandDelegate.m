@@ -8,9 +8,8 @@
 
 #import "MockCommandDelegate.h"
 
-@interface MockCommandDelegate() {
-    mockPluginResultCallback _callback;
-}
+@interface MockCommandDelegate()
+@property (copy, nonatomic) mockPluginResultCallback callback;
 @end
 
 @implementation MockCommandDelegate
@@ -28,12 +27,13 @@
 
 - (void)mockPluginResult:(mockPluginResultCallback)callback
 {
-    _callback = callback;
+    self.callback = callback;
 }
 
 - (void)sendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {
-    _callback(result, callbackId);
+    if (self.callback)
+        self.callback(result, callbackId);
 }
 
 #pragma mark neccesary but unused protocol methods

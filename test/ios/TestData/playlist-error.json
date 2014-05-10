@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "invalid_request", 
+    "description": "Invalid parameter value", 
+    "param": "name"
+  }
+}

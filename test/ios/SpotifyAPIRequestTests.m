@@ -26,19 +26,20 @@
 
 - (void)tearDown
 {
-   
+    
     [super tearDown];
+    
+    [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testSearchArtistsCorrect
 {
- 
+    
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-        
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-artists.json")
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
@@ -47,17 +48,14 @@
         
         responseArrived = YES;
         
-//        XCTFail(@"Test fail");
         XCTAssertNil(err);
         XCTAssertNotNil(data);
     }];
+    
+    waitForSecondsOrDone(2, &responseArrived);
+    
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
-   
-    [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testSearchAlbumsCorrect
@@ -66,7 +64,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-albums.json")
@@ -81,12 +79,11 @@
         XCTAssertNotNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    waitForSecondsOrDone(2, &responseArrived);
     
-    [OHHTTPStubs removeAllStubs];
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+    
 }
 
 - (void)testSearchTracksCorrect
@@ -95,7 +92,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-tracks.json")
@@ -110,12 +107,9 @@
         XCTAssertNotNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    waitForSecondsOrDone(2, &responseArrived);
     
-    [OHHTTPStubs removeAllStubs];
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
 - (void)testSearchTypeIncorrect
@@ -124,7 +118,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-invalid.json")
@@ -139,12 +133,9 @@
         XCTAssertNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
-    
-    [OHHTTPStubs removeAllStubs];
+    waitForSecondsOrDone(2, &responseArrived);
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
 }
 
 - (void)testSearchEmptyQuery
@@ -153,7 +144,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-invalid.json")
@@ -168,12 +159,9 @@
         XCTAssertNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    waitForSecondsOrDone(2, &responseArrived);
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
-    [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testSearchLimitZero
@@ -182,7 +170,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-invalid.json")
@@ -197,12 +185,9 @@
         XCTAssertNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
-    
-    [OHHTTPStubs removeAllStubs];
+    waitForSecondsOrDone(2, &responseArrived);
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
 }
 
 - (void)testSearchLimitTooHigh
@@ -211,7 +196,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-invalid.json")
@@ -226,12 +211,9 @@
         XCTAssertNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
-    
-    [OHHTTPStubs removeAllStubs];
+    waitForSecondsOrDone(2, &responseArrived);
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
 }
 
 - (void)testSearchOffsetNegative
@@ -240,7 +222,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"search-invalid.json")
@@ -255,12 +237,10 @@
         XCTAssertNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    waitForSecondsOrDone(2, &responseArrived);
     
-    [OHHTTPStubs removeAllStubs];
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
 }
 
 
@@ -270,7 +250,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"track.json")
@@ -285,12 +265,10 @@
         XCTAssertNotNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    waitForSecondsOrDone(2, &responseArrived);
     
-    [OHHTTPStubs removeAllStubs];
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
 }
 
 
@@ -300,7 +278,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"album.json")
@@ -315,12 +293,11 @@
         XCTAssertNotNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+    waitForSecondsOrDone(2, &responseArrived);
     
-    [OHHTTPStubs removeAllStubs];
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+    
 }
 
 - (void)testGetObjectByIDArtist
@@ -329,7 +306,7 @@
     __block BOOL responseArrived = NO;
     
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [request.URL.host isEqualToString:@"api.spotify.com"];
+        return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"artist.json")
@@ -343,11 +320,8 @@
         XCTAssertNotNil(data);
     }];
     
-    NSTimeInterval timeout = 2;
-    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while (!responseArrived && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
-    
-    [OHHTTPStubs removeAllStubs];
+    waitForSecondsOrDone(2, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 @end
