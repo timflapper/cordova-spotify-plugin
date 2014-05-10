@@ -472,7 +472,7 @@
     __block BOOL responseArrived = NO;
     
     [self loginAudioPlayer];
-    
+        
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         

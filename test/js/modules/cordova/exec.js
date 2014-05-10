@@ -41,6 +41,8 @@ module.exports = function(onSuccess, onError, service, action, args) {
     case 'createAudioPlayerAndLogin':
       createAudioPlayerAndLogin(onSuccess, onError, args);
       break;
+    case 'addAudioPlayerEventListener':
+      break;  
     case 'playURI':
     case 'seekToOffset':
     case 'setIsPlaying':

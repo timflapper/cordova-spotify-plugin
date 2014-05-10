@@ -78,6 +78,11 @@ AudioPlayer.prototype.dispatchEvent = function(event, args) {
 }
 
 AudioPlayer.prototype.__eventListener = function(error, result) {
+  if (error) {
+      this.dispatchEvent.call(this, 'error', error);
+      return;
+  }
+  
   this.dispatchEvent.call(this, result.type, result.args);
 }
 
