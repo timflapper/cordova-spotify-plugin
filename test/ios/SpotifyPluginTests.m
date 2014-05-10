@@ -472,7 +472,7 @@
     __block BOOL responseArrived = NO;
     
     [self loginAudioPlayer];
-        
+    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         
@@ -1047,12 +1047,12 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin createPlaylist: [self createTestURLCommand: @[@"My New Playlist", session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
     }];
+    
+    [plugin createPlaylist: [self createTestURLCommand: @[@"My New Playlist", session]]];
     
     waitForSecondsOrDone(4, &responseArrived);
 {
@@ -1074,18 +1074,14 @@
                                           statusCode:400 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin createPlaylist: [self createTestURLCommand: @[@"", session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
+    [plugin createPlaylist: [self createTestURLCommand: @[@"", session]]];
     
-}
-
+    waitForSecondsOrDone(4, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1101,19 +1097,15 @@
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"single-playlist.json")
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
-    
-    [plugin setPlaylistName: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"My New Playlist Name", session]]];
-    
+
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
+    [plugin setPlaylistName: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"My New Playlist Name", session]]];
     
-}
-
+    waitForSecondsOrDone(4, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1129,18 +1121,14 @@
                                           statusCode:400 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin setPlaylistName: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"", session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
+    [plugin setPlaylistName: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"", session]]];
     
-}
-
+    waitForSecondsOrDone(4, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -1156,18 +1144,14 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin setPlaylistDescription: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"My New Playlist Description", session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
+    [plugin setPlaylistDescription: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"My New Playlist Description", session]]];
     
-}
-
+    waitForSecondsOrDone(4, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 
@@ -1184,18 +1168,14 @@
                                           statusCode:400 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin setPlaylistDescription: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"", session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
-{
+    [plugin setPlaylistDescription: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @"", session]]];
     
-}
-
+    waitForSecondsOrDone(4, &responseArrived);
     
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
     
@@ -1212,12 +1192,12 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin setPlaylistCollaborative: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @0, session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
     }];
+    
+    [plugin setPlaylistCollaborative: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @0, session]]];
     
     waitForSecondsOrDone(4, &responseArrived);
 {
@@ -1240,14 +1220,14 @@
                                           statusCode:400 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin setPlaylistCollaborative: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @0, session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    [plugin setPlaylistCollaborative: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @0, session]]];
+    
+    waitForSecondsOrDone(10, &responseArrived);
 {
     
 }
@@ -1267,14 +1247,14 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin addTracksToPlaylist: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm"], session]]];
-    
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
     }];
     
-    waitForSecondsOrDone(4, &responseArrived);
+    [plugin addTracksToPlaylist: [self createTestURLCommand: @[@"spotify:user:justafakeuser:playlist:1ie3JnJzdYR9XwjDrq32zF", @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm"], session]]];
+    
+    waitForSecondsOrDone(10, &responseArrived);
 {
     
 }
