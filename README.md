@@ -15,7 +15,7 @@ Currently the Spotify iOS SDK is in beta and breaking changes can occur without 
 	
 2. Install the plugin:
 
-	cordova plugin add https://github.com/timflapper/cordova-spotify-plugin
+		cordova plugin add https://github.com/timflapper/cordova-spotify-plugin
 
 3. Try it out.
 
