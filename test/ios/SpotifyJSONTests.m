@@ -36,34 +36,6 @@
     
     XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
     
-    NSArray *albums = [result objectForKey:@"albums"];
-    XCTAssertNotNil(albums);
-    
-    XCTAssertEqual(albums.count, 1);
-    NSDictionary *album = [albums objectAtIndex:0];
-    
-    XCTAssertTrue([album isKindOfClass:[NSDictionary class]]);
-    
-    XCTAssertNotNil([album valueForKey:@"type"]);
-    XCTAssertNotNil([album valueForKey:@"name"]);
-    XCTAssertNotNil([album valueForKey:@"uri"]);
-    XCTAssertNotNil([album valueForKey:@"sharingURL"]);
-    XCTAssertNotNil([album objectForKey:@"externalIds"]);
-    XCTAssertNotNil([album objectForKey:@"availableTerritories"]);
-
-    XCTAssertNotNil([album objectForKey:@"artists"]);
-    XCTAssertEqual(((NSArray *)[album objectForKey:@"artists"]).count, 1);
-    
-    XCTAssertNotNil([album objectForKey:@"tracks"]);
-    XCTAssertEqual(((NSArray *)[album objectForKey:@"tracks"]).count, 26);
-    
-    XCTAssertNotNil([album objectForKey:@"releaseDate"]);
-    XCTAssertNotNil([album valueForKey:@"albumType"]);
-    XCTAssertNotNil([album objectForKey:@"genres"]);
-    XCTAssertNotNil([album objectForKey:@"images"]);
-    XCTAssertNotNil([album objectForKey:@"smallestImage"]);
-    XCTAssertNotNil([album objectForKey:@"largestImage"]);
-    XCTAssertNotNil([album valueForKey:@"popularity"]);
     XCTAssertNil(error);
 }
 

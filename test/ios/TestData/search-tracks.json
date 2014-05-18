@@ -1,1 +1,64 @@
-{"tracks":[{"album":{"album_type":"album","id":"0i080JQAcvU3RZTX1LkD9E","images":{"medium":{"height":300,"url":"https://d3rt1990lpmkn.cloudfront.net/original/d946cd49151a13aa592d4c480767c276ca1a9e7c","width":300},"small":{"height":64,"url":"https://d3rt1990lpmkn.cloudfront.net/original/b97f20dc3a7ad63adaab0e12cafcca143994d90c","width":64},"large":{"height":640,"url":"https://d3rt1990lpmkn.cloudfront.net/original/f4bf9e39986dfc7600f2f9c16131f276337d9871","width":640}},"name":"Rise Ye Sunken Ships","self":{"href":"https://api.spotify.com/v1/albums/0i080JQAcvU3RZTX1LkD9E","uri":"spotify:album:0i080JQAcvU3RZTX1LkD9E","web":"https://open.spotify.com/album/0i080JQAcvU3RZTX1LkD9E"},"type":"album"},"artists":[{"id":"0p1LdP1XicX0UA5GNA2DWc","name":"Augustines","self":{"href":"https://api.spotify.com/v1/artists/0p1LdP1XicX0UA5GNA2DWc","uri":"spotify:artist:0p1LdP1XicX0UA5GNA2DWc","web":"https://open.spotify.com/artist/0p1LdP1XicX0UA5GNA2DWc"},"type":"artist"}],"available_markets":["AT","BE","CH","CZ","DE","DK","ES","FI","FR","GB","GR","HU","IE","IT","LU","NL","NO","PL","PT","SE","TR"],"disc_number":1,"duration_ms":188666,"explicit":false,"external_ids":[{"id":"GBW7D1100014","type":"isrc"}],"id":"2xEkZmFUpb7Gf1RQL7hbJQ","name":"Chapel Song","popularity":0,"preview_url":"http://d318706lgtcm8e.cloudfront.net/mp3-preview/baca7117e7fa65809b0fd9c07d9935bd2cbaad38","self":{"href":"https://api.spotify.com/v1/tracks/2xEkZmFUpb7Gf1RQL7hbJQ","uri":"spotify:track:2xEkZmFUpb7Gf1RQL7hbJQ","web":"https://open.spotify.com/track/2xEkZmFUpb7Gf1RQL7hbJQ"},"track_number":1,"type":"track"}],"paging":{"limit":1,"next":"https://api.spotify.com/v1/search?query=chapel song&type=TRACK&offset=1&limit=1","offset":0,"previous":null,"total":85}}
+{
+    "tracks" : {
+        "href" : "https://api.spotify.com/v1/search?query=CHVRCHES&offset=0&limit=1&type=track",
+        "items" : [ {
+                   "album" : {
+                   "album_type" : "album",
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/album/03U41p2XNP3oP3REeEDMrQ"
+                   },
+                   "href" : "https://api.spotify.com/v1/albums/03U41p2XNP3oP3REeEDMrQ",
+                   "id" : "03U41p2XNP3oP3REeEDMrQ",
+                   "images" : [ {
+                               "height" : 640,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/32bf4dc081b7c12e40962e0027b6caa2c378855b",
+                               "width" : 640
+                               }, {
+                               "height" : 300,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/f3266080b467fe8c1a2bff398db95648f9e43abb",
+                               "width" : 300
+                               }, {
+                               "height" : 64,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/1bfd8531dfa9c01aaef9ec4903d16cad5b073ece",
+                               "width" : 64
+                               } ],
+                   "name" : "The Bones Of What You Believe",
+                   "type" : "album",
+                   "uri" : "spotify:album:03U41p2XNP3oP3REeEDMrQ"
+                   },
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "available_markets" : [ "AD", "BE", "BG", "CY", "CZ", "DK", "EE", "ES", "FI", "FR", "GR", "HU", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK", "TR" ],
+                   "disc_number" : 1,
+                   "duration_ms" : 191293,
+                   "explicit" : false,
+                   "external_ids" : {
+                   "isrc" : "GBZN81300014"
+                   },
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/31AyUvMRDvZjyQI1N05lsT"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/31AyUvMRDvZjyQI1N05lsT",
+                   "id" : "31AyUvMRDvZjyQI1N05lsT",
+                   "name" : "The Mother We Share",
+                   "popularity" : 0,
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/94a6a71e34711c76f8893e12f548ce39cd65bc25",
+                   "track_number" : 1,
+                   "type" : "track",
+                   "uri" : "spotify:track:31AyUvMRDvZjyQI1N05lsT"
+                   } ],
+        "limit" : 1,
+        "next" : "https://api.spotify.com/v1/search?query=CHVRCHES&offset=1&limit=1&type=track",
+        "offset" : 0,
+        "previous" : null,
+        "total" : 277
+    }
+}

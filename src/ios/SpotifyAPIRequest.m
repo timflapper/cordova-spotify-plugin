@@ -32,23 +32,28 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     } else if (limit > LIMIT_MAX) {
         error = [SpotifyPluginError errorWithCode:SpotifyPluginBadLimitError description:@"Limit too large"];
     } else if (offset < OFFSET_MIN) {
-        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadOffsetError description:@"Offset needs to be larger than 0"];
+        error = [SpotifyPluginError errorWithCode:SpotifyPluginBadOffsetError description:@"Offset needs to be 0 or higher"];
     } else if (offset > OFFSET_MAX) {
         error = [SpotifyPluginError errorWithCode:SpotifyPluginBadOffsetError description:@"Offset too large"];
-    } else if ([[SpotifyJSON objectTypes] indexOfObject:searchType] == NSNotFound) {
+    } else if ([[SpotifyJSON searchTypes] indexOfObject:searchType] == NSNotFound) {
         error = [SpotifyPluginError errorWithCode:SpotifyPluginBadSearchTypeError description:@"Search type is invalid"];
     }
     
     if (error != nil) {
+        NSLog(@"%@", error);
         callback(error, nil);
         return;
     }
     
-    NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, limit, offset, searchType];
+    NSString *queryString = [NSString stringWithFormat:@"?q=%@&limit=%d&offset=%d&type=%@", query, limit, offset, [SpotifyJSON objectTypeFromSearchType:searchType]];
     
-    NSString *urlString = [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, @"search", [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString *endpoint = @"search"; //[NSString stringWithFormat:@"%@/search", searchType];
+    
+    NSString *urlString = [NSString stringWithFormat:API_URL_PATTERN, API_URL_BASE, endpoint, [queryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     NSURL *url = [NSURL URLWithString: urlString];
+    
+//    NSLog(@"URL %@", url);
     
     [self getResultFromURL: url callback:callback];
 }
@@ -60,12 +65,16 @@ static NSString *const API_URL_PATTERN = @"%@/%@/%@";
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                                                  
-                                         if (error) {
-                                             //NSLog(@"getResultFromURI error %@", error);
+                                         
+//                                         NSLog(@"%@ %@", response, error);
+                                         
+                                         if (error != nil) {
+                                             NSLog(@"getResultFromURI error %@", error);
                                              callback(error, nil);
                                              return;
                                          }
+                                         
+//                                         NSLog(@"DATA %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
                                          
                                          callback(nil, data);
                                          

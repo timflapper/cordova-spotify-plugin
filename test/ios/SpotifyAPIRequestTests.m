@@ -45,7 +45,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [SpotifyAPIRequest searchObjectsWithQuery:@"Good+String" type:@"artist" offset:0 limit:1 callback:^(NSError *err, NSData *data) {
+    [SpotifyAPIRequest searchObjectsWithQuery:@"Good+String" type:@"artists" offset:0 limit:1 callback:^(NSError *err, NSData *data) {
         
         responseArrived = YES;
         
@@ -71,7 +71,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [SpotifyAPIRequest searchObjectsWithQuery:@"Good+String" type:@"album" offset:0 limit:1 callback:^(NSError *err, NSData *data) {
+    [SpotifyAPIRequest searchObjectsWithQuery:@"Good+String" type:@"albums" offset:0 limit:1 callback:^(NSError *err, NSData *data) {
         
         responseArrived = YES;
         
@@ -97,7 +97,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [SpotifyAPIRequest searchObjectsWithQuery:@"Good+String" type:@"track" offset:0 limit:1 callback:^(NSError *err, NSData *data) {
+    [SpotifyAPIRequest searchObjectsWithQuery:@"Good+String" type:@"tracks" offset:0 limit:1 callback:^(NSError *err, NSData *data) {
         
         responseArrived = YES;
         

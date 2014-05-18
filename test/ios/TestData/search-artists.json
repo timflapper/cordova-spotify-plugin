@@ -1,1 +1,39 @@
-{"artists":[{"genres":["Adult Alternative Pop/Rock","Album Rock","Alternative Pop/Rock","Alternative/Indie Rock","Art Rock","Avant-Garde","Blue-Eyed Soul","British Folk","British Folk-Rock","British Invasion","British Psychedelia","Christmas","Club/Dance","Contemporary Folk","Contemporary Pop/Rock","Dance-Pop","Dance-Rock","Experimental","Experimental Rock","Film Music","Folk-Rock","Glam Rock","Hard Rock","Holiday","Holidays","Mod","Original Score","Pop/Rock","Post-Punk","Progressive Country","Proto-Punk","Psychedelic","Punk/New Wave","Singer/Songwriter","Sophisti-Pop","Soundtracks","Stage & Screen"],"id":"0oSGxfWSnnOXhD2fKuz2Gy","images":{"medium":{"height":200,"url":"https://d3rt1990lpmkn.cloudfront.net/original/7ddd6fa5cf78aee2f2e8b347616151393022b7d9","width":200},"small":{"height":64,"url":"https://d3rt1990lpmkn.cloudfront.net/original/c8dc28c191432862afce298216458a6f00bbfbd8","width":64},"large":{"height":640,"url":"https://d3rt1990lpmkn.cloudfront.net/original/865f24753e5e4f40a383bf24a9cdda598a4559a8","width":640},"xlarge":{"height":1000,"url":"https://d3rt1990lpmkn.cloudfront.net/original/32bd9707b42a2c081482ec9cd3ffa8879f659f95","width":1000}},"name":"David Bowie","popularity":77,"self":{"href":"https://api.spotify.com/v1/artists/0oSGxfWSnnOXhD2fKuz2Gy","uri":"spotify:artist:0oSGxfWSnnOXhD2fKuz2Gy","web":"https://open.spotify.com/artist/0oSGxfWSnnOXhD2fKuz2Gy"},"type":"artist"}],"paging":{"limit":1,"next":"https://api.spotify.com/v1/search?query=David Bowie&type=ARTIST&offset=1&limit=1","offset":0,"previous":null,"total":29}}
+{
+    "artists" : {
+        "href" : "https://api.spotify.com/v1/search?query=CHVRCHES&offset=0&limit=1&type=artist",
+        "items" : [ {
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                   },
+                   "genres" : [ ],
+                   "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                   "id" : "3CjlHNtplJyTf9npxaPl5w",
+                   "images" : [ {
+                               "height" : 408,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/1763a97e53b946f2851cf88bc953954eb58a30d1",
+                               "width" : 999
+                               }, {
+                               "height" : 261,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/f382a3ae9a15a8f1cb4e0efac98466162d9fc45a",
+                               "width" : 639
+                               }, {
+                               "height" : 82,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/5fc7261db1e6fb23a408c9164d4ec23f69e2e88f",
+                               "width" : 200
+                               }, {
+                               "height" : 26,
+                               "url" : "https://d3rt1990lpmkn.cloudfront.net/original/ae97e60c3f12f31544e06c9a55ad921d28f0ca4c",
+                               "width" : 64
+                               } ],
+                   "name" : "CHVRCHES",
+                   "popularity" : 61,
+                   "type" : "artist",
+                   "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                   } ],
+        "limit" : 1,
+        "next" : null,
+        "offset" : 0,
+        "previous" : null,
+        "total" : 1
+    }
+}

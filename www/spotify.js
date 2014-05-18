@@ -47,12 +47,24 @@ spotify.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
 };
 
 spotify.search = function(query, searchType, offset, session, callback) {
-  if (typeof session === 'function') {
-    if (callback !== undefined) {
-      throw new Error('Only query, searchType, session and callback allowed if offset is omitted. Fifth argument of type ' + (typeof callback) + 'detected.');
+  if (typeof offset === 'function') {
+    if (callback !== undefined || session !== undefined) {
+      throw new Error('Only query, searchType and callback allowed if offset and session are omitted. Fifth argument of type ' + (typeof callback) + 'detected.');
     }
     
-    callback = session, session = offset, offset = 0;
+    callback = offset, offset = 0, session = null;
+  } else if (typeof session === 'function') {
+    if (callback !== undefined) {
+      throw new Error('Only query, searchType, session and callback allowed if offset / session are omitted. Fifth argument of type ' + (typeof callback) + 'detected.');
+    }
+    
+    callback = session;
+    
+    session = null;
+    
+    if (offset instanceof spotify.Session) {
+      session = offset, offset = 0;
+    }
   }
 
   spotify.exec( 'search', 

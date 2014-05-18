@@ -127,7 +127,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin search:[self createTestURLCommand:@[@"Some artist", @"artist", @0, session]]];
+    [plugin search:[self createTestURLCommand:@[@"Some artist", @"artists", @0, session]]];
     
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -150,7 +150,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin search:[self createTestURLCommand:@[@"Some album", @"album", @0, session]]];
+    [plugin search:[self createTestURLCommand:@[@"Some album", @"albums", @0, session]]];
     
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -173,7 +173,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin search:[self createTestURLCommand:@[@"Some track", @"track", @0, session]]];
+    [plugin search:[self createTestURLCommand:@[@"Some track", @"tracks", @0, session]]];
     
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -196,7 +196,7 @@
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
     
-    [plugin search:[self createTestURLCommand:@[@"Some track", @"track", @0, session]]];
+    [plugin search:[self createTestURLCommand:@[@"Some track", @"tracks", @0, session]]];
     
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -1029,6 +1029,7 @@
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         return YES;
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"single-playlist.json")
                                           statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];

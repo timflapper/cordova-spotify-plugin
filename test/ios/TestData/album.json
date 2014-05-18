@@ -1,391 +1,438 @@
 {
-  "id" : "0UrDDTOre9XuD3xJHTFEJg",
-  "tracks" : [
-    {
-      "duration_ms" : 239560,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/3ecf73d2c8b99aa6e123c4f23ccf5df84e0864a8",
-      "track_number" : 1,
-      "id" : "2kqd7gl3Q4AoEVwytgKcVJ",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/2kqd7gl3Q4AoEVwytgKcVJ",
-        "web" : "https://open.spotify.com/track/2kqd7gl3Q4AoEVwytgKcVJ",
-        "uri" : "spotify:track:2kqd7gl3Q4AoEVwytgKcVJ"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Amongster"
+    "album_type" : "album",
+    "artists" : [ {
+                 "external_urls" : {
+                 "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                 },
+                 "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                 "id" : "3CjlHNtplJyTf9npxaPl5w",
+                 "name" : "CHVRCHES",
+                 "type" : "artist",
+                 "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                 } ],
+    "available_markets" : [ "AD", "BE", "BG", "CY", "CZ", "DK", "EE", "ES", "FI", "FR", "GR", "HU", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK", "TR" ],
+    "external_ids" : {
+        "upc" : "00602537512171"
     },
-    {
-      "duration_ms" : 266160,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/aa34c640b52cc9ea61de1ac78f828a078096682c",
-      "track_number" : 2,
-      "id" : "5aCLoEN5dNwzpnqeunMi9D",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/5aCLoEN5dNwzpnqeunMi9D",
-        "web" : "https://open.spotify.com/track/5aCLoEN5dNwzpnqeunMi9D",
-        "uri" : "spotify:track:5aCLoEN5dNwzpnqeunMi9D"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "I See My Mother"
+    "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/03U41p2XNP3oP3REeEDMrQ"
     },
-    {
-      "duration_ms" : 252360,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/ecbdfc954e5eef4b223855dd0793b8f8b646488e",
-      "track_number" : 3,
-      "id" : "353r1UL9lDtgEIdPuPvuVH",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/353r1UL9lDtgEIdPuPvuVH",
-        "web" : "https://open.spotify.com/track/353r1UL9lDtgEIdPuPvuVH",
-        "uri" : "spotify:track:353r1UL9lDtgEIdPuPvuVH"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Violent Games"
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/albums/03U41p2XNP3oP3REeEDMrQ",
+    "id" : "03U41p2XNP3oP3REeEDMrQ",
+    "images" : [ {
+                "height" : 640,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/32bf4dc081b7c12e40962e0027b6caa2c378855b",
+                "width" : 640
+                }, {
+                "height" : 300,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/f3266080b467fe8c1a2bff398db95648f9e43abb",
+                "width" : 300
+                }, {
+                "height" : 64,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/1bfd8531dfa9c01aaef9ec4903d16cad5b073ece",
+                "width" : 64
+                } ],
+    "name" : "The Bones Of What You Believe",
+    "popularity" : 73,
+    "release_date" : {
+        "day" : null,
+        "month" : null,
+        "year" : 2013
     },
-    {
-      "duration_ms" : 300520,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/f958167af24940a0d874ff53cc3256096d5db43a",
-      "track_number" : 4,
-      "id" : "7kmna8LKfhNW7lD99K5NJb",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/7kmna8LKfhNW7lD99K5NJb",
-        "web" : "https://open.spotify.com/track/7kmna8LKfhNW7lD99K5NJb",
-        "uri" : "spotify:track:7kmna8LKfhNW7lD99K5NJb"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Dark Star"
+    "tracks" : {
+        "href" : "https://api.spotify.com/v1/albums/03U41p2XNP3oP3REeEDMrQ/tracks?offset=0&limit=50",
+        "items" : [ {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 191293,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/31AyUvMRDvZjyQI1N05lsT"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/31AyUvMRDvZjyQI1N05lsT",
+                   "id" : "31AyUvMRDvZjyQI1N05lsT",
+                   "name" : "The Mother We Share",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/94a6a71e34711c76f8893e12f548ce39cd65bc25",
+                   "track_number" : 1,
+                   "type" : "track",
+                   "uri" : "spotify:track:31AyUvMRDvZjyQI1N05lsT"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 214373,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/31IxooDVO2GR9HRUSCdcRG"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/31IxooDVO2GR9HRUSCdcRG",
+                   "id" : "31IxooDVO2GR9HRUSCdcRG",
+                   "name" : "We Sink",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/a01b55a6a24f484d2ae2711682c17f922fef0041",
+                   "track_number" : 2,
+                   "type" : "track",
+                   "uri" : "spotify:track:31IxooDVO2GR9HRUSCdcRG"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 233986,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/2jc0zOHNHAlechpt2H6unt"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/2jc0zOHNHAlechpt2H6unt",
+                   "id" : "2jc0zOHNHAlechpt2H6unt",
+                   "name" : "Gun",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/dd0d29ab7b65e1c6f7b42c8acb074002c183ac59",
+                   "track_number" : 3,
+                   "type" : "track",
+                   "uri" : "spotify:track:2jc0zOHNHAlechpt2H6unt"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 286400,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/4Lk0MdvFUg23bDA0pCTrxG"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/4Lk0MdvFUg23bDA0pCTrxG",
+                   "id" : "4Lk0MdvFUg23bDA0pCTrxG",
+                   "name" : "Tether",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/a1cc0d7cfda413e7edf0489c310695e3a6f3d348",
+                   "track_number" : 4,
+                   "type" : "track",
+                   "uri" : "spotify:track:4Lk0MdvFUg23bDA0pCTrxG"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 221053,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/73vllOpuLXzUu1bycglv5L"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/73vllOpuLXzUu1bycglv5L",
+                   "id" : "73vllOpuLXzUu1bycglv5L",
+                   "name" : "Lies",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/868cb8267e03699570b9ec59fe0f96178b9d4b0b",
+                   "track_number" : 5,
+                   "type" : "track",
+                   "uri" : "spotify:track:73vllOpuLXzUu1bycglv5L"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 272120,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/5PUX4AJGEScOnoDIhJeXDZ"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/5PUX4AJGEScOnoDIhJeXDZ",
+                   "id" : "5PUX4AJGEScOnoDIhJeXDZ",
+                   "name" : "Under The Tide",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/8b9a9689c5a50b34ec66c5e58f3e66bf72fdfae1",
+                   "track_number" : 6,
+                   "type" : "track",
+                   "uri" : "spotify:track:5PUX4AJGEScOnoDIhJeXDZ"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 225853,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/5lrKdr43SvPBt9evNOrULo"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/5lrKdr43SvPBt9evNOrULo",
+                   "id" : "5lrKdr43SvPBt9evNOrULo",
+                   "name" : "Recover",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/dff8af3e02ce2e4d9ce30f8ecb13bc1922bddd4f",
+                   "track_number" : 7,
+                   "type" : "track",
+                   "uri" : "spotify:track:5lrKdr43SvPBt9evNOrULo"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 231093,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/0SU9BAQdl4tSyb9JA5J5WJ"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/0SU9BAQdl4tSyb9JA5J5WJ",
+                   "id" : "0SU9BAQdl4tSyb9JA5J5WJ",
+                   "name" : "Night Sky",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/91efd2361596a84809b70263a3df2deca4b1843a",
+                   "track_number" : 8,
+                   "type" : "track",
+                   "uri" : "spotify:track:0SU9BAQdl4tSyb9JA5J5WJ"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 238080,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/1sWpfjoNvRu3Mmh5YXPdyX"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/1sWpfjoNvRu3Mmh5YXPdyX",
+                   "id" : "1sWpfjoNvRu3Mmh5YXPdyX",
+                   "name" : "Science/Visions",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/7cf82819b1e8ef61f9fd502f8bb143bc3c47144f",
+                   "track_number" : 9,
+                   "type" : "track",
+                   "uri" : "spotify:track:1sWpfjoNvRu3Mmh5YXPdyX"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 182866,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/6PPuxhL33u7eoMdodGTSTM"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/6PPuxhL33u7eoMdodGTSTM",
+                   "id" : "6PPuxhL33u7eoMdodGTSTM",
+                   "name" : "Lungs",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/f60c89a2d1e11bff2bb7bc128c50c9bbadee25ee",
+                   "track_number" : 10,
+                   "type" : "track",
+                   "uri" : "spotify:track:6PPuxhL33u7eoMdodGTSTM"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 249360,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/4ijIvjvBQlOZGB2AvMTRBm"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/4ijIvjvBQlOZGB2AvMTRBm",
+                   "id" : "4ijIvjvBQlOZGB2AvMTRBm",
+                   "name" : "By The Throat",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/a1e10f18d3711324075fc5386cf57bd0dcf29d6f",
+                   "track_number" : 11,
+                   "type" : "track",
+                   "uri" : "spotify:track:4ijIvjvBQlOZGB2AvMTRBm"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 340046,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/1oEBqm1EJN1Jl6aMp1rarx"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/1oEBqm1EJN1Jl6aMp1rarx",
+                   "id" : "1oEBqm1EJN1Jl6aMp1rarx",
+                   "name" : "You Caught The Light",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/b0d049683c5369e8067cf6ce2d75c7277388230d",
+                   "track_number" : 12,
+                   "type" : "track",
+                   "uri" : "spotify:track:1oEBqm1EJN1Jl6aMp1rarx"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 206362,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/6QRyDxgiNSKYsR8CNlc2fZ"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/6QRyDxgiNSKYsR8CNlc2fZ",
+                   "id" : "6QRyDxgiNSKYsR8CNlc2fZ",
+                   "name" : "Strong Hand - Bonus Track",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/539462005a5c9a137764a5bd89f29ca22717d06d",
+                   "track_number" : 13,
+                   "type" : "track",
+                   "uri" : "spotify:track:6QRyDxgiNSKYsR8CNlc2fZ"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 224720,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/2A8g5vK9gw9nPkznH5GZ8Y"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/2A8g5vK9gw9nPkznH5GZ8Y",
+                   "id" : "2A8g5vK9gw9nPkznH5GZ8Y",
+                   "name" : "Broken Bones - Bonus Track",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/0d4ab6abb621ff027a93203681e5ff4eaea2bddd",
+                   "track_number" : 14,
+                   "type" : "track",
+                   "uri" : "spotify:track:2A8g5vK9gw9nPkznH5GZ8Y"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 375566,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/6ugyZToICmRjCEfQj0J79d"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/6ugyZToICmRjCEfQj0J79d",
+                   "id" : "6ugyZToICmRjCEfQj0J79d",
+                   "name" : "Gun - KDA Remix / Bonus Track",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/39641b312bdab99312a62d9f69516ca04b98df78",
+                   "track_number" : 15,
+                   "type" : "track",
+                   "uri" : "spotify:track:6ugyZToICmRjCEfQj0J79d"
+                   }, {
+                   "artists" : [ {
+                                "external_urls" : {
+                                "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
+                                },
+                                "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+                                "id" : "3CjlHNtplJyTf9npxaPl5w",
+                                "name" : "CHVRCHES",
+                                "type" : "artist",
+                                "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
+                                } ],
+                   "disc_number" : 1,
+                   "duration_ms" : 358821,
+                   "explicit" : false,
+                   "external_urls" : {
+                   "spotify" : "https://open.spotify.com/track/6C4NY6hLojgqb6FZMK5qU7"
+                   },
+                   "href" : "https://api.spotify.com/v1/tracks/6C4NY6hLojgqb6FZMK5qU7",
+                   "id" : "6C4NY6hLojgqb6FZMK5qU7",
+                   "name" : "The Mother We Share - We Were Promised Jetpacks Remix / Bonus Track",
+                   "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/c7fde309ee2ac7650adb95dd268692dadb966016",
+                   "track_number" : 16,
+                   "type" : "track",
+                   "uri" : "spotify:track:6C4NY6hLojgqb6FZMK5qU7"
+                   } ],
+        "limit" : 50,
+        "next" : null,
+        "offset" : 0,
+        "previous" : null,
+        "total" : 16
     },
-    {
-      "duration_ms" : 222013,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/30d1330b558f5fb734f8f2500bc19b8668511bea",
-      "track_number" : 5,
-      "id" : "1q1JhABnsBxbeWsgwlLll7",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/1q1JhABnsBxbeWsgwlLll7",
-        "web" : "https://open.spotify.com/track/1q1JhABnsBxbeWsgwlLll7",
-        "uri" : "spotify:track:1q1JhABnsBxbeWsgwlLll7"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Form"
-    },
-    {
-      "duration_ms" : 259493,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/f958f81778ffc495548f33f64bd1e1283b66cb42",
-      "track_number" : 6,
-      "id" : "0I9e6yF24bF9wP74KJkB3N",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/0I9e6yF24bF9wP74KJkB3N",
-        "web" : "https://open.spotify.com/track/0I9e6yF24bF9wP74KJkB3N",
-        "uri" : "spotify:track:0I9e6yF24bF9wP74KJkB3N"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "The Maker"
-    },
-    {
-      "duration_ms" : 244426,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/9e61bb7339e464bb4b13df907ce93b53e2d03c42",
-      "track_number" : 7,
-      "id" : "5d47h8XfBJ0nM68JdEFudI",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/5d47h8XfBJ0nM68JdEFudI",
-        "web" : "https://open.spotify.com/track/5d47h8XfBJ0nM68JdEFudI",
-        "uri" : "spotify:track:5d47h8XfBJ0nM68JdEFudI"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Lay Your Cards Out"
-    },
-    {
-      "duration_ms" : 199733,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/1d8d498338e7d0fa461aef11d1b3789f16cdd41b",
-      "track_number" : 8,
-      "id" : "1CQptKW9YE23idQhLeOvPe",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/1CQptKW9YE23idQhLeOvPe",
-        "web" : "https://open.spotify.com/track/1CQptKW9YE23idQhLeOvPe",
-        "uri" : "spotify:track:1CQptKW9YE23idQhLeOvPe"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Fist, Teeth, Money"
-    },
-    {
-      "duration_ms" : 279493,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/3f96c2466024169cb231ca414c7c33665559fc0c",
-      "track_number" : 9,
-      "id" : "50vFoRcEhdDuxCqvTu4b8c",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/50vFoRcEhdDuxCqvTu4b8c",
-        "web" : "https://open.spotify.com/track/50vFoRcEhdDuxCqvTu4b8c",
-        "uri" : "spotify:track:50vFoRcEhdDuxCqvTu4b8c"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Happy Be Fine"
-    },
-    {
-      "duration_ms" : 304440,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/028eb7acc96f3b5f60717c803348873ed1330438",
-      "track_number" : 10,
-      "id" : "7sXdYCINHkV004z4Igvn17",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/7sXdYCINHkV004z4Igvn17",
-        "web" : "https://open.spotify.com/track/7sXdYCINHkV004z4Igvn17",
-        "uri" : "spotify:track:7sXdYCINHkV004z4Igvn17"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Wandering Star"
-    },
-    {
-      "duration_ms" : 176240,
-      "preview_url" : "http://d318706lgtcm8e.cloudfront.net/mp3-preview/ae841fb9884f40b81b25b9d4bfd7984f7b0873d3",
-      "track_number" : 11,
-      "id" : "4Fvs6t70Y0Ht1pfbUUblBf",
-      "disc_number" : 1,
-      "explicit" : false,
-      "self" : {
-        "href" : "https://api.spotify.com/v1/tracks/4Fvs6t70Y0Ht1pfbUUblBf",
-        "web" : "https://open.spotify.com/track/4Fvs6t70Y0Ht1pfbUUblBf",
-        "uri" : "spotify:track:4Fvs6t70Y0Ht1pfbUUblBf"
-      },
-      "type" : "track",
-      "artists" : [
-        {
-          "id" : "34vLhockmYhf3LgznwyNaQ",
-          "self" : {
-            "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-            "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-            "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-          },
-          "type" : "artist",
-          "name" : "POLIÇA"
-        }
-      ],
-      "name" : "Leading to Death"
-    }
-  ],
-  "album_type" : "album",
-  "artists" : [
-    {
-      "id" : "34vLhockmYhf3LgznwyNaQ",
-      "self" : {
-        "href" : "https://api.spotify.com/v1/artists/34vLhockmYhf3LgznwyNaQ",
-        "web" : "https://open.spotify.com/artist/34vLhockmYhf3LgznwyNaQ",
-        "uri" : "spotify:artist:34vLhockmYhf3LgznwyNaQ"
-      },
-      "type" : "artist",
-      "name" : "POLIÇA"
-    }
-  ],
-  "popularity" : 62,
-  "available_markets" : [
-    "AD",
-    "AT",
-    "BE",
-    "BG",
-    "CH",
-    "CZ",
-    "DE",
-    "DK",
-    "EE",
-    "ES",
-    "FI",
-    "GB",
-    "GR",
-    "HK",
-    "HU",
-    "IE",
-    "IS",
-    "IT",
-    "LI",
-    "LT",
-    "LU",
-    "LV",
-    "MC",
-    "MT",
-    "MY",
-    "NL",
-    "NO",
-    "PH",
-    "PL",
-    "PT",
-    "RO",
-    "SE",
-    "SG",
-    "SI",
-    "SK",
-    "TR",
-    "TW"
-  ],
-  "type" : "album",
-  "self" : {
-    "href" : "https://api.spotify.com/v1/albums/0UrDDTOre9XuD3xJHTFEJg",
-    "web" : "https://open.spotify.com/album/0UrDDTOre9XuD3xJHTFEJg",
-    "uri" : "spotify:album:0UrDDTOre9XuD3xJHTFEJg"
-  },
-  "images" : {
-    "medium" : {
-      "height" : 300,
-      "width" : 300,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/1b07f0876d82fda4b65df0637658c8cd4dc7f225"
-    },
-    "large" : {
-      "height" : 640,
-      "width" : 640,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/cc6659599cb06f74aa710f3d9c95362ba6084e81"
-    },
-    "small" : {
-      "height" : 64,
-      "width" : 64,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/705c238e8bc1d5051a53c88716daa5ba6531afad"
-    }
-  },
-  "genres" : [],
-  "release_date" : {
-    "day" : 30,
-    "month" : 4,
-    "year" : 2012
-  },
-  "name" : "Give You The Ghost",
-  "external_ids" : [
-    {
-      "id" : "5060146093385",
-      "type" : "upc"
-    }
-  ]
+    "type" : "album",
+    "uri" : "spotify:album:03U41p2XNP3oP3REeEDMrQ"
 }

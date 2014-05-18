@@ -1,43 +1,29 @@
 {
-  "genres" : [
-    "Album Rock",
-    "Art Rock",
-    "British Invasion",
-    "British Psychedelia",
-    "Hard Rock",
-    "Pop/Rock",
-    "Prog-Rock",
-    "Psychedelic"
-  ],
-  "images" : {
-    "medium" : {
-      "height" : 195,
-      "width" : 200,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/792a417e8500405180a7746908afd7d5e3a30585"
+    "external_urls" : {
+        "spotify" : "https://open.spotify.com/artist/3CjlHNtplJyTf9npxaPl5w"
     },
-    "xlarge" : {
-      "height" : 977,
-      "width" : 1000,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/b954149fed21dcbafe1cee4c30454eb934c384ee"
-    },
-    "large" : {
-      "height" : 625,
-      "width" : 640,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/63562bf58a1af52f9800c3ae225d49a476af212f"
-    },
-    "small" : {
-      "height" : 63,
-      "width" : 64,
-      "url" : "https://d3rt1990lpmkn.cloudfront.net/original/a9b0636c32bb27f0590dbb283019614e861b2ed2"
-    }
-  },
-  "id" : "0k17h0D3J5VfsdmQ1iZtE9",
-  "popularity" : 61,
-  "self" : {
-    "href" : "https://api.spotify.com/v1/artists/0k17h0D3J5VfsdmQ1iZtE9",
-    "web" : "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
-    "uri" : "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
-  },
-  "type" : "artist",
-  "name" : "Pink Floyd"
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/3CjlHNtplJyTf9npxaPl5w",
+    "id" : "3CjlHNtplJyTf9npxaPl5w",
+    "images" : [ {
+                "height" : 408,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/1763a97e53b946f2851cf88bc953954eb58a30d1",
+                "width" : 999
+                }, {
+                "height" : 261,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/f382a3ae9a15a8f1cb4e0efac98466162d9fc45a",
+                "width" : 639
+                }, {
+                "height" : 82,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/5fc7261db1e6fb23a408c9164d4ec23f69e2e88f",
+                "width" : 200
+                }, {
+                "height" : 26,
+                "url" : "https://d3rt1990lpmkn.cloudfront.net/original/ae97e60c3f12f31544e06c9a55ad921d28f0ca4c",
+                "width" : 64
+                } ],
+    "name" : "CHVRCHES",
+    "popularity" : 61,
+    "type" : "artist",
+    "uri" : "spotify:artist:3CjlHNtplJyTf9npxaPl5w"
 }

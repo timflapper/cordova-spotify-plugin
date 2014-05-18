@@ -56,10 +56,10 @@ AudioPlayer.prototype.dispatchEvent = function(event, args) {
   
   if ((event in this._events) === false) {
     if (event === EVENT_ERROR)
-      throw new Error(args[1]);
+      throw new Error(args[0]);
       
     if (event === EVENT_MESSAGE)
-      alert(args[1]);
+      alert(args[0]);
     
     return;
   }
@@ -121,14 +121,15 @@ AudioPlayer.prototype.removeEventListener = function(event, listener) {
 AudioPlayer.prototype.login = function(session, callback) {
   var self = this, callback = callback || noop;
   
-  function done(error, id) {
-    self._id = id;
-    
+  function done(error, id) {    
     if (error !== null) {
-      self.dispatchEvent(EVENT_ERROR, error);
-
+      if (! callback) 
+        return self.dispatchEvent(EVENT_ERROR, [error]);
+      
       return callback(error);
     }
+    
+    self._id = id;
     
     spotify.exec('addAudioPlayerEventListener', [self._id], self.__eventListener.bind(self)); 
     
