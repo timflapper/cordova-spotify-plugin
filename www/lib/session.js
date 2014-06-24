@@ -2,7 +2,8 @@ var spotify = undefined;
 
 var defaultProps = {
   username: null,
-  credential: null
+  credential: null,
+  expirationDate: null
 };
 
 function Session(obj) {
@@ -18,6 +19,6 @@ function Session(obj) {
 
 module.exports = function(parent) {
   spotify = parent;
-  
+
   return Session;
 }

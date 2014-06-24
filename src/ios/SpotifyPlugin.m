@@ -24,7 +24,7 @@
     
     NSString *clientId = [command.arguments objectAtIndex:0];
     NSURL *tokenSwapUrl = [NSURL URLWithString: [command.arguments objectAtIndex:1]];
-    NSArray *scopes = [command.arguments objectAtIndex:2];
+    NSArray *scopes = @[SPTAuthStreamingScope];//[command.arguments objectAtIndex:2];
     
     __weak SpotifyPlugin* weakSelf = self;
     
@@ -38,13 +38,13 @@
             if([[SPTAuth defaultInstance] canHandleURL:url withDeclaredRedirectURL: callbackUrl]) {
                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                 
-                NSArray *queryArr = [[url query] componentsSeparatedByString:@"="];
-                
-                if (queryArr.count == 1 || [[queryArr objectAtIndex:0] isEqualToString:@"code"] == NO) {
-                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"aborted"];
-                    [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-                    return;
-                }
+//                NSArray *queryArr = [[url query] componentsSeparatedByString:@"="];
+//                
+//                if (queryArr.count == 1 || [[queryArr objectAtIndex:0] isEqualToString:@"code"] == NO) {
+//                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"aborted"];
+//                    [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//                    return;
+//                }
                 
                 [[SPTAuth defaultInstance]
                  handleAuthCallbackWithTriggeredAuthURL:url
@@ -54,14 +54,19 @@
                      SPTSession *session;
                      
                      if (error != nil) {
-                         //                         NSLog(@"Error on handleAuthCallback: %@", error);
+                         NSLog(@"Error on handleAuthCallback: %@", error);
                          
                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
                      } else {
                          session = result;
                          
+                         NSNumber *expirationDate = [NSNumber numberWithInteger:session.expirationDate.timeIntervalSince1970];
+                         
+//                         session.expirationDate.timeIntervalSince1970
+                         
                          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary: @{@"username": session.canonicalUsername,
-                                                                                                                     @"credential": session.credential}];
+                                                                                                                     @"credential": session.accessToken,
+                                                                                                                     @"expirationDate": expirationDate}];
                      }
                      
                      [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -122,7 +127,7 @@
     SPTSession *session = [self convertSession: [command.arguments objectAtIndex:1]];
     
     [self.commandDelegate runInBackground:^{
-        [SPTRequest playlistsForUser:username withSession:session callback:^(NSError *error, SPTPlaylistList *list) {
+        [SPTRequest playlistsForUserInSession:session callback:^(NSError *error, SPTPlaylistList *list) {
             CDVPluginResult *pluginResult;
             
             if (error != nil) {
@@ -419,7 +424,7 @@
     if (player == nil) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
     } else {
-        SPVolume volume = [player volume];
+        SPTVolume volume = [player volume];
         
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble: volume];
     }
@@ -432,7 +437,7 @@
     __weak SpotifyPlugin * weakSelf = self;
     
     NSInteger playerID = ((NSNumber *)[command.arguments objectAtIndex:0]).integerValue;
-    SPVolume volume = ((NSNumber *)[command.arguments objectAtIndex:1]).doubleValue;
+    SPTVolume volume = ((NSNumber *)[command.arguments objectAtIndex:1]).doubleValue;
     
     [self.commandDelegate runInBackground:^{
         SpotifyAudioPlayer *player = [self getAudioPlayerByID:playerID];
@@ -493,6 +498,7 @@
         NSDictionary *data = [player currentTrackMetadata];
         NSDictionary *track = nil;
         if (data != nil) {
+            
             track = @{@"name": [data valueForKey:@"SPAudioStreamingMetadataTrackName"],
                       @"uri": [data valueForKey:@"SPAudioStreamingMetadataTrackURI"],
                       @"artist": @{@"name": [data valueForKey:@"SPAudioStreamingMetadataArtistName"],
@@ -541,7 +547,7 @@
     
     [self.commandDelegate runInBackground:^{
         NSError *error;
-        SPTPlaylistList *list = [[SPTPlaylistList alloc] initWithDecodedJSONObject:@{@"creator": session.canonicalUsername} error:&error];
+        SPTPlaylistList *list = [[SPTPlaylistList alloc] init];
         
         if (error != nil) {
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
@@ -780,7 +786,9 @@
 
 -(SPTSession *)convertSession:(NSDictionary *)data
 {
-    return [[SPTSession alloc] initWithUserName:[data valueForKey:@"username"] credential:[data valueForKey:@"credential"]];
+    NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:(NSInteger)[data valueForKey:@"expirationDate"]];
+    
+    return [[SPTSession alloc] initWithUserName:[data valueForKey:@"username"] accessToken:[data valueForKey:@"credential"] expirationDate: expirationDate];
 }
 
 -(NSDictionary *)convertPlaylist:(SPTPlaylistSnapshot*)playlist
@@ -788,7 +796,7 @@
     
     NSMutableArray *tracks = [NSMutableArray new];
     
-    [playlist.tracks enumerateObjectsUsingBlock:^(SPTPartialTrack *track, NSUInteger idx, BOOL *stop) {
+    [playlist.firstTrackPage.items enumerateObjectsUsingBlock:^(SPTPartialTrack *track, NSUInteger idx, BOOL *stop) {
         NSMutableArray *artists = [NSMutableArray new];
         
         [track.artists enumerateObjectsUsingBlock:^(SPTPartialArtist *artist, NSUInteger idx, BOOL *stop) {
@@ -807,12 +815,10 @@
     
     return @{@"type":@"playlist",
              @"name":playlist.name,
-             @"version":[NSNumber numberWithInteger:playlist.version],
              @"uri":[playlist.uri absoluteString],
-             @"collaborative":[NSNumber numberWithBool:playlist.collaborative],
-             @"creator":playlist.creator,
-             @"tracks":tracks,
-             @"dateModified":[[NSDateFormatter new] stringFromDate:playlist.dateModified]};
+             @"collaborative":[NSNumber numberWithBool:playlist.isCollaborative],
+             @"creator":playlist.owner,
+             @"tracks":tracks};
 }
 
 @end
