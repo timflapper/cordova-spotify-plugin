@@ -15,9 +15,9 @@ var spotifyDir = path.join(devDir, 'Spotify.framework');
 var OHHTTPStubsDir = path.join(devDir, 'OHHTTPStubs');
 
 var tmpDir = path.join(devDir, 'tmp');
-var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.4.1/CordovaLib');
-var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-3/Spotify.framework');
-var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.0/OHHTTPStubs');
+var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.6.3/CordovaLib');
+var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-5/Spotify.framework');
+var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.6/OHHTTPStubs');
 
 var xcshareddataDir = path.join(__dirname, 'xcshareddata');
 var pbxprojFile = path.join(__dirname, 'project.pbxproj');
@@ -39,7 +39,7 @@ function downloadCordovaLib() {
   console.log('Downloading CordovaLib');
 
   var req = request.get({
-    url: 'https://github.com/apache/cordova-ios/archive/3.4.1.tar.gz'
+    url: 'https://github.com/apache/cordova-ios/archive/3.6.3.tar.gz'
   }, function(err, res, body) {
     if (err || res.statusCode != 200) {
       shell.rm('-rf', tmpDir);
@@ -70,7 +70,7 @@ function downloadSpotifyFramework() {
   console.log('Downloading Spotify.framework');
 
   var req = request.get({
-url: 'https://github.com/spotify/ios-sdk/archive/beta-3.tar.gz'
+url: 'https://github.com/spotify/ios-sdk/archive/beta-5.tar.gz'
   }, function(err, res, body) {
     if (err || res.statusCode != 200) {
       shell.rm('-rf', tmpDir);
@@ -101,7 +101,7 @@ function downloadOHHTTPStubs() {
   console.log('Downloading OHHTTPStubs');
 
   var req = request.get({
-url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.0.tar.gz'
+url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.6.tar.gz'
   }, function(err, res, body) {
     if (err || res.statusCode != 200) {
       shell.rm('-rf', tmpDir);

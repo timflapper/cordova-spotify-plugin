@@ -85,13 +85,6 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     return objc_getAssociatedObject([self class], nextEventKey);
 }
 
-- (id)initWithCompanyName:(NSString *)companyName appName:(NSString *)appName
-{
-    self = [super init];
-    
-    return self;
-}
-
 - (void)loginWithSession:(SPTSession *)session callback:(SPTErrorableOperationCallback)block
 {
     [[self class] invokeNextCallback:block];
@@ -129,14 +122,14 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     [[self class] invokeNextCallback:block];
 }
 
-- (SPVolume)volume
+- (SPTVolume)volume
 {
     NSNumber *methodReturn = [[self class] getNextMethodReturn];
     
     return methodReturn.doubleValue;
 }
 
-- (void)setVolume:(SPVolume)volume callback:(SPTErrorableOperationCallback)block
+- (void)setVolume:(SPTVolume)volume callback:(SPTErrorableOperationCallback)block
 {
     [[self class] invokeNextCallback:block];
     [self audioStreaming:self didChangeVolume:volume];

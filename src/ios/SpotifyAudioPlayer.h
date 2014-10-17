@@ -7,8 +7,8 @@
 //
 
 #import <Spotify/Spotify.h>
-#import "SpotifyShared.h"
 
 @interface SpotifyAudioPlayer : SPTAudioStreamingController<SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate>
-@property NSString *callbackIdForEventListener;
++ (instancetype)getInstanceByID:(NSString *)ID;
+@property NSString *instanceID;
 @end

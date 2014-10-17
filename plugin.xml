@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.timflapper.spotify"
-        version="0.0.1">
-
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="com.timflapper.spotify" version="0.0.2">
   <name>Spotify Cordova Plugin</name>
-
-  <description>
-    This plugin provides a JavaScript API for Spotify's iOS SDK.
-  </description>
-
+  <description>This plugin provides a JavaScript API for Spotify's iOS SDK.</description>
+  <author>Tim Flapper</author>
   <license>MIT</license>
+  <keywords>spotify</keywords>
+  <repo>https://github.com/timflapper/cordova-spotify-plugin</repo>
+  <issue>https://github.com/timflapper/cordova-spotify-plugin/issues</issue>
+
+  <engines>
+    <engine name="cordova" version=">=3.6.3" />
+  </engines>
 
   <js-module name="Spotify" src="www/spotify.js">
-    <clobbers target="spotify"/>
+    <clobbers target="spotify" />
+  </js-module>
+  <js-module name="audio-player" src="www/lib/audio-player.js">
+  </js-module>
+  <js-module name="playlists" src="www/lib/playlists.js">
+  </js-module>
+  <js-module name="request" src="www/lib/request.js">
+  </js-module>
+  <js-module name="utils" src="www/lib/utils.js">
   </js-module>
 
-  <js-module name="lib/session" src="www/lib/session.js">
-  </js-module>
-
-  <js-module name="lib/album" src="www/lib/album.js">
-  </js-module>
-
-  <js-module name="lib/artist" src="www/lib/artist.js">
-  </js-module>
-
-  <js-module name="lib/track" src="www/lib/track.js">
-  </js-module>
-
-  <js-module name="lib/playlist" src="www/lib/playlist.js">
-  </js-module>
-
-  <js-module name="lib/audio-player" src="www/lib/audio-player.js">
-  </js-module>
-
-  <js-module name="lib/image" src="www/lib/image.js">
+  <js-module name="vendors/reqwest" src="www/vendors/reqwest/reqwest.min.js">
   </js-module>
 
   <platform name="ios">
@@ -45,42 +35,27 @@
     </config-file>
 
     <config-file target="*-Info.plist" parent="CFBundleURLTypes">
-  	<array>
-  		<dict>
-  			<key>CFBundleTypeRole</key>
-  			<string>Editor</string>
-  			<key>CFBundleURLName</key>
-  			<string>Spotify Auth</string>
-  			<key>CFBundleURLSchemes</key>
-  			<array>
-  				<string>spotify-ios-sdk-beta</string>
-  			</array>
-  		</dict>
-  	</array>
-    </config-file>
-    
-    <config-file target="*-Info.plist" parent="UIBackgroundModes">
-    <array>
-      <string>audio</string>
-    </array>
+       <array>
+               <dict>
+                       <key>CFBundleTypeRole</key>
+                       <string>Editor</string>
+                       <key>CFBundleURLName</key>
+                       <string>Spotify Auth</string>
+                       <key>CFBundleURLSchemes</key>
+                       <array>
+                               <string>spotify-ios-sdk-beta</string>
+                       </array>
+               </dict>
+       </array>
     </config-file>
 
     <header-file src="src/ios/SpotifyPlugin.h"/>
     <source-file src="src/ios/SpotifyPlugin.m"/>
-    
-    <header-file src="src/ios/SpotifyShared.h"/>
-    
-    <header-file src="src/ios/SpotifyPluginError.h"/>
-    <source-file src="src/ios/SpotifyPluginError.m"/>
-    <header-file src="src/ios/SpotifyJSON.h"/>
-    <source-file src="src/ios/SpotifyJSON.m"/>
-    <header-file src="src/ios/SpotifyAPIRequest.h"/>
-    <source-file src="src/ios/SpotifyAPIRequest.m"/>
     <header-file src="src/ios/SpotifyAudioPlayer.h"/>
     <source-file src="src/ios/SpotifyAudioPlayer.m"/>
 
-    <framework src="../../Spotify.framework" custom="true" />
+    <framework src="../../Spotify.framework" custom="true"/>
     <framework src="AVFoundation.framework"/>
-        
+
   </platform>
 </plugin>

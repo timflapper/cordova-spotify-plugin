@@ -1,7 +1,7 @@
 language: objective-c
 xcode_project: SpotifyPlugin.xcodeproj
 xcode_scheme: SpotifyPlugin
-xcode_sdk: iphonesimulator
+xcode_sdk: iphonesimulator8.0
 before_install:
   - brew update
   - brew upgrade xctool
@@ -9,9 +9,3 @@ install:
   - make development
 script:
   - make test
-cache:
-  directories:
-  - development
-  - SpotifyPlugin.xcodeproj
-  - SpotifyPlugin-Prefix.pch
-  - node_modules

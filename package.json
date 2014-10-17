@@ -16,10 +16,9 @@
   },
   "homepage": "https://github.com/timflapper/cordova-spotify-plugin",
   "devDependencies": {
-    "mocha": "^1.18.2",
-    "should": "^3.3.1",
+    "cordova": "^4.0.0",
     "request": "^2.34.0",
-    "tar": "^0.1.19",
-    "shelljs": "^0.2.6"    
+    "shelljs": "^0.2.6",
+    "tar": "^0.1.19"
   }
 }
