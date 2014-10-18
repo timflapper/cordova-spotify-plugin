@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "test": "NODE_PATH=test/js/modules mocha test/js --reporter spec"
+    "test": "./bin/test"
   },
   "repository": {
     "type": "git",
@@ -16,9 +16,16 @@
   },
   "homepage": "https://github.com/timflapper/cordova-spotify-plugin",
   "devDependencies": {
+    "chai": "^1.9.2",
     "cordova": "^4.0.0",
+    "mocha": "^1.21.5",
+    "mocha-phantomjs": "^3.5.1",
+    "node-phantom": "^0.2.5",
+    "phantomjs": "^1.9.11",
     "request": "^2.34.0",
     "shelljs": "^0.2.6",
-    "tar": "^0.1.19"
+    "socket.io": "^0.9.17",
+    "tar": "^0.1.19",
+    "temp": "^0.8.1"
   }
 }
