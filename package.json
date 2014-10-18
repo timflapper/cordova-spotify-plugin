@@ -24,6 +24,8 @@
     "phantomjs": "^1.9.11",
     "request": "^2.34.0",
     "shelljs": "^0.2.6",
+    "sinon": "^1.10.3",
+    "sinon-chai": "^2.6.0",
     "socket.io": "^0.9.17",
     "tar": "^0.1.19",
     "temp": "^0.8.1"

@@ -23,7 +23,7 @@ spotify.request = request.meta;
 spotify.search = request.search;
 
 /**
- * TODO:
+ * FEATURES TODO:
  *
  * - Playlist endpoints
  *   + create / add tracks, update details.
@@ -38,6 +38,6 @@ spotify.search = request.search;
  *   + DiskCacheSizeLimit
  *   + ...
  * - User information
- * - API updaten
+ * - Update API wiki
  * - Your music stuff
  */

@@ -22,8 +22,10 @@ cordova.raw.create(tmpDir)
     shell.rm('-rf', path.join(wwwDir, '*'));
     shell.cp('-rf', path.join(pluginDir, 'test', 'js', '*'), wwwDir);
     shell.mkdir('-p', path.join(wwwDir, 'support', '{chai,mocha}'));
-    shell.cp('-rf', path.join(pluginDir, 'node_modules', 'chai', '*'), path.join(wwwDir, 'support', 'chai'));
     shell.cp('-rf', path.join(pluginDir, 'node_modules', 'mocha', '*'), path.join(wwwDir, 'support', 'mocha'));
+    shell.cp('-rf', path.join(pluginDir, 'node_modules', 'chai', '*'), path.join(wwwDir, 'support', 'chai'));
+    shell.cp('-rf', path.join(pluginDir, 'node_modules', 'sinon-chai', 'lib', '*'), path.join(wwwDir, 'support', 'sinon-chai'));
+    shell.cp('-rf', path.join(pluginDir, 'node_modules', 'sinon', 'pkg', 'sinon.js'), path.join(wwwDir, 'support', 'sinon'));
     shell.cp('-rf', path.join(pluginDir, 'development', 'Spotify.framework'), path.join(tmpDir));
     shell.cd(tmpDir);
     return cordova.raw.platform('add', 'ios');
@@ -44,32 +46,4 @@ cordova.raw.create(tmpDir)
 
       process.exit(code);
     });
-    // var phantom = require('node-phantom');
-
-    // return phantom.create(onPhantomCreate(server), { phantomPath: require('phantomjs').path });
   });
-
-
-// function onPhantomCreate(server) {
-//   return function(err, ph) {
-//     return ph.createPage(onPhantomCreatePage);
-
-//     function onPhantomCreatePage(err, page) {
-//       page.open("http://localhost:8000/ios/www/", onPhantomPageOpen);
-
-//       function onPhantomPageOpen(err, status) {
-//         console.log('status:', status);
-
-//         setTimeout(function() {
-//           return page.evaluate(function() {
-//             return document.getElementsByTagName('body')[0].innerText;
-//           }, function(err, result) {
-//             console.log(err, result);
-//             ph.exit();
-//             server.close();
-//           });
-//         }, 5000);
-//       }
-//     }
-//   }
-// }

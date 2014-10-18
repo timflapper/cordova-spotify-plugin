@@ -28,7 +28,7 @@ AudioPlayer.init = function(companyName, appName) {
   this._events = {};
 }
 
-AudioPlayer.prototype.dispatchEvent = function(event, args) {
+AudioPlayer.prototype.__dispatchEvent = function(event, args) {
   if (this._destroyed) return;
 
   var i, listeners;
@@ -60,11 +60,11 @@ AudioPlayer.prototype.dispatchEvent = function(event, args) {
 
 AudioPlayer.prototype.__eventListener = function(error, result) {
   if (error) {
-      this.dispatchEvent.call(this, 'error', error);
+      this.__dispatchEvent.call(this, 'error', error);
       return;
   }
 
-  this.dispatchEvent.call(this, result.type, result.args);
+  this.__dispatchEvent.call(this, result.type, result.args);
 }
 
 AudioPlayer.prototype.addEventListener = function(event, listener) {
@@ -100,17 +100,17 @@ AudioPlayer.prototype.removeEventListener = function(event, listener) {
 }
 
 AudioPlayer.prototype.login = function(session, callback) {
-  callback = this.loginCallback(callback);
+  callback = this.__loginCallback(callback);
   exec('createAudioPlayerAndLogin', this._companyName, this._appName, session, callback);
 }
 
-AudioPlayer.prototype.loginCallback = function(callback) {
+AudioPlayer.prototype.__loginCallback = function(callback) {
   var self = this;
 
   return function(error, id) {
     if (error !== null) {
       if (! callback)
-        return self.dispatchEvent(EVENT_ERROR, [error]);
+        return self.__dispatchEvent(EVENT_ERROR, [error]);
 
       return callback(error);
     }
@@ -120,7 +120,7 @@ AudioPlayer.prototype.loginCallback = function(callback) {
     exec('addAudioPlayerEventListener', self._id, self.__eventListener.bind(self));
 
     if (! callback)
-      return self.dispatchEvent(EVENT_LOGIN);
+      return self.__dispatchEvent(EVENT_LOGIN);
 
     callback(null);
   };
