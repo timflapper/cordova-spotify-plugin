@@ -25,9 +25,6 @@ spotify.search = request.search;
 /**
  * FEATURES TODO:
  *
- * - Playlist endpoints
- *   + create / add tracks, update details.
- *   + get starred playlist.
  * - Refresh authentication.
  * - Check if all possible AudioPlayer features are implemented.
  *   + Multiple track playback.
