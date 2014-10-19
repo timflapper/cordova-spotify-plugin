@@ -330,14 +330,12 @@ function removeTracks(session, tracks, callback) {
 module.exports = {
   getProfile: getProfile,
   search: search,
-  meta: {
-    albums: albums,
-    artists: artists,
-    albumsOfArtist: albumsOfArtist,
-    tracks: tracks,
-    savedTracks: savedTracks,
-    savedTracksContain: savedTracksContain
-  },
+  getAlbums: albums,
+  getArtists: artists,
+  getAlbumsOfArtist: albumsOfArtist,
+  getTracks: tracks,
+  getSavedTracks: savedTracks,
+  getSavedTracksContain: savedTracksContain,
   saveTracks: saveTracks,
   removeTracks: removeTracks
 };

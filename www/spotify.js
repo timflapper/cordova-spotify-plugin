@@ -1,7 +1,6 @@
 
 var utils = require('./utils')
   , AudioPlayer = require('./audio-player')
-  , request = require('./request')
   , exec = utils.exec
   , noop = utils.noop;
 
@@ -39,14 +38,6 @@ spotify.isSessionValid = function(session, callback) {
 spotify.createAudioPlayer = function(companyName, appName) {
   return new AudioPlayer(companyName, appName);
 };
-
-spotify.playlists = require('./playlists');
-
-spotify.request = request.meta;
-spotify.search = request.search;
-spotify.getProfile = request.getProfile;
-spotify.saveTracks = request.saveTracks;
-spotify.removeTracks = request.removeTracks;
 
 /**
  * TODO:

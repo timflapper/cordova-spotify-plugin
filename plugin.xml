@@ -13,13 +13,16 @@
   </engines>
 
   <js-module name="Spotify" src="www/spotify.js">
-    <clobbers target="spotify" />
-  </js-module>
-  <js-module name="audio-player" src="www/lib/audio-player.js">
+    <merges target="spotify" />
   </js-module>
   <js-module name="playlists" src="www/lib/playlists.js">
+    <merges target="spotify" />
   </js-module>
   <js-module name="request" src="www/lib/request.js">
+    <merges target="spotify" />
+  </js-module>
+
+  <js-module name="audio-player" src="www/lib/audio-player.js">
   </js-module>
   <js-module name="utils" src="www/lib/utils.js">
   </js-module>
