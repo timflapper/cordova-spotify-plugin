@@ -9,7 +9,7 @@ test-ios:
 	@xctool -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -sdk iphonesimulator8.0 test
 
 development: install
-	./bin/install
+	./bin/dev
 
 install:
 	npm install

@@ -19,9 +19,9 @@ var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.6.3/CordovaLib');
 var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-5/Spotify.framework');
 var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.6/OHHTTPStubs');
 
-var xcodeTarget = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
-var xcodeSource = path.join(__dirname, 'project_files', 'SpotifyPlugin.xcodeproj');
 var pchFile = path.join(__dirname, 'project_files', 'SpotifyPlugin-Prefix.pch');
+var xcodeProj = path.join(__dirname, 'project_files', 'xcode', '*');
+var xcodeProjTarget = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
 
 shell.rm('-rf', devDir);
 shell.mkdir('-p', tmpDir);
@@ -123,7 +123,8 @@ url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.6.tar.gz'
 
 function createXcodeProj() {
   shell.rm('-rf', tmpDir);
-  shell.ln('-fs', xcodeSource, xcodeTarget);
+  shell.cp('-f', pchFile, projectDir);
+  shell.cp('-rf', xcodeProj, xcodeProjTarget);
 
   console.log('done');
 }

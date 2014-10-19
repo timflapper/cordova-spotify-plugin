@@ -26,12 +26,14 @@ cordova.raw.create(tmpDir)
     shell.cp('-rf', path.join(pluginDir, 'node_modules', 'chai', '*'), path.join(wwwDir, 'support', 'chai'));
     shell.cp('-rf', path.join(pluginDir, 'node_modules', 'sinon-chai', 'lib', '*'), path.join(wwwDir, 'support', 'sinon-chai'));
     shell.cp('-rf', path.join(pluginDir, 'node_modules', 'sinon', 'pkg', 'sinon.js'), path.join(wwwDir, 'support', 'sinon'));
-    shell.cp('-rf', path.join(pluginDir, 'development', 'Spotify.framework'), path.join(tmpDir));
     shell.cd(tmpDir);
-    return cordova.raw.platform('add', 'ios');
   })
   .then(function() {
     return cordova.raw.plugin('add', pluginDir);
+  })
+  .then(function() {
+    shell.cp('-rf', path.join(pluginDir, 'development', 'Spotify.framework'), path.join(tmpDir, 'plugins', 'com.timflapper.spotify', 'src', 'ios'));
+    return cordova.raw.platform('add', 'ios');
   })
   .then(function() {
     console.log = function() { };
