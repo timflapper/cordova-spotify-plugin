@@ -1,330 +1,163 @@
 
 var utils = require('./utils')
-  , reqwest = utils.reqwest
+  , remote = require('./remote')
   , paginate = utils.paginate
-  , apiUrl = utils.apiUrl;
 
 function search(options, callback) {
-  var url = apiUrl + '/search';
+  remote({uri: '/search', data: options}, onRemoteResult);
 
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
+  function onRemoteResult(err, data) {
+    if (err) return callback(err);
 
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    data: options,
-    crossOrigin: true
-  })
-    .then(function (data) {
-      if (data.artists) paginate(data.artists);
-      if (data.tracks) paginate(data.tracks);
-      if (data.albums) paginate(data.albums);
+    if (data.artists) paginate(data.artists);
+    if (data.tracks) paginate(data.tracks);
+    if (data.albums) paginate(data.albums);
 
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+    callback(null, data);
+  }
 };
 
 function albums(ids, callback) {
-  var matches, url;
-
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof ids !== 'string' && !Array.isArray(ids)) throw new Error('First argument must be a string or an array.');
+  var matches, uri = '/albums/';
 
   if (typeof ids === 'string') ids = [ids];
 
-  ids.forEach(function(id, index) {
-    if (matches = /^spotify:album:(.*)$/.exec(id)) ids[index] = matches[1];
-  });
-
-  url = apiUrl + '/albums/';
+  urisToIds(ids);
 
   if (ids.length === 1) {
-    url = url + ids[0];
+    uri = uri + ids[0];
   } else {
-    url = url + "?ids=" + ids.join(',');
+    uri = uri + "?ids=" + ids.join(',');
   }
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true
-  })
-    .then(function (data) {
-      if (data.tracks) paginate(data.tracks);
-      if (data.albums) {
-        data.albums.forEach(function(item) {
-          if (item.tracks) paginate(item.tracks);
-        });
-      }
 
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+  remote({uri: uri}, onRemoteResult);
+
+  function onRemoteResult(err, data) {
+    if (err) return callback(err);
+
+    if (data.tracks) paginate(data.tracks);
+    if (data.albums) {
+      data.albums.forEach(function(item) {
+        if (item.tracks) paginate(item.tracks);
+      });
+    }
+
+    callback(null, data);
+  }
 }
 
 function albumsOfArtist(id, callback) {
-  var matches, url;
-
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof id !== 'string') throw new Error('First argument must be a string.');
+  var matches;
 
   if (matches = /^spotify:artist:(.*)$/.exec(id)) id = matches[1];
 
-  url = apiUrl + '/artists/' + id + '/albums';
+  remote({uri: '/artists/' + id + '/albums'}, onRemoteResult);
 
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true
-  })
-    .then(function (data) {
-      paginate(data);
+  function onRemoteResult(err, data) {
+    if (err) return callback(err);
 
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+    paginate(data);
+
+    callback(null, data);
+  }
 }
 
 function artists(ids, callback) {
-  var matches, url;
-
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof ids !== 'string' && !Array.isArray(ids)) throw new Error('First argument must be a string or an array.');
+  var matches, uri = '/artists/';
 
   if (typeof ids === 'string') ids = [ids];
 
-  ids.forEach(function(id, index) {
-    if (matches = /^spotify:artist:(.*)$/.exec(id)) ids[index] = matches[1];
-  });
-
-  url = apiUrl + '/artists/';
+  urisToIds(ids);
 
   if (ids.length === 1) {
-    url = url + ids[0];
+    uri = uri + ids[0];
   } else {
-    url = url + "?ids=" + ids.join(',');
+    uri = uri + "?ids=" + ids.join(',');
   }
 
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true
-  })
-    .then(function (data) {
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+  remote({uri: uri}, callback);
 }
 
 function tracks(ids, callback) {
-  var matches, url;
-
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof ids !== 'string' && !Array.isArray(ids)) throw new Error('First argument must be a string or an array.');
+  var matches, uri ='/tracks/';
 
   if (typeof ids === 'string') ids = [ids];
 
-  ids.forEach(function(id, index) {
-    if (matches = /^spotify:track:(.*)$/.exec(id)) ids[index] = matches[1];
-  });
-
-  url = apiUrl + '/tracks/';
+  urisToIds(ids);
 
   if (ids.length === 1) {
-    url = url + ids[0];
+    uri = uri + ids[0];
   } else {
-    url = url + "?ids=" + ids.join(',');
+    uri = uri + "?ids=" + ids.join(',');
   }
 
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true
-  })
-    .then(function (data) {
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+  remote({uri: uri}, callback);
 }
 
 function savedTracks(session, callback) {
-  var url = apiUrl + '/me/tracks'
+  remote({uri: '/me/tracks', session: session}, onRemoteResult);
 
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
+  function onRemoteResult(err, data) {
+    if (err) return callback(err);
 
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true,
-    headers: {
-      'Authorization': 'Bearer ' + session.credential
-    }
-  })
-    .then(function (data) {
-      paginate(data);
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+    paginate(data);
+    callback(null, data);
+  }
 }
 
 function savedTracksContain(session, ids, callback) {
   var matches, url;
 
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof ids !== 'string' && !Array.isArray(ids)) throw new Error('First argument must be a string or an array.');
-
   if (typeof ids === 'string') ids = [ids];
 
-  ids.forEach(function(id, index) {
-    if (matches = /^spotify:track:(.*)$/.exec(id)) ids[index] = matches[1];
-  });
+  urisToIds(ids);
 
-  url = apiUrl + '/me/tracks/contains?ids=' + ids.join(',');
-
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true,
-    headers: {
-      'Authorization': 'Bearer ' + session.credential
-    }
-  })
-    .then(function (data) {
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+  remote({
+    uri: '/me/tracks/contains?ids=' + ids.join(','),
+    session: session
+  }, callback);
 }
 
 function getProfile(session, callback) {
-  var url = apiUrl + '/me';
-
-  reqwest({
-    url: url,
-    type: 'json',
-    method: 'get',
-    crossOrigin: true,
-    headers: {
-      'Authorization': 'Bearer ' + session.credential
-    }
-  })
-    .then(function (data) {
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+  remote({
+    uri: '/me',
+    session: session
+  }, callback);
 }
 
-function saveTracks(session, tracks, callback) {
-  var matches, url;
-
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof ids !== 'string' && !Array.isArray(ids)) throw new Error('First argument must be a string or an array.');
+function saveTracks(session, ids, callback) {
+  var matches;
 
   if (typeof ids === 'string') ids = [ids];
 
-  ids.forEach(function(id, index) {
-    if (matches = /^spotify:track:(.*)$/.exec(id)) ids[index] = matches[1];
-  });
+  urisToIds(ids);
 
-  url = apiUrl + '/me/tracks?ids=' + ids.join(',');
-
-  reqwest({
-    url: url,
-    type: 'json',
+  remote({
+    uri: '/me/tracks?ids=' + ids.join(','),
     method: 'put',
-    crossOrigin: true,
-    headers: {
-      'Authorization': 'Bearer ' + session.credential
-    }
-  })
-    .then(function (data) {
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+    session: session
+  }, callback);
 }
 
-function removeTracks(session, tracks, callback) {
+function removeTracks(session, ids, callback) {
   var matches, url;
-
-  if (arguments.length < 2) throw new Error('Expected 2 parameters, Received ' + String(arguments.length) + '.');
-  if (typeof callback !== 'function') throw new Error('Second argument must be a function.');
-  if (typeof ids !== 'string' && !Array.isArray(ids)) throw new Error('First argument must be a string or an array.');
 
   if (typeof ids === 'string') ids = [ids];
 
-  ids.forEach(function(id, index) {
-    if (matches = /^spotify:track:(.*)$/.exec(id)) ids[index] = matches[1];
-  });
+  urisToIds(ids);
 
-  url = apiUrl + '/me/tracks?ids=' + ids.join(',');
-
-  reqwest({
-    url: url,
-    type: 'json',
+  remote({
+    uri: '/me/tracks?ids=' + ids.join(','),
     method: 'delete',
-    crossOrigin: true,
-    headers: {
-      'Authorization': 'Bearer ' + session.credential
-    }
-  })
-    .then(function (data) {
-      callback(null, data);
-    })
-    .fail(function (err, msg) {
-      if (err) return callback(err.statusText);
-      if (msg) return callback(msg);
-      callback("An unkown error occurred");
-    });
+    session: session
+  }, callback);
+
+}
+
+function urisToIds(items) {
+  items.forEach(function(id, index) {
+    if (matches = /^spotify:[^:]*:(.*)$/.exec(id)) items[index] = matches[1];
+  });
 }
 
 module.exports = {

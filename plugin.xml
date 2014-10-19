@@ -15,17 +15,19 @@
   <js-module name="core" src="www/spotify.js">
     <merges target="spotify" />
   </js-module>
-  <js-module name="auth" src="www/lib/auth.js">
+  <js-module name="auth" src="www/spotify/auth.js">
     <merges target="spotify" />
   </js-module>
-  <js-module name="playlists" src="www/lib/playlists.js">
+  <js-module name="playlists" src="www/spotify/playlists.js">
     <merges target="spotify" />
   </js-module>
-  <js-module name="request" src="www/lib/request.js">
+  <js-module name="request" src="www/spotify/request.js">
     <merges target="spotify" />
+  </js-module>
+  <js-module name="audio-player" src="www/spotify/audio-player.js">
   </js-module>
 
-  <js-module name="audio-player" src="www/lib/audio-player.js">
+  <js-module name="remote" src="www/lib/remote.js">
   </js-module>
   <js-module name="utils" src="www/lib/utils.js">
   </js-module>

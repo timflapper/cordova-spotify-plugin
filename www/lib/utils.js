@@ -1,11 +1,10 @@
-
 var exec = require('cordova/exec')
-  , reqwest = require('./vendors/reqwest');
+    remote = require('./remote');
 
 var noop = function() {};
 
-var utils = {
-  apiUrl: 'https://api.spotify.com/v1',
+var utils = module.exports {
+  noop: noop,
   exec: function(/*action, [params], [callback]*/) {
     var action, args = [], callback = noop;
     var i, argsLength = arguments.length;
@@ -24,54 +23,37 @@ var utils = {
 
     exec(onSuccess, onError, 'SpotifyPlugin', action, args);
   },
-  paginate: function(data) {
-    var nextUrl = data.next
-      , prevUrl = data.prev;
+  paginate: function(data, session) {
+    if (data.next) {
+      opts = {url: data.next, session: session};
 
-    if (nextUrl) {
       data.next = function(callback) {
-        reqwest({
-          url: nextUrl,
-          type: 'json',
-          method: 'get',
-          crossOrigin: true
-        })
-          .then(function (data) {
-            utils.paginate(data);
+        remote(opts, onRemoteResult);
 
-            callback(null, data);
-          })
-          .fail(function (err, msg) {
-            if (err) return callback(err.statusText);
-            if (msg) return callback(msg);
-            callback("An unkown error occurred");
-          });
+        function onRemoteResult(err, data) {
+          if (err) return callback(err);
+
+          utils.paginate(data);
+
+          callback(null, data);
+        }
       }
     }
 
-    if (prevUrl) {
+    if (data.prev) {
+      opts = {url: data.next, session: session};
+
       data.prev = function(callback) {
-        reqwest({
-          url: prevUrl,
-          type: 'json',
-          method: 'get',
-          crossOrigin: true
-        })
-          .then(function (data) {
-            utils.paginate(data);
+        remote(opts, onRemoteResult);
 
-            callback(null, data);
-          })
-          .fail(function (err, msg) {
-            if (err) return callback(err.statusText);
-            if (msg) return callback(msg);
-            callback("An unkown error occurred");
-          });
+        function onRemoteResult(err, data) {
+          if (err) return callback(err);
+
+          utils.paginate(data);
+
+          callback(null, data);
+        }
       }
     }
-  },
-
-  noop: noop,
-  reqwest: reqwest
+  }
 };
-module.exports = utils;

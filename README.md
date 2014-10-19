@@ -10,14 +10,24 @@ This plugin provides a javascript API to Spotify's iOS SDK.
 Currently the Spotify iOS SDK is in beta and breaking changes can occur without prior notice.
 
 ## Installation
-
-1. copy the Spotify.framework folder from the Spotify iOS SDK to the root directory of your project. You can find it [here](https://github.com/spotify/ios-sdk/releases).
 	
-2. Install the plugin:
+1. Install the plugin:
 
-		cordova plugin add https://github.com/timflapper/cordova-spotify-plugin
+		`cordova plugin add https://github.com/timflapper/cordova-spotify-plugin`
 
-3. Try it out.
+2. Run the install script to download the `Spotify.framework`
+        
+        `./plugins/com.timflapper.spotify/install.sh`
+
+3. Add the iOS playform to your project.
+
+        `cordova platform add ios`
+
+    Or, if you already have ios as a platform please run:
+
+        `cordova prepare`
+
+4. Try it out!
 
 ## API
 
