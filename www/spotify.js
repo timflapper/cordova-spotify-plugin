@@ -13,6 +13,29 @@ spotify.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
   exec('authenticate', clientId, tokenExchangeURL, scopes, callback);
 };
 
+spotify.renewSession = function(session, tokenRefreshURL, forceRenew, callback) {
+  if (callback === undefined && typeof forceRenew === 'function')
+    callback = forceRenew, forceRenew = false;
+
+  if (forceRenew === true)
+    return renewSession(session, tokenRefreshURL, callback);
+
+  spotify.isSessionValid(session, function(err, valid) {
+    if (err) return callback(err);
+    if (valid) return callback(null, session);
+
+    renewSession(session, tokenRefreshURL, callback);
+  });
+};
+
+function renewSession(session, tokenRefreshURL, callback) {
+  exec('renewSession', session, tokenRefreshURL, callback);
+};
+
+spotify.isSessionValid = function(session, callback) {
+  exec('isSessionValid', session, callback);
+};
+
 spotify.createAudioPlayer = function(companyName, appName) {
   return new AudioPlayer(companyName, appName);
 };
@@ -21,20 +44,16 @@ spotify.playlists = require('./playlists');
 
 spotify.request = request.meta;
 spotify.search = request.search;
+spotify.getProfile = request.getProfile;
+spotify.saveTracks = request.saveTracks;
+spotify.removeTracks = request.removeTracks;
 
 /**
- * FEATURES TODO:
- *
- * - Refresh authentication.
- * - Check if all possible AudioPlayer features are implemented.
- *   + Multiple track playback.
- *   + Track queuing.
- *   + shuffle / repeat
- *   + skip
- *   + Bitrate
- *   + DiskCacheSizeLimit
- *   + ...
- * - User information
+ * TODO:
+ * - Optimize WebAPI calling stuff
+ * - Flatten API
  * - Update API wiki
- * - Your music stuff
+ * - Finish writing specs
+ * - Custom callback URI as variable for install
+ * - install script to download SpotifySDK
  */

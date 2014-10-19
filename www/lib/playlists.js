@@ -57,6 +57,28 @@ playlists.getPlaylist = function(id, session, callback) {
     });
 };
 
+playlists.getStarred = function(session, callback) {
+  var url = apiUrl + '/users/' + session.username + '/starred';
+
+  reqwest({
+    url: url,
+    type: 'json',
+    method: 'get',
+    crossOrigin: true,
+    headers: {
+      'Authorization': 'Bearer ' + session.credential
+    }
+  })
+    .then(function (data) {
+      callback(null, data);
+    })
+    .fail(function (err, msg) {
+      if (err) return callback(err.statusText);
+      if (msg) return callback(msg);
+      callback("An unkown error occurred");
+    });
+};
+
 playlists.createPlaylist = function(name, pub, session, callback) {
   var url = apiUrl + '/users/' + session.username + '/playlists';
 
@@ -105,14 +127,8 @@ playlists.addTracksToPlaylist = function(id, uris, session, callback) {
     });
 };
 
-playlists.removeTracksFromPlaylist = function(id, uris, session, callback) {
+playlists.removeTracksFromPlaylist = function(id, tracks, session, callback) {
   var url = apiUrl + '/users/' + session.username + '/playlists/'+id+'/tracks';
-
-  var tracks = [];
-
-  for (var i = 0; i < uris.length; i++) {
-    tracks.push({uri: uris[i]});
-  }
 
   reqwest({
     url: url,
@@ -126,6 +142,7 @@ playlists.removeTracksFromPlaylist = function(id, uris, session, callback) {
     data: JSON.stringify({tracks: tracks})
   })
     .then(function (data) {
+      data = data || true;
       callback(null, data);
     })
     .fail(function (err, msg) {

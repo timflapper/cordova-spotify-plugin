@@ -8,7 +8,7 @@ var path = require('path')
   , tar = require('tar');
 
 var projectDir = path.resolve(__dirname, '..');
-var xcodeprojDir = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
+
 var devDir = path.join(projectDir, 'development');
 var cordovaDir = path.join(devDir, 'CordovaLib');
 var spotifyDir = path.join(devDir, 'Spotify.framework');
@@ -19,11 +19,11 @@ var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.6.3/CordovaLib');
 var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-5/Spotify.framework');
 var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.6/OHHTTPStubs');
 
-var xcshareddataDir = path.join(__dirname, 'xcshareddata');
-var pbxprojFile = path.join(__dirname, 'project.pbxproj');
-var pchFile = path.join(__dirname, 'SpotifyPlugin-Prefix.pch');
+var xcodeTarget = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
+var xcodeSource = path.join(__dirname, 'project_files', 'SpotifyPlugin.xcodeproj');
+var pchFile = path.join(__dirname, 'project_files', 'SpotifyPlugin-Prefix.pch');
 
-shell.rm('-rf', tmpDir);
+shell.rm('-rf', devDir);
 shell.mkdir('-p', tmpDir);
 
 downloadCordovaLib();
@@ -123,12 +123,7 @@ url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.6.tar.gz'
 
 function createXcodeProj() {
   shell.rm('-rf', tmpDir);
-  shell.rm('-rf', xcodeprojDir);
-  shell.mkdir(xcodeprojDir);
-
-  shell.cp('-rf', xcshareddataDir, xcodeprojDir);
-  shell.cp('-f', pbxprojFile, xcodeprojDir);
-  shell.cp('-f', pchFile, projectDir);
+  shell.ln('-fs', xcodeSource, xcodeTarget);
 
   console.log('done');
 }

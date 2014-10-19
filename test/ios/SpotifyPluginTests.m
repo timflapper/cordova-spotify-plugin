@@ -192,7 +192,7 @@
 
         [plugin addAudioPlayerEventListener:[self createTestURLCommand:@[playerID]]];
 
-        [plugin playURI:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
+        [plugin play:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
     }];
 
     waitForSecondsOrDone(2, &responseArrived);
@@ -234,7 +234,7 @@
             responseArrived = YES;
         }];
 
-        [plugin playURI:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
+        [plugin play:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
 
     }];
 
@@ -257,7 +257,7 @@
             responseArrived = YES;
         }];
 
-        [plugin playURI:[self createTestURLCommand: @[playerID, @"spotify:bla:bla"]]];
+        [plugin play:[self createTestURLCommand: @[playerID, @"spotify:bla:bla"]]];
     }];
 
     waitForSecondsOrDone(2, &responseArrived);
@@ -278,7 +278,7 @@
         responseArrived = YES;
     }];
 
-    [plugin playURI:[self createTestURLCommand: @[@"afsdfsdasdf324242", @"spotify:bla:bla"]]];
+    [plugin play:[self createTestURLCommand: @[@"afsdfsdasdf324242", @"spotify:bla:bla"]]];
 
     waitForSecondsOrDone(2, &responseArrived);
 
@@ -592,7 +592,7 @@
 }
 
 
-- (void)testGetCurrentTrack
+- (void)testGetTrackMetadata
 {
     __block BOOL responseArrived = NO;
 
@@ -620,7 +620,7 @@
             responseArrived = YES;
         }];
 
-        [plugin getCurrentTrack:[self createTestURLCommand:@[playerID]]];
+        [plugin getTrackMetadata:[self createTestURLCommand:@[playerID]]];
     }];
 
     waitForSecondsOrDone(2, &responseArrived);
@@ -628,29 +628,7 @@
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-- (void)testGetCurrentTrackNotPlaying
-{
-    __block BOOL responseArrived = NO;
-
-    [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextMethodReturn:nil];
-
-        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
-            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
-            XCTAssertEqualObjects(result.message, nil);
-
-            responseArrived = YES;
-        }];
-
-        [plugin getCurrentTrack:[self createTestURLCommand:@[playerID]]];
-    }];
-
-    waitForSecondsOrDone(2, &responseArrived);
-
-    XCTAssertTrue(responseArrived, "Time Out before result arrived");
-}
-
-- (void)testGetCurrentTrackUndefinedPlayer
+- (void)testGetTrackMetadataUndefinedPlayer
 {
     __block BOOL responseArrived = NO;
 
@@ -660,7 +638,7 @@
         responseArrived = YES;
     }];
 
-    [plugin getCurrentTrack:[self createTestURLCommand:@[@2]]];
+    [plugin getTrackMetadata:[self createTestURLCommand:@[@2]]];
 
     waitForSecondsOrDone(2, &responseArrived);
 

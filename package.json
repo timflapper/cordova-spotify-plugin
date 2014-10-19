@@ -23,7 +23,7 @@
     "node-phantom": "^0.2.5",
     "phantomjs": "^1.9.11",
     "request": "^2.34.0",
-    "shelljs": "^0.2.6",
+    "shelljs": "^0.3.0",
     "sinon": "^1.10.3",
     "sinon-chai": "^2.6.0",
     "socket.io": "^0.9.17",

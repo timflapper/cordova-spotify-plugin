@@ -26,7 +26,7 @@ AudioPlayer.init = function(companyName, appName) {
   this._events = undefined;
   this._destroyed = false;
   this._events = {};
-}
+};
 
 AudioPlayer.prototype.__dispatchEvent = function(event, args) {
   if (this._destroyed) return;
@@ -56,7 +56,7 @@ AudioPlayer.prototype.__dispatchEvent = function(event, args) {
       item.apply(this, args);
     });
   }
-}
+};
 
 AudioPlayer.prototype.__eventListener = function(error, result) {
   if (error) {
@@ -65,7 +65,7 @@ AudioPlayer.prototype.__eventListener = function(error, result) {
   }
 
   this.__dispatchEvent.call(this, result.type, result.args);
-}
+};
 
 AudioPlayer.prototype.addEventListener = function(event, listener) {
   if (this._destroyed)
@@ -78,7 +78,7 @@ AudioPlayer.prototype.addEventListener = function(event, listener) {
     this._events[event] = [];
 
   this._events[event].push(listener);
-}
+};
 
 AudioPlayer.prototype.removeEventListener = function(event, listener) {
   if (typeof listener !== 'function')
@@ -97,12 +97,12 @@ AudioPlayer.prototype.removeEventListener = function(event, listener) {
   });
 
   this._events[event] = updatedArray;
-}
+};
 
 AudioPlayer.prototype.login = function(session, callback) {
   callback = this.__loginCallback(callback);
   exec('createAudioPlayerAndLogin', this._companyName, this._appName, session, callback);
-}
+};
 
 AudioPlayer.prototype.__loginCallback = function(callback) {
   var self = this;
@@ -124,40 +124,100 @@ AudioPlayer.prototype.__loginCallback = function(callback) {
 
     callback(null);
   };
-}
+};
 
-AudioPlayer.prototype.playURI = function(uri, callback) {
- exec('playURI', this._id, uri, callback);
-}
+AudioPlayer.prototype.play = function(data, fromIndex, callback) {
+  if (callback === undefined && typeof fromIndex === 'function')
+    callback = fromIndex, fromIndex = 0;
+
+  exec('play', this._id, data, fromIndex, callback);
+};
+
+AudioPlayer.prototype.queue = function(data, clearQueue, callback) {
+  if (callback === undefined && typeof clearQueue === 'function')
+    callback = clearQueue, clearQueue = 0;
+
+  exec('queue', this._id, data, clearQueue, callback);
+};
+
+AudioPlayer.prototype.skipNext = function(callback) {
+  exec('skipNext', this._id, callback);
+};
+
+AudioPlayer.prototype.skipPrevious = function(callback) {
+  exec('skipPrevious', this._id, callback);
+};
 
 AudioPlayer.prototype.seekToOffset = function(offset, callback) {
   exec('seekToOffset', this._id, offset, callback);
-}
+};
 
 AudioPlayer.prototype.getIsPlaying = function(callback) {
   exec('getIsPlaying', this._id, callback);
-}
+};
 
 AudioPlayer.prototype.setIsPlaying = function(status, callback) {
   exec('setIsPlaying', this._id, status, callback);
-}
+};
 
 AudioPlayer.prototype.getVolume = function(callback) {
   exec('getVolume', this._id, callback);
-}
+};
 
 AudioPlayer.prototype.setVolume = function(volume, callback) {
   exec('setVolume', this._id, volume, callback);
+};
+
+AudioPlayer.prototype.getRepeat = function(callback) {
+  exec('getRepeat', this._id, callback);
+};
+
+AudioPlayer.prototype.setRepeat = function(repeat, callback) {
+  exec('setRepeat', this._id, repeat, callback);
+};
+
+AudioPlayer.prototype.getShuffle = function(callback) {
+  exec('getShuffle', this._id, callback);
+};
+
+AudioPlayer.prototype.setShuffle = function(shuffle, callback) {
+  exec('setShuffle', this._id, shuffle, callback);
+};
+
+AudioPlayer.prototype.getDiskCacheSizeLimit = function(callback) {
+  exec('getDiskCacheSizeLimit', this._id, callback);
+};
+
+AudioPlayer.prototype.setDiskCacheSizeLimit = function(diskCacheSizeLimit, callback) {
+  exec('setDiskCacheSizeLimit', this._id, diskCacheSizeLimit, callback);
+};
+
+AudioPlayer.prototype.getTargetBitrate = function(callback) {
+  exec('getTargetBitrate', this._id, callback);
+}
+
+AudioPlayer.prototype.setTargetBitrate = function(bitrate, callback) {
+  exec('setTargetBitrate', this._id, bitrate, callback);
 }
 
 AudioPlayer.prototype.getLoggedIn = function(callback) {
   exec('getLoggedIn', this._id, callback);
-}
+};
 
-AudioPlayer.prototype.getCurrentTrack = function(callback) {
-  exec('getCurrentTrack', this._id, callback);
-}
+AudioPlayer.prototype.getTrackMetadata = function(trackID, relative, callback) {
+  var args = ['getTrackMetadata', this._id];
+
+  if (trackID) {
+    args.push(trackID);
+
+    if (relative) args.push(relative);
+  }
+
+  args.push(callback);
+
+  exec.apply(this, args);
+};
 
 AudioPlayer.prototype.getCurrentPlaybackPosition = function(callback) {
   exec('getCurrentPlaybackPosition', this._id, callback);
-}
+};

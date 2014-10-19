@@ -68,7 +68,7 @@ static NSMutableDictionary *instances;
 
 -(void)audioStreamingDidLogout:(SPTAudioStreamingController *)audioStreaming
 {
-
+    [self dispatchEvent:@"logout"];
 }
 
 -(void)audioStreamingDidLosePermissionForPlayback:(SPTAudioStreamingController *)audioStreaming
@@ -78,33 +78,32 @@ static NSMutableDictionary *instances;
 
 -(void)audioStreamingDidBecomeActivePlaybackDevice:(SPTAudioStreamingController *)audioStreaming
 {
-
+    [self dispatchEvent:@"active"];
 }
 
 -(void)audioStreamingDidBecomeInactivePlaybackDevice:(SPTAudioStreamingController *)audioStreaming
 {
-
+    [self dispatchEvent:@"inactive"];
 }
 
 -(void)audioStreamingDidEncounterTemporaryConnectionError:(SPTAudioStreamingController *)audioStreaming
 {
-
+    [self dispatchEvent:@"temporaryConnectionError"];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangePlaybackStatus:(BOOL)isPlaying
 {
-
     [self dispatchEvent:@"playbackStatus" withArguments:@[[NSNumber numberWithBool:isPlaying]]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeRepeatStatus:(BOOL)isRepeated
 {
-
+   [self dispatchEvent:@"repeatStatus" withArguments:@[[NSNumber numberWithBool:isRepeated]]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeShuffleStatus:(BOOL)isShuffled
 {
-
+   [self dispatchEvent:@"shuffleStatus" withArguments:@[[NSNumber numberWithBool:isShuffled]]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata
@@ -114,18 +113,16 @@ static NSMutableDictionary *instances;
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeVolume:(SPTVolume)volume
 {
-
+ [self dispatchEvent:@"volumeChanged" withArguments:@[[NSNumber numberWithDouble:volume]]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didEncounterError:(NSError *)error
 {
-
     [self dispatchEvent:@"error" withArguments:@[error.localizedDescription]];
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didReceiveMessage:(NSString *)message
 {
-
     [self dispatchEvent:@"message" withArguments:@[message]];
 }
 
@@ -136,12 +133,12 @@ static NSMutableDictionary *instances;
 
 -(void)audioStreamingDidSkipToNextTrack:(SPTAudioStreamingController *)audioStreaming
 {
-
+    [self dispatchEvent:@"skippedToNextTrack"];
 }
 
 -(void)audioStreamingDidSkipToPreviousTrack:(SPTAudioStreamingController *)audioStreaming
 {
-
+    [self dispatchEvent:@"skippedToPreviousTrack"];
 }
 
 @end
