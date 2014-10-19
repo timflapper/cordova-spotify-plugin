@@ -12,7 +12,10 @@
     <engine name="cordova" version=">=3.6.3" />
   </engines>
 
-  <js-module name="Spotify" src="www/spotify.js">
+  <js-module name="core" src="www/spotify.js">
+    <merges target="spotify" />
+  </js-module>
+  <js-module name="auth" src="www/lib/auth.js">
     <merges target="spotify" />
   </js-module>
   <js-module name="playlists" src="www/lib/playlists.js">
