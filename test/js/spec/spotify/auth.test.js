@@ -4,7 +4,8 @@ describe('auth', function() {
       beforeEach(function() {
         this.callback = sinon.spy();
         this.onRequest = sinon.spy();
-        mockExec(1, {username: 'antman', credential: 'Xcd4r234234fdfa_dfsadf3', expirationDate: 234234234}, this.onRequest);
+        this.result = {username: 'antman', credential: 'Xcd4r234234fdfa_dfsadf3', expirationDate: 234234234};
+        mockExec(1, this.result, this.onRequest);
       });
 
       describe('without scope', function() {
