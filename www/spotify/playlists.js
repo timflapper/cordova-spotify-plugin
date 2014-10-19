@@ -52,7 +52,7 @@ playlists.addTracksToPlaylist = function(id, uris, session, callback) {
   remote({
     uri: '/users/' + session.username + '/playlists/'+id+'/tracks',
     method: 'post',
-    session: session
+    session: session,
     data: JSON.stringify(uris)
   }, callback);
 };

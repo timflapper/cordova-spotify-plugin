@@ -3,7 +3,7 @@ var exec = require('cordova/exec')
 
 var noop = function() {};
 
-var utils = module.exports {
+var utils = module.exports = {
   noop: noop,
   exec: function(/*action, [params], [callback]*/) {
     var action, args = [], callback = noop;

@@ -1,6 +1,5 @@
 
-var utils = require('./utils')
-  , reqwest = require('./vendors/reqwest');
+var reqwest = require('./vendors/reqwest');
 
 var apiUrl = 'https://api.spotify.com/v1';
 

@@ -2,11 +2,9 @@ describe('auth', function() {
   describe('#authenticate', function() {
     describe('succesful authentication', function() {
       beforeEach(function() {
-        this.status = 1;
-        this.result = {username: 'antman', credential: 'Xcd4r234234fdfa_dfsadf3', expirationDate: 234234234};
         this.callback = sinon.spy();
         this.onRequest = sinon.spy();
-        mockExec(this.status, this.result, this.onRequest);
+        mockExec(1, {username: 'antman', credential: 'Xcd4r234234fdfa_dfsadf3', expirationDate: 234234234}, this.onRequest);
       });
 
       describe('without scope', function() {
@@ -25,7 +23,6 @@ describe('auth', function() {
 
       describe('with scope', function() {
         beforeEach(function() {
-          mockExec(this.status, this.result, this.onRequest);
           spotify.authenticate('aRandomClientId1234', 'http://tok.en', ['somescope'], this.callback);
         });
 
@@ -41,11 +38,9 @@ describe('auth', function() {
 
     describe('failed authentication', function() {
       beforeEach(function() {
-        this.status = 9;
-        this.result = 'failed to authenticate'
         this.callback = sinon.spy();
         this.onRequest = sinon.spy();
-        mockExec(this.status, this.result, this.onRequest);
+        mockExec(9, 'failed to authenticate', this.onRequest);
         spotify.authenticate('aRandomClientId1234', 'http://tok.en', this.callback);
       });
 
