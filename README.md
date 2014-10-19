@@ -35,13 +35,7 @@ Documentation can be found [here](https://github.com/timflapper/cordova-plugin-s
 
 ## Setting up a token exchange service
 
-To set up a token exchange service you have two options:
-
-### Use the ruby script from the Spotify iOS SDK Demo Projects
+You can use the Ruby script that is included in the Spotify iOS SDK Demo Projects for development:
 
 - [Download the Spotify iOS SDK](https://github.com/spotify/ios-sdk/releases)
 - Follow the instructions from the [Spotify iOS SDK beginner's tutorial](https://developer.spotify.com/technologies/spotify-ios-sdk/tutorial/).	
-
-### Make your own
-
-- Explanation coming soon...
