@@ -46,7 +46,7 @@
       }
 
       function updateStatus(id, msg, err) {
-        msg = msg || err || 'success';
+        msg = err ? err : (msg || 'success');
 
         var status = document.getElementById(id);
 

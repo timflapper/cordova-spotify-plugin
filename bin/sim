@@ -71,7 +71,7 @@ cordova.raw.create(tmpAppDir, 'com.timflapper.spotify.acceptance-test', 'Accepta
     if (process.env.SAUCE) {
       shell.cd('platforms/ios/build/emulator');
       shell.exec('zip -r '+zipFilePath+' AcceptanceTest.app/', {silent: true});
-      shell.exec('curl -u '+process.env.SAUCE_USERNAME+':'+process.env.SAUCE_ACCESS_KEY+' -X POST "http://saucelabs.com/rest/v1/storage/'+process.env.SAUCE_USERNAME+'/AcceptanceTest.zip?overwrite=true" -H "Content-Type: application/octet-stream" --data-binary @'+zipFilePath);
+      shell.exec('curl -u '+process.env.SAUCE_USERNAME+':'+process.env.SAUCE_ACCESS_KEY+' -X POST "http://saucelabs.com/rest/v1/storage/'+process.env.SAUCE_USERNAME+'/AcceptanceTest.zip?overwrite=true" -H "Content-Type: application/octet-stream" --data-binary @'+zipFilePath, { silent: true });
     }
   })
   .then(function() {
