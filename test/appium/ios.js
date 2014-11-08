@@ -36,6 +36,16 @@ describe("SpotifyPlugin", function () {
   var driver;
   var allPassed = true;
 
+  function finishRunningSpecs() {
+    return driver
+      .quit()
+      .finally(function () {
+        if (process.env.SAUCE) {
+          return driver.sauceJobStatus(allPassed);
+        }
+      });
+  }
+
   before(function () {
     driver = wd.promiseChainRemote(serverConfig);
 
@@ -73,30 +83,35 @@ describe("SpotifyPlugin", function () {
         return driver
           .contexts()
             .then(function(contexts) {
-              var ret = (contexts.length > 1) && contexts[1];
+              var ret = false;
+              if (contexts.length > 1) {
+                ret = contexts[1];
+              }
+
               cb(null, (ret !== false), ret);
-            });
+            })
       }
     );
 
     return driver.init(desired)
       .setAsyncScriptTimeout(300000)
-      .waitFor(waitForWebViewContext, 30000)
+      .waitFor(waitForWebViewContext, 300000)
         .then(function(context) {
+          if (! context)
+            throw new Error('Context not found.');
+
           return driver.context(context);
+        })
+        .fail(function(error) {
+          allPassed = false;
+
+          return finishRunningSpecs();
         })
       .waitForConditionInBrowser("document.getElementById('page').style.display === 'block';", 30000)
   });
 
   after(function () {
-    return driver
-      .sleep(5000)
-      .quit()
-      .finally(function () {
-        if (process.env.SAUCE) {
-          return driver.sauceJobStatus(allPassed);
-        }
-      });
+    return finishRunningSpecs();
   });
 
   afterEach(function () {
