@@ -108,7 +108,7 @@ AudioPlayer.prototype.__loginCallback = function(callback) {
   var self = this;
 
   return function(error, id) {
-    if (error !== null) {
+    if (error) {
       if (! callback)
         return self.__dispatchEvent(EVENT_ERROR, [error]);
 

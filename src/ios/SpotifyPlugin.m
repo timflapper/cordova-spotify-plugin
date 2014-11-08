@@ -6,12 +6,10 @@
 #import "SpotifyAdhocTrackProvider.h"
 
 @interface SpotifyPlugin()
-@property (strong, nonatomic) NSMutableArray *audioPlayers;
-@property NSURL *callbackUrl;
 @end
 
 @implementation SpotifyPlugin
-@synthesize audioPlayers, callbackUrl;
+@synthesize callbackUrl;
 - (void)pluginInitialize
 {
     callbackUrl = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback"];

@@ -1,7 +1,7 @@
 language: objective-c
 xcode_project: SpotifyPlugin.xcodeproj
 xcode_scheme: SpotifyPlugin
-xcode_sdk: iphonesimulator8.0
+xcode_sdk: iphonesimulator7.1
 before_install:
   - brew update
   - brew upgrade xctool
@@ -9,3 +9,12 @@ install:
   - make development
 script:
   - make test
+env:
+  global:
+    - secure: bELi+wLvamcuB1w7IPY6k0cT4puuHjXA0qbNF3O7HKkk76XJFYMSGNcUnkncNJwvLL4/sF3yZROVjWj344yaaNLD6vSa0qMyNukiHEZ2KpTdv1IyfAjTdYJZ/58lJL6RW61ZJzQERRTF2zh2cE7gMlgZxqqHCTwoUOqd/wHMHEk=
+    - secure: F7N5pyuRObdwDaS220E9/4nOjJPuXsrOkwdNa9Xy8VGHGOK4weoL2siv4KtzPGGoYqq36b9guiN4B5WOlDRBbuM3xmCsFFlE9GcN2uExAWoXaUKV9xzEGT/l/VVpdWu+bXOtvDRw/6uloWOX4Ti+gBPyREbEyIcgk5E7/gZ2wEs=
+    - secure: anNBboQbuuPoGQgsbEex8y7ZqSryKnc2dGVpb36RA72xzye0YnmR6bfwM2k9nwqeWtDXONjyVjcfpM3WeHtw5xlwXo0GNDlZhEjvRWqKpxm7c10zjlLAd1IFTcICfGHo7ZoLjjWYDZQhoFMXEHw0otGxY9wVB2cWN8mrEqk/whI=
+    - secure: DYsS+fkR3z+uPifoICq64cP3RtDZT/A07/aTzjqCM/fTm5fZuZ7YEAsYlGZNA0l4ym+lAi0xeizr5vI0zKK2UVnSKoqXQiKkD8TTycSdJyfJlNpHFxpYEAwEkNVy7LqArvNOclqMFkNBKcUK+nHCQEcmZ+pQgmHJnHN0VW+tcxc=
+    - secure: gs4UxLMyBg+wiYR8idsgyHHNv+qH/HmPzUcAarxKRXiqvanf+PU8HACcYvigBvSLtjbugKSZGITF2M/RvqtVPOaY8/Syc92UwqWSawfylkMH4qZGIjslPs1tOMC6aDXv3ilIn5/NySpY0h5JYnLOQNpduqvwH4s7+Fpaw7v8eTI=
+    - SAUCE=1
+    - SPOTIFY_SCOPE=playlist-read-private playlist-modify-public playlist-modify-private streaming user-library-read user-library-modify user-read-private user-read-email

@@ -7,9 +7,10 @@
 //
 
 #import "SpotifyAudioPlayer.h"
-
+#import "AutomationCoreAudioController.h"
 
 @interface SpotifyAudioPlayer()
+@property (nonatomic, strong) AutomationCoreAudioController *controller;
 @end
 
 @implementation SpotifyAudioPlayer
@@ -31,9 +32,17 @@ static NSMutableDictionary *instances;
 
 - (id)initWithCompanyName:(NSString *)companyName appName:(NSString *)appName
 {
-    self = [super initWithCompanyName:companyName appName:appName];
+    AutomationCoreAudioController *controller = [AutomationCoreAudioController new];
+
+    self = [super initWithCompanyName:companyName appName:appName audioController:controller];
 
     if (self) {
+        _controller = controller;
+
+        if (self) {
+            self.controller = controller;
+        }
+
         delegate = self;
         playbackDelegate = self;
 

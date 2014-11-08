@@ -43,28 +43,30 @@
     </config-file>
 
     <config-file target="*-Info.plist" parent="CFBundleURLTypes">
-     <array>
-       <dict>
-         <key>CFBundleTypeRole</key>
-         <string>Editor</string>
-         <key>CFBundleURLName</key>
-         <string>Spotify Auth</string>
-         <key>CFBundleURLSchemes</key>
-         <array>
-           <string>spotify-ios-sdk-beta</string>
-         </array>
-       </dict>
-     </array>
-   </config-file>
+      <array>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleURLName</key>
+          <string>Spotify Auth</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>spotify-ios-sdk-beta</string>
+          </array>
+        </dict>
+      </array>
+    </config-file>
 
-   <header-file src="src/ios/SpotifyPlugin.h" />
-   <source-file src="src/ios/SpotifyPlugin.m" />
-   <header-file src="src/ios/SpotifyAudioPlayer.h" />
-   <source-file src="src/ios/SpotifyAudioPlayer.m" />
-   <header-file src="src/ios/SpotifyAdhocTrackProvider.h" />
-   <source-file src="src/ios/SpotifyAdhocTrackProvider.m" />
+    <header-file src="src/ios/SpotifyPlugin.h" />
+    <source-file src="src/ios/SpotifyPlugin.m" />
+    <header-file src="src/ios/SpotifyAudioPlayer.h" />
+    <source-file src="src/ios/SpotifyAudioPlayer.m" />
+    <header-file src="src/ios/SpotifyAdhocTrackProvider.h" />
+    <source-file src="src/ios/SpotifyAdhocTrackProvider.m" />
+    <header-file src="src/ios/AutomationCoreAudioController.h" />
+    <source-file src="src/ios/AutomationCoreAudioController.m" />
 
-   <framework src="src/ios/Spotify.framework" custom="true" />
-   <framework src="AVFoundation.framework" />
- </platform>
+    <framework src="src/ios/Spotify.framework" custom="true" />
+    <framework src="AVFoundation.framework" />
+  </platform>
 </plugin>

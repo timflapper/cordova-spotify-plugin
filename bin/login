@@ -1,0 +1,218 @@
+#!/usr/bin/env node
+
+var https = require('https')
+  , http = require('http');
+
+var scope = encodeURIComponent(process.env.SPOTIFY_SCOPE || 'streaming')
+  , redirectUri = process.env.SPOTIFY_REDIRECT_URI || 'http://localhost:1337/'
+  , encodedRedirectUri = encodeURIComponent(redirectUri);
+
+var spAc, spDc, csrfToken;
+
+var url = 'https://accounts.spotify.com/nl/login?continue=https:%2F%2Faccounts.spotify.com%2Fnl%2Fauthorize%3Fclient_id%3D' + process.env.SPOTIFY_CLIENTID + '%26response_type%3Dtoken%26redirect_uri%3D'+encodedRedirectUri+'%26scope%3D'+scope;
+
+var options = {
+  hostname: 'accounts.spotify.com',
+  port: 443,
+  path: '/nl/login?continue=https:%2F%2Faccounts.spotify.com%2Fnl%2Fauthorize%3Fclient_id%3D' + process.env.SPOTIFY_CLIENTID + '%26response_type%3Dtoken%26redirect_uri%3D'+encodedRedirectUri+'%26scope%3D'+scope,
+  method: 'GET',
+  headers: {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36'
+  }
+};
+
+var req = https.request(options, onUrlResult);
+
+req.on('error', function(e) {
+  console.error(e);
+});
+
+req.end();
+
+function onUrlResult(res) {
+  res.headers['set-cookie'].forEach(function(item, index) {
+    if ((matches = /^csrf_token\=([^;]+)/.exec(item)) !== null) {
+      csrfToken = matches[1];
+
+      doLogin(csrfToken);
+    }
+  });
+
+  res.on('data', function(d) {});
+}
+
+function doLogin(csrfToken) {
+  var data = 'username='+process.env.SPOTIFY_USERNAME+'&password='+process.env.SPOTIFY_PASSWORD+'&csrf_token='+csrfToken;
+
+  var options = {
+    hostname: 'accounts.spotify.com',
+    port: 443,
+    path: '/api/login',
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Host': 'accounts.spotify.com',
+      'Origin': 'https://accounts.spotify.com',
+      'Referer': 'https://accounts.spotify.com/nl/login?continue=https:%2F%2Faccounts.spotify.com%2Fnl%2Fauthorize%3Fclient_id%3D' + process.env.SPOTIFY_CLIENTID + '%26response_type%3Dtoken%26redirect_uri%3D'+encodedRedirectUri+'%26scope%3D'+scope,
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36',
+      'Cookie': 'csrf_token='+csrfToken+'; fb_continue=https%3A%2F%2Faccounts.spotify.com%2Fnl%2Fauthorize%3Fclient_id%3D' + process.env.SPOTIFY_CLIENTID + '%26response_type%3Dtoken%26redirect_uri%3D'+encodedRedirectUri+'%26scope%3D'+scope+'%26show_dialog%3Dtrue; _ga=GA1.2.1205302991.1415300731; _gat=1',
+      'Connection': 'keep-alive',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+
+  var loginReq = https.request(options, onLoginResult);
+
+  loginReq.on('error', function(e) {
+    console.log(e);
+  });
+
+  loginReq.write(data);
+  loginReq.end();
+}
+
+function onLoginResult(res) {
+  res.headers['set-cookie'].forEach(function(item, index) {
+    if ((matches = /^sp_ac\=([^;]+)/.exec(item)) !== null) {
+      spAc = matches[1];
+    }
+
+    if ((matches = /^sp_dc\=([^;]+)/.exec(item)) !== null) {
+      spDc = matches[1];
+    }
+
+    if ((matches = /^csrf_token\=([^;]+)/.exec(item)) !== null) {
+      csrfToken = matches[1];
+    }
+  });
+
+  res.on('data', function(d) {});
+
+  doAuthorize();
+}
+
+function doAuthorize() {
+  var options = {
+    hostname: 'accounts.spotify.com',
+    port: 443,
+    path: '/nl/authorize?client_id=' + process.env.SPOTIFY_CLIENTID + '&response_type=token&redirect_uri='+redirectUri+'&scope='+scope,
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Host': 'accounts.spotify.com',
+      'Origin': 'https://accounts.spotify.com',
+      'Referer': 'https://accounts.spotify.com/nl/login?continue=https:%2F%2Faccounts.spotify.com%2Fnl%2Fauthorize%3Fclient_id%3D' + process.env.SPOTIFY_CLIENTID + '%26response_type%3Dtoken%26redirect_uri%3D'+encodedRedirectUri+'%26scope%3D'+scope,
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36',
+      'Cookie': '_gat=1; sp_ac='+spAc+'; sp_dc='+spDc+'; _ga=GA1.2.1293684910.1415403317; csrf_token='+csrfToken,
+      'Connection': 'keep-alive',
+    }
+  };
+
+  var loginReq = https.request(options, onAuthorize);
+
+  loginReq.on('error', function(e) {
+    console.log(e);
+  });
+
+  loginReq.end();
+};
+
+function onAuthorize(res) {
+  var data = '';
+
+  res.headers['set-cookie'].forEach(function(item, index) {
+    if ((matches = /^csrf_token\=([^;]+)/.exec(item)) !== null) {
+      csrfToken = matches[1];
+    }
+  });
+
+  res.setEncoding('utf8');
+  res.on('data', function(d) {
+    data += d;
+  });
+
+  res.on('end', function() {
+    onAuthorizeResponse(data);
+  });
+}
+
+function onAuthorizeResponse(data) {
+  if (extractTokenFromData(data)) return;
+
+  var cookies = [
+    '_gat=1',
+    'sp_ac='+spAc,
+    'sp_dc='+spDc,
+    'csrf_token='+csrfToken,
+    '_ga=GA1.2.1596465940.1415422830'
+  ].join('; ');
+
+  acceptApplicationAccess(cookies);
+}
+
+function acceptApplicationAccess(cookies) {
+  var data = 'client_id=' + process.env.SPOTIFY_CLIENTID + '&response_type=token&redirect_uri='+encodedRedirectUri+'&scope='+scope+'&csrf_token=' + csrfToken;
+
+  var options = {
+    hostname: 'accounts.spotify.com',
+    port: 443,
+    path: 'https://accounts.spotify.com/nl/authorize/accept',
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Host': 'accounts.spotify.com',
+      'Origin': 'https://accounts.spotify.com',
+      'Referer': 'https://accounts.spotify.com/nl/authorize?client_id=' + process.env.SPOTIFY_CLIENTID + '&response_type=token&redirect_uri=' + encodedRedirectUri + '&scope=' + scope,
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36',
+      'Cookie': cookies,
+      'Connection': 'keep-alive',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+
+  var acceptReq = https.request(options, onAccept);
+
+  acceptReq.on('error', function(e) {
+    console.log(e);
+  });
+
+  acceptReq.write(data);
+  acceptReq.end();
+}
+
+function onAccept(res) {
+  var data = '';
+
+  res.setEncoding('utf8');
+  res.on('data', function(d) {
+    data += d;
+  });
+
+  res.on('end', function() {
+    onAcceptResponse(data);
+  });
+}
+
+function onAcceptResponse(data) {
+  if (extractTokenFromData(data)) return;
+
+  process.stdout.write('Unable to grab token');
+}
+
+function extractTokenFromData(data) {
+  var obj = JSON.parse(data);
+
+  if (obj.hasOwnProperty('redirect')) {
+    var token = /#access_token\=([^&]+)/.exec(obj.redirect)[1];
+
+    registerToken(token);
+    return true;
+  }
+
+  return false;
+}
+
+function registerToken(token) {
+  process.stdout.write(token);
+}

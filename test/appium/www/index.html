@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href='css/bootstrap.min.css'  />
+    <link rel="stylesheet" href='css/main.css'  />
+    <script src="cordova.js"></script>
+  </head>
+  <body>
+    <script>
+      var session = {
+        username: '###USERNAME###',
+        credential: '###CREDENTIAL###',
+        expirationDate: ###EXPIRATION_DATE###
+      };
+    </script>
+    <script>
+      document.addEventListener('deviceready', init);
+
+      var player = null;
+
+      function init() {
+        setTimeout(showPage, 1000);
+      }
+
+      function showPage() {
+        document.getElementById('page').style.display = 'block';
+      }
+
+      function loginPlayer() {
+        player = spotify.createAudioPlayer('TestApp', 'TestCo');
+        player.login(session, playerLoggedIn);
+
+        return false;
+      }
+
+      function playerLoggedIn(err) {
+        updateStatus('loginPlayerStatus', err);
+      }
+
+      function playSong() {
+        player.play('spotify:track:4gu3tSjEW0VkA6Jy34lHKQ', playing);
+      }
+
+      function playing(err) {
+        updateStatus('playSongStatus', err);
+      }
+
+      function updateStatus(id, msg) {
+        msg = msg || 'success';
+
+        var status = document.getElementById(id);
+
+        status.innerHTML = msg;
+
+        status.style.display = 'inline';
+      }
+
+      function getPlaybackPosition() {
+        player.getCurrentPlaybackPosition(onPlaybackPosition);
+      }
+
+      function onPlaybackPosition(err, pos) {
+        updateStatus('playbackPosition', err || pos);
+      }
+
+      function mute() {
+        player.setVolume(0, onMute);
+      }
+
+      function onMute(err) {
+       updateStatus('muteStatus', err);
+      }
+    </script>
+    <div class="main">
+      <div id="page" class="container-fluid" style="display: none">
+        <p><a class="btn btn-default" href="javascript:void();" id="loginPlayerLink" onClick="loginPlayer();">Login Player</a></p>
+        <p>Login to player: <span id="loginPlayerStatus" style="display: none"></span></p>
+        <p><a class="btn btn-default" href="javascript:void();" id="playSongLink" onClick="playSong();">Play song</a></p>
+        <p>Playing song: <span id="playSongStatus" style="display: none"></span></p>
+        <p><a class="btn btn-default" href="javascript:void();" id="muteLink" onClick="mute();">Mute audio</a></p>
+        <p>Muted: <span id="muteStatus" style="display: none"></span></p>
+        <p><a class="btn btn-default" href="javascript:void();" id="playbackPositionLink" onClick="getPlaybackPosition();">Get playback position</a></p>
+        <p>Playback position: <span id="playbackPosition" style="display: none"></span></p>
+      </div>
+    </div>
+  </body>
+</html>

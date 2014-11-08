@@ -22,5 +22,6 @@ DerivedData
 node_modules
 
 # Dev Dependencies
+.env
 /SpotifyPlugin-Prefix.pch
 development/

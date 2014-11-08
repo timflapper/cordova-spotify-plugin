@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+
+var cordova = require('cordova')
+  , fs = require('fs')
+  , path = require('path')
+  , shell = require('shelljs');
+
+loadEnvVariables(path.join(process.cwd(), '.env'));
+
+var workingDir = process.cwd()
+  , pluginDir = path.join(__dirname, '..')
+  , testPluginDir = path.join(pluginDir, 'test', 'appium')
+  , tmpDir = path.join(pluginDir, 'tmp')
+  , tmpAppDir = path.join(tmpDir, 'TestApp')
+  , tmpPluginDir = path.join(tmpDir, 'SpotifyPlugin')
+  , wwwDir = path.join(tmpAppDir, 'www')
+  , zipFilePath = path.join(tmpDir, 'AcceptanceTest.zip');
+
+var accessToken = shell.exec('SPOTIFY_USERNAME='+process.env.SPOTIFY_USERNAME + ' SPOTIFY_PASSWORD=' + process.env.SPOTIFY_PASSWORD + ' SPOTIFY_CLIENTID=' + process.env.SPOTIFY_CLIENTID + ' ' + path.join(__dirname, 'login'), {silent:true}).output;
+
+var expirationDate = (new Date().getTime()+3600).toString()
+  , origIndexHTML = fs.readFileSync(path.join(testPluginDir, 'www', 'index.html'), {encoding: 'utf8'})
+  , testIndexHTML = origIndexHTML
+                      .replace('###USERNAME###', process.env.SPOTIFY_USERNAME)
+                      .replace('###CREDENTIAL###', accessToken)
+                      .replace('###EXPIRATION_DATE###', expirationDate);
+
+console.log('Temp dir: %s', tmpDir);
+
+shell.rm('-rf', tmpDir);
+shell.mkdir('-p', tmpAppDir);
+shell.mkdir('-p', tmpPluginDir);
+
+shell.cp('-rf', path.join(pluginDir, 'plugin.xml'), tmpPluginDir);
+shell.cp('-rf', path.join(pluginDir, 'www'), tmpPluginDir);
+shell.cp('-rf', path.join(pluginDir, 'src'), tmpPluginDir);
+shell.cp('-f', path.join(testPluginDir, 'src', 'ios', '*'), path.join(tmpPluginDir, 'src', 'ios'));
+
+cordova.raw.create(tmpAppDir, 'com.timflapper.spotify.acceptance-test', 'AcceptanceTest')
+  .then(function() {
+    shell.rm('-rf', path.join(wwwDir, '*'));
+    shell.cp('-rf', path.join(testPluginDir, 'www', '*'), wwwDir);
+
+    fs.writeFileSync(path.join(wwwDir, 'index.html'), testIndexHTML);
+    shell.cd(tmpAppDir);
+  })
+  .then(function() {
+    return cordova.raw.plugin('add', tmpPluginDir);
+  })
+  .then(function() {
+    shell.cp('-rf', path.join(pluginDir, 'development', 'Spotify.framework'), path.join(tmpAppDir, 'plugins', 'com.timflapper.spotify', 'src', 'ios'));
+    return cordova.raw.platform('add', 'ios');
+  })
+  .then(function() {
+    return cordova.raw.build({platforms: ['ios']});
+  })
+  .then(function() {
+    if (process.env.SAUCE) {
+      shell.cd('platforms/ios/build/emulator');
+      shell.exec('zip -r '+zipFilePath+' AcceptanceTest.app/', {silent: true});
+      shell.exec('curl -u '+process.env.SAUCE_USERNAME+':'+process.env.SAUCE_ACCESS_KEY+' -X POST "http://saucelabs.com/rest/v1/storage/'+process.env.SAUCE_USERNAME+'/AcceptanceTest.zip?overwrite=true" -H "Content-Type: application/octet-stream" --data-binary @'+zipFilePath);
+    }
+  })
+  .then(function() {
+    var testEnv = setupEnvVariablesForTestScript(['DEV', 'VM', 'SAUCE'])
+      , testFramework = 'node_modules/.bin/mocha'
+      , testScript = 'test/appium/ios.js'
+      , testCommand = setupTestCommand(testEnv, testFramework, testScript);
+
+    shell.cd(workingDir);
+
+    shell.exec(testCommand);
+  })
+  .then(function() {
+    shell.rm('-rf', tmpDir);
+  });
+
+function loadEnvVariables(fn) {
+  if (fs.existsSync(fn)) {
+    fs.readFileSync(fn, {encoding: 'utf8'})
+        .split('\n')
+          .forEach(function(item) {
+            var env = item.split('=')
+              , key = env[0], value = env[1];
+            process.env[key] = process.env[key] || value;
+          });
+  }
+}
+
+function setupEnvVariablesForTestScript(keys) {
+  var enabledVars = [];
+
+  if (process.env.SAUCE)
+    keys = keys.concat(['SAUCE_USERNAME', 'SAUCE_ACCESS_KEY']);
+
+  keys.forEach(function(key, index, arr) {
+    if (process.env[key])
+      enabledVars.push(key+'='+process.env[key]);
+  });
+
+  return enabledVars;
+}
+
+function setupTestCommand(env, framework, script) {
+  return env.concat([framework, script]).join(' ');
+}

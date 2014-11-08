@@ -4,28 +4,32 @@
     <link rel="stylesheet" href="support/mocha/mocha.css" />
   </head>
   <body>
-    <div id="mocha"></div>
     <script src="support/mocha/mocha.js"></script>
     <script src="support/chai/chai.js"></script>
     <script src="support/sinon/sinon.js"></script>
     <script src="support/sinon-chai/sinon-chai.js"></script>
     <script src="cordova.js"></script>
+
     <script>
       mocha.ui('bdd');
       mocha.reporter('html');
       var expect = chai.expect;
       var require = cordova.require;
     </script>
+
     <script src="spec/support/test-helper.js"></script>
     <script src="spec/spotify.test.js"></script>
     <script src="spec/spotify/auth.test.js"></script>
     <script src="spec/lib/utils.test.js"></script>
+
     <script>
       document.addEventListener('deviceready', function () {
         if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
         else { mocha.run(); }
       });
     </script>
+    <div id="mocha"></div>
+
     <script>
       /**
        *
