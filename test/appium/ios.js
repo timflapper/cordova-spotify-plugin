@@ -25,7 +25,7 @@ if (process.env.SAUCE) {
   };
 } else {
   serverConfig = {
-    host: process.env.VM ? '10.211.55.17' : 'localhost',
+    host: 'localhost',
     port: 4723
   };
 }
@@ -39,7 +39,7 @@ describe("SpotifyPlugin", function () {
   before(function () {
     driver = wd.promiseChainRemote(serverConfig);
 
-    if (process.env.SAUCE || process.env.DEV) {
+    if (process.env.DEV) {
       driver.on('status', function (info) {
         console.log(info.cyan);
       });
