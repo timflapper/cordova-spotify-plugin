@@ -77,7 +77,7 @@ cordova.raw.create(tmpAppDir, 'com.timflapper.spotify.acceptance-test', 'Accepta
   .then(function() {
     var testEnv = setupEnvVariablesForTestScript(['DEV', 'VM', 'SAUCE'])
       , testFramework = 'node_modules/.bin/mocha'
-      , testScript = 'test/appium/ios.js'
+      , testScript = 'test/appium/specs/specs.js'
       , testCommand = setupTestCommand(testEnv, testFramework, testScript);
 
     shell.cd(workingDir);

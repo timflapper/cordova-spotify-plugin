@@ -1,4 +1,27 @@
 .main {
   border-top: 24px solid #a7a7a7;
-  padding-top: 10px;
+}
+
+.btn {
+  margin: 10px 0;
+}
+
+.status {
+  padding: 4px;
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  font-size: 90%;
+}
+
+.main p {
+  margin: 0;
+}
+
+.pass {
+  background: #789048;
+}
+
+.fail {
+  background: #7D1A0C;
 }

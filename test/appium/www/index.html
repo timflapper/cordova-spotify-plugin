@@ -34,7 +34,7 @@
       }
 
       function playerLoggedIn(err) {
-        updateStatus('loginPlayerStatus', err);
+        updateStatus('loginPlayerStatus', null, err);
       }
 
       function playSong() {
@@ -42,17 +42,23 @@
       }
 
       function playing(err) {
-        updateStatus('playSongStatus', err);
+        updateStatus('playSongStatus', null, err);
       }
 
-      function updateStatus(id, msg) {
-        msg = msg || 'success';
+      function updateStatus(id, msg, err) {
+        msg = msg || err || 'success';
 
         var status = document.getElementById(id);
 
         status.innerHTML = msg;
 
-        status.style.display = 'inline';
+        if (err) {
+          status.className = status.className + ' fail';
+        } else {
+          status.className = status.className + ' pass';
+        }
+
+        status.style.display = 'block';
       }
 
       function getPlaybackPosition() {
@@ -60,7 +66,7 @@
       }
 
       function onPlaybackPosition(err, pos) {
-        updateStatus('playbackPosition', err || pos);
+        updateStatus('playbackPosition', pos, err);
       }
 
       function mute() {
@@ -70,17 +76,18 @@
       function onMute(err) {
        updateStatus('muteStatus', err);
       }
+
     </script>
     <div class="main">
       <div id="page" class="container-fluid" style="display: none">
-        <p><a class="btn btn-default" href="javascript:void();" id="loginPlayerLink" onClick="loginPlayer();">Login Player</a></p>
-        <p>Login to player: <span id="loginPlayerStatus" style="display: none"></span></p>
-        <p><a class="btn btn-default" href="javascript:void();" id="playSongLink" onClick="playSong();">Play song</a></p>
-        <p>Playing song: <span id="playSongStatus" style="display: none"></span></p>
-        <p><a class="btn btn-default" href="javascript:void();" id="muteLink" onClick="mute();">Mute audio</a></p>
-        <p>Muted: <span id="muteStatus" style="display: none"></span></p>
-        <p><a class="btn btn-default" href="javascript:void();" id="playbackPositionLink" onClick="getPlaybackPosition();">Get playback position</a></p>
-        <p>Playback position: <span id="playbackPosition" style="display: none"></span></p>
+        <a class="btn btn-default btn-block" href="javascript:void();" id="loginPlayerLink" onClick="loginPlayer();">Login Player</a>
+        <p id="loginPlayerStatus" class='status' style="display: none"></p>
+        <a class="btn btn-default btn-block" href="javascript:void();" id="playSongLink" onClick="playSong();">Play song</a>
+        <p id="playSongStatus" class='status' style="display: none"></p>
+        <a class="btn btn-default btn-block" href="javascript:void();" id="muteLink" onClick="mute();">Mute audio</a>
+        <p id="muteStatus" class='status' style="display: none"></p>
+        <a class="btn btn-default btn-block" href="javascript:void();" id="playbackPositionLink" onClick="getPlaybackPosition();">Get progress</a>
+        <p id="playbackPosition" class='status' style="display: none"></p>
       </div>
     </div>
   </body>
