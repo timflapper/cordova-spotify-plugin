@@ -53,7 +53,7 @@ describe("SpotifyPlugin", function () {
 
     var desired = {
       browserName: '',
-      'appium-version': '1.3',
+      'appium-version': '1.3.1',
       platformName: 'iOS',
       platformVersion: '8.1',
       deviceName: 'iPhone 6',
