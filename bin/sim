@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var exitCode = 1;
+
 var cordova = require('cordova')
   , fs = require('fs')
   , path = require('path')
@@ -69,10 +71,13 @@ cordova.raw.create(tmpAppDir, 'com.timflapper.spotify.acceptance-test', 'Accepta
 
     shell.cd(workingDir);
 
-    shell.exec(testCommand);
+    exitCode = shell.exec(testCommand).code;
   })
   .then(function() {
     shell.rm('-rf', tmpDir);
+  })
+  .then(function() {
+    process.exit(exitCode);
   });
 
 function loadEnvVariables(fn) {
