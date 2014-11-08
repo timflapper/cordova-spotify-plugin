@@ -12,7 +12,7 @@
 #import "MockCommandDelegate.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #import <Spotify/Spotify.h>
-#import "SpotifyAudioPlayer+Testing.h"
+#import "SpotifyAudioPlayer+Mock.h"
 
 @interface SpotifyPluginTests : XCTestCase
 @property SpotifyPlugin *plugin;

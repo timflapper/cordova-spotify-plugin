@@ -1,5 +1,5 @@
 //
-//  SpotifyAudioPlayer+Testing.h
+//  SpotifyAudioPlayer+Mock.h
 //  SpotifyPlugin
 //
 //  Created by Tim Flapper on 09/05/14.
@@ -10,7 +10,7 @@
 
 typedef void (^mockResultCallback)(id callback);
 
-@interface SpotifyAudioPlayer (Testing)
+@interface SpotifyAudioPlayer (Mock)
 + (void)clearTestValues;
 
 + (void)setNextCallback:(mockResultCallback)block;

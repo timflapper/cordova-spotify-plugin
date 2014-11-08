@@ -1,12 +1,12 @@
 //
-//  SpotifyAudioPlayer+Testing.m
+//  SpotifyAudioPlayer+Mock.m
 //  SpotifyPlugin
 //
 //  Created by Tim Flapper on 09/05/14.
 //
 //
 
-#import "SpotifyAudioPlayer+Testing.h"
+#import "SpotifyAudioPlayer+Mock.h"
 #import <objc/runtime.h>
 
 static char const * const nextCallbackKey = "__nextCallbackForTesting";
@@ -20,7 +20,7 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     dispatch_after(popTime, dispatch_get_main_queue(), block);
 }
 
-@implementation SpotifyAudioPlayer (Testing)
+@implementation SpotifyAudioPlayer (Mock)
 + (void)load
 {
     static dispatch_once_t onceToken;

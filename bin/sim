@@ -27,13 +27,24 @@ var expirationDate = (new Date().getTime()+3600).toString()
                       .replace('###CREDENTIAL###', accessToken)
                       .replace('###EXPIRATION_DATE###', expirationDate);
 
+var testOnlyPluginXMLTags = '    <header-file src="src/ios/AutomationCoreAudioController.h" />\n' +
+                            '    <source-file src="src/ios/AutomationCoreAudioController.m" />\n' +
+                            '    <header-file src="src/ios/SpotifyAudioPlayer+Testing.h" />\n' +
+                            '    <source-file src="src/ios/SpotifyAudioPlayer+Testing.m" />\n'
+  , originalPluginXML = fs.readFileSync(path.join(pluginDir, 'plugin.xml'), {encoding: 'utf8'})
+  , testPluginXML = originalPluginXML.replace(
+        '<source-file src="src/ios/SpotifyAdhocTrackProvider.m" />\n',
+        '<source-file src="src/ios/SpotifyAdhocTrackProvider.m" />\n' +
+        testOnlyPluginXMLTags);
+
 console.log('Temp dir: %s', tmpDir);
 
 shell.rm('-rf', tmpDir);
 shell.mkdir('-p', tmpAppDir);
 shell.mkdir('-p', tmpPluginDir);
 
-shell.cp('-rf', path.join(pluginDir, 'plugin.xml'), tmpPluginDir);
+fs.writeFileSync(path.join(tmpPluginDir, 'plugin.xml'), testPluginXML);
+
 shell.cp('-rf', path.join(pluginDir, 'www'), tmpPluginDir);
 shell.cp('-rf', path.join(pluginDir, 'src'), tmpPluginDir);
 shell.cp('-f', path.join(testPluginDir, 'src', 'ios', '*'), path.join(tmpPluginDir, 'src', 'ios'));

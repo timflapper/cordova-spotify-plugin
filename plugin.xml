@@ -63,8 +63,6 @@
     <source-file src="src/ios/SpotifyAudioPlayer.m" />
     <header-file src="src/ios/SpotifyAdhocTrackProvider.h" />
     <source-file src="src/ios/SpotifyAdhocTrackProvider.m" />
-    <header-file src="src/ios/AutomationCoreAudioController.h" />
-    <source-file src="src/ios/AutomationCoreAudioController.m" />
 
     <framework src="src/ios/Spotify.framework" custom="true" />
     <framework src="AVFoundation.framework" />
