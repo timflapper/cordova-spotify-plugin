@@ -31,7 +31,8 @@ if (process.env.SAUCE) {
 }
 
 describe("SpotifyPlugin", function () {
-  this.timeout(0);
+  this.timeout(600000);
+
   var driver;
   var allPassed = true;
 
@@ -79,7 +80,7 @@ describe("SpotifyPlugin", function () {
     );
 
     return driver.init(desired)
-      .setAsyncScriptTimeout(60000)
+      .setAsyncScriptTimeout(300000)
       .waitFor(waitForWebViewContext, 30000)
         .then(function(context) {
           return driver.context(context);
