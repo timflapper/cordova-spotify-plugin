@@ -17,4 +17,4 @@ env:
     - secure: DYsS+fkR3z+uPifoICq64cP3RtDZT/A07/aTzjqCM/fTm5fZuZ7YEAsYlGZNA0l4ym+lAi0xeizr5vI0zKK2UVnSKoqXQiKkD8TTycSdJyfJlNpHFxpYEAwEkNVy7LqArvNOclqMFkNBKcUK+nHCQEcmZ+pQgmHJnHN0VW+tcxc=
     - secure: gs4UxLMyBg+wiYR8idsgyHHNv+qH/HmPzUcAarxKRXiqvanf+PU8HACcYvigBvSLtjbugKSZGITF2M/RvqtVPOaY8/Syc92UwqWSawfylkMH4qZGIjslPs1tOMC6aDXv3ilIn5/NySpY0h5JYnLOQNpduqvwH4s7+Fpaw7v8eTI=
     - SAUCE=1
-    - SPOTIFY_SCOPE=playlist-read-private playlist-modify-public playlist-modify-private streaming user-library-read user-library-modify user-read-private user-read-email
+    - SPOTIFY_SCOPE="playlist-read-private playlist-modify-public playlist-modify-private streaming user-library-read user-library-modify user-read-private user-read-email"
