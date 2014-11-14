@@ -3,8 +3,7 @@ xcode_project: SpotifyPlugin.xcodeproj
 xcode_scheme: SpotifyPlugin
 xcode_sdk: iphonesimulator7.1
 before_install:
-  - brew update
-  - brew upgrade xctool
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 install:
   - make prepare
 script:
