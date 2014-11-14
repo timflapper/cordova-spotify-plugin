@@ -9,7 +9,7 @@
   <issue>https://github.com/timflapper/cordova-spotify-plugin/issues</issue>
 
   <engines>
-    <engine name="cordova" version=">=3.6.3" />
+    <engine name="cordova" version=">=3.7.0" />
   </engines>
 
   <js-module name="core" src="www/spotify.js">

@@ -15,7 +15,7 @@ var spotifyDir = path.join(devDir, 'Spotify.framework');
 var OHHTTPStubsDir = path.join(devDir, 'OHHTTPStubs');
 
 var tmpDir = path.join(devDir, 'tmp');
-var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.6.3/CordovaLib');
+var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.7.0/CordovaLib');
 var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-5/Spotify.framework');
 var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.6/OHHTTPStubs');
 
@@ -39,7 +39,7 @@ function downloadCordovaLib() {
   console.log('Downloading CordovaLib');
 
   var req = request.get({
-    url: 'https://github.com/apache/cordova-ios/archive/3.6.3.tar.gz'
+    url: 'https://github.com/apache/cordova-ios/archive/3.7.0.tar.gz'
   }, function(err, res, body) {
     if (err || res.statusCode != 200) {
       shell.rm('-rf', tmpDir);
