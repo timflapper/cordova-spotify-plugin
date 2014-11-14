@@ -36,8 +36,6 @@ var testOnlyPluginXMLTags = '    <header-file src="src/ios/AutomationCoreAudioCo
         '<source-file src="src/ios/SpotifyAdhocTrackProvider.m" />\n' +
         testOnlyPluginXMLTags);
 
-console.log('Temp dir: %s', tmpDir);
-
 shell.rm('-rf', tmpDir);
 shell.mkdir('-p', tmpAppDir);
 shell.mkdir('-p', tmpPluginDir);

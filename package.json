@@ -2,9 +2,6 @@
   "name": "SpotifyPlugin",
   "version": "0.0.0",
   "description": "",
-  "scripts": {
-    "test": "./bin/test"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/timflapper/cordova-spotify-plugin.git"

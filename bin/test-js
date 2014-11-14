@@ -14,8 +14,6 @@ var pluginDir = path.join(__dirname, '..')
   , tmpDir = temp.mkdirSync()
   , wwwDir = path.join(tmpDir, 'www');
 
-console.log('Temp dir: %s', tmpDir);
-
 cordova.raw.create(tmpDir)
   .then(function() {
 

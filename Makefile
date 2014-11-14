@@ -6,7 +6,7 @@ test-ios:
 
 test-js:
 	@echo "\n\n\x1b[32m\x1b[1m==JavaScript Unit tests==\x1b[0m\n"
-	@npm test
+	@bin/test-js
 
 test-appium:
 	@echo "\n\n\x1b[32m\x1b[1m==Appium Acceptance Tests==\x1b[0m\n"
