@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+  , path = require('path')
+  , shell = require('shelljs');
+
+var tmpDir = path.join(__dirname, '..', 'tmp');
+
+shell.rm('-rf', tmpDir);

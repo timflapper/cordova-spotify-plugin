@@ -6,9 +6,11 @@ before_install:
   - brew update
   - brew upgrade xctool
 install:
-  - make development
+  - make prepare
 script:
   - make test
+after_script:
+  - make clean
 env:
   global:
     - secure: bELi+wLvamcuB1w7IPY6k0cT4puuHjXA0qbNF3O7HKkk76XJFYMSGNcUnkncNJwvLL4/sF3yZROVjWj344yaaNLD6vSa0qMyNukiHEZ2KpTdv1IyfAjTdYJZ/58lJL6RW61ZJzQERRTF2zh2cE7gMlgZxqqHCTwoUOqd/wHMHEk=

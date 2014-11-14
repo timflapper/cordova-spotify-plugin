@@ -23,5 +23,6 @@ node_modules
 
 # Dev Dependencies
 .env
+/tmp
 /SpotifyPlugin-Prefix.pch
 development/

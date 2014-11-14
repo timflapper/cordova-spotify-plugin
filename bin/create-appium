@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
-var exitCode = 1;
-
 var cordova = require('cordova')
+  , env = require('./shared/env')
   , fs = require('fs')
   , path = require('path')
   , shell = require('shelljs');
 
-loadEnvVariables(path.join(process.cwd(), '.env'));
+env.loadEnvVariables(path.join(process.cwd(), '.env'));
 
 var workingDir = process.cwd()
   , pluginDir = path.join(__dirname, '..')
@@ -73,50 +72,4 @@ cordova.raw.create(tmpAppDir, 'com.timflapper.spotify.acceptance-test', 'Accepta
       shell.exec('zip -r '+zipFilePath+' AcceptanceTest.app/', {silent: true});
       shell.exec('curl -u '+process.env.SAUCE_USERNAME+':'+process.env.SAUCE_ACCESS_KEY+' -X POST "http://saucelabs.com/rest/v1/storage/'+process.env.SAUCE_USERNAME+'/AcceptanceTest.zip?overwrite=true" -H "Content-Type: application/octet-stream" --data-binary @'+zipFilePath, { silent: true });
     }
-  })
-  .then(function() {
-    var testEnv = setupEnvVariablesForTestScript(['DEV', 'VM', 'SAUCE'])
-      , testFramework = 'node_modules/.bin/mocha'
-      , testScript = 'test/appium/specs/specs.js'
-      , testCommand = setupTestCommand(testEnv, testFramework, testScript);
-
-    shell.cd(workingDir);
-
-    exitCode = shell.exec(testCommand).code;
-  })
-  .then(function() {
-    shell.rm('-rf', tmpDir);
-  })
-  .then(function() {
-    process.exit(exitCode);
   });
-
-function loadEnvVariables(fn) {
-  if (fs.existsSync(fn)) {
-    fs.readFileSync(fn, {encoding: 'utf8'})
-        .split('\n')
-          .forEach(function(item) {
-            var env = item.split('=')
-              , key = env[0], value = env[1];
-            process.env[key] = process.env[key] || value;
-          });
-  }
-}
-
-function setupEnvVariablesForTestScript(keys) {
-  var enabledVars = [];
-
-  if (process.env.SAUCE)
-    keys = keys.concat(['SAUCE_USERNAME', 'SAUCE_ACCESS_KEY']);
-
-  keys.forEach(function(key, index, arr) {
-    if (process.env[key])
-      enabledVars.push(key+'='+process.env[key]);
-  });
-
-  return enabledVars;
-}
-
-function setupTestCommand(env, framework, script) {
-  return env.concat([framework, script]).join(' ');
-}

@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+var exitCode = 1;
+
+var env = require('./shared/env')
+  , path = require('path')
+  , shell = require('shelljs');
+
+env.loadEnvVariables(path.join(process.cwd(), '.env'));
+
+var testEnv = env.setupEnvVariablesForTestScript(['DEV', 'VM', 'SAUCE'])
+  , testFramework = 'node_modules/.bin/mocha'
+  , testScript = 'test/appium/specs/specs.js'
+  , testCommand = env.setupTestCommand(testEnv, testFramework, testScript);
+
+exitCode = shell.exec(testCommand).code;
+
+process.exit(exitCode);

@@ -10,12 +10,21 @@ test-js:
 
 test-appium:
 	@echo "\n\n\x1b[32m\x1b[1m==Appium Acceptance Tests==\x1b[0m\n"
-	@bin/sim
+	@bin/test-appium
 
-development: install
-	./bin/dev
+prepare: npm development appium
 
-install:
-	npm install
+clean:
+	@bin/clean
+	@bin/clean-appium
+
+npm:
+	@npm install
+
+appium:
+	@bin/create-appium
+
+development:
+	@bin/install
 
 .PHONY: test

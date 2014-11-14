@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+  , path = require('path')
+  , shell = require('shelljs');
+
+var projectDir = path.resolve(__dirname, '..');
+var devDir = path.join(projectDir, 'development');
+var xcodeProjTarget = path.join(projectDir, 'SpotifyPlugin.xcodeproj');
+
+shell.rm('-rf', devDir);
+shell.rm('-rf', xcodeProjTarget);
+shell.rm(path.join(projectDir, 'SpotifyPlugin-Prefix.pch'));
