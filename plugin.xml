@@ -18,9 +18,6 @@
   <js-module name="auth" src="www/spotify/auth.js">
     <merges target="spotify" />
   </js-module>
-  <js-module name="playlists" src="www/spotify/playlists.js">
-    <merges target="spotify" />
-  </js-module>
   <js-module name="request" src="www/spotify/request.js">
     <merges target="spotify" />
   </js-module>

@@ -42,14 +42,3 @@ auth.isSessionValid = function(session, callback) {
 function renewSession(session, tokenRefreshURL, callback) {
   exec('renewSession', session, tokenRefreshURL, callback);
 };
-
-/**
- *
- * TODO:
- * - Finish writing specs
- * - Optimize WebAPI calling stuff*
- * - Custom callback URI as variable for install
- * - Update README.md
- * - Update API wiki
- *
- **/

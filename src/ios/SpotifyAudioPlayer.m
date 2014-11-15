@@ -36,7 +36,7 @@ static NSMutableDictionary *instances;
         delegate = self;
         playbackDelegate = self;
 
-        _instanceID = [NSString stringWithFormat:@"%d", instances.count+1];
+        _instanceID = [NSString stringWithFormat:@"%d", (int)instances.count+1];
         [instances setObject:self
                       forKey: _instanceID];
     }

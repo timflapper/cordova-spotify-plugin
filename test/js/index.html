@@ -18,9 +18,11 @@
     </script>
 
     <script src="spec/support/test-helper.js"></script>
+    <script src="spec/shared/paginate.js"></script>
     <script src="spec/spotify.test.js"></script>
     <script src="spec/spotify/auth.test.js"></script>
     <script src="spec/lib/utils.test.js"></script>
+    <script src="spec/lib/remote.test.js"></script>
 
     <script>
       document.addEventListener('deviceready', function () {
@@ -35,23 +37,6 @@
        *
        * SPECS TODO:
        *
-       * spotify
-       *  #renewSession
-       *  #isSessionValid
-       *
-       * utils
-       *   #paginate
-       *
-       * request
-       *   #search
-       *   #albums
-       *   #albumsOfArtist
-       *   #artists
-       *   #tracks
-       *
-       * playlists
-       *   #getPlaylists
-       *
        * AudioPlayer
        *   #addEventListener
        *   #removeEventListener
@@ -65,6 +50,30 @@
        *   #getLoggedIn
        *   #getCurrentTrack
        *   #getCurrentPlaybackPosition
+       *
+       * request
+       *   #search
+       *   #getAlbum
+       *   #getAlbums
+       *   #getArtist
+       *   #getArtists
+       *   #getAlbumsOfArtist
+       *   #getTrack
+       *   #getTracks
+       *   #getProfile
+       *   #getSavedTracks
+       *   #getSavedTracksContain
+       *   #saveTracks
+       *   #removeTracks
+       *   #getStarred
+       *   #getPlaylists
+       *   #getPlaylist
+       *   #createPlaylist
+       *   #changePlaylistDetails
+       *   #addTracksToPlaylist
+       *   #replaceTracksOnPlaylist
+       *   #removeTracksFromPlaylist
+       *
        **/
     </script>
   </body>

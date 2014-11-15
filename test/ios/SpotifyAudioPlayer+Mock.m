@@ -27,6 +27,8 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     dispatch_once(&onceToken, ^{
         [self clearTestValues];
     });
+
+    [super load];
 }
 
 + (void)clearTestValues
@@ -90,7 +92,6 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     [[self class] invokeNextCallback:block];
     
     [self audioStreamingDidLogin:self];
-//    [self audio]
 }
 
 - (void)playURI:(NSURL *)uri callback:(SPTErrorableOperationCallback)block

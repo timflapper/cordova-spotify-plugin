@@ -209,30 +209,6 @@
 
         return;
     }
-
-//    NSURL *uri = [NSURL URLWithString: [command.arguments objectAtIndex:1]];
-//
-//    if (player == nil) {
-//        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"AudioPlayer does not exist"];
-//
-//        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//
-//        return;
-//    }
-//
-//    [self.commandDelegate runInBackground:^{
-//        [player playURI:uri callback:^(NSError *error) {
-//            CDVPluginResult *pluginResult;
-//
-//            if (error != nil) {
-//                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: error.localizedDescription];
-//            } else {
-//                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-//            }
-//
-//            [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//        }];
-//    }];
 }
 
 - (void)playURI:(NSURL *)uri player:(SpotifyAudioPlayer *)player callbackId:(NSString *)callbackId

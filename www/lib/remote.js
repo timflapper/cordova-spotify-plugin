@@ -1,9 +1,13 @@
-
 var reqwest = require('./vendors/reqwest');
 
 var apiUrl = 'https://api.spotify.com/v1';
 
+module.exports = remote;
+
 function remote(options, callback) {
+  if (options === undefined)
+    throw new Error('This method requires two arguments (options, callback)');
+
   var req = {
     type: 'json',
     contentType: 'application/json',
@@ -28,6 +32,8 @@ function remote(options, callback) {
 
   reqwest(req)
     .then(function (data) {
+      paginate(data, session);
+
       callback(null, data);
     })
     .fail(function (err, msg) {
@@ -37,4 +43,54 @@ function remote(options, callback) {
     });
 }
 
-module.exports = remote;
+function paginate(data, session) {
+  if (Array.isArray(data)) {
+    data.forEach(function(item) {
+      paginate(item, session);
+    });
+
+    return;
+  }
+
+  if (data.next) {
+    var nextOpts = {url: data.next};
+
+    if (session)
+      nextOpts.session = session;
+
+    data.next = function(callback) {
+      remote(nextOpts, onRemoteResult);
+
+      function onRemoteResult(err, data) {
+        if (err) return callback(err);
+
+        paginate(data, session);
+
+        callback(null, data);
+      }
+    }
+  }
+
+  if (data.prev) {
+    var prevOpts = {url: data.prev};
+
+    if (session)
+      prevOpts.session = session;
+
+    data.prev = function(callback) {
+      remote(prevOpts, onRemoteResult);
+
+      function onRemoteResult(err, data) {
+        if (err) return callback(err);
+
+        paginate(data, session);
+
+        callback(null, data);
+      }
+    }
+  }
+
+  if (data.artists) paginate(data.artists, session);
+  if (data.tracks) paginate(data.tracks, session);
+  if (data.albums) paginate(data.albums, session);
+}

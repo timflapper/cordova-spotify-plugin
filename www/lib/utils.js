@@ -1,5 +1,4 @@
-var exec = require('cordova/exec')
-    remote = require('./remote');
+var exec = require('cordova/exec');
 
 var noop = function() {};
 
@@ -22,38 +21,5 @@ var utils = module.exports = {
     function onError(error) { callback(error); }
 
     exec(onSuccess, onError, 'SpotifyPlugin', action, args);
-  },
-  paginate: function(data, session) {
-    if (data.next) {
-      opts = {url: data.next, session: session};
-
-      data.next = function(callback) {
-        remote(opts, onRemoteResult);
-
-        function onRemoteResult(err, data) {
-          if (err) return callback(err);
-
-          utils.paginate(data);
-
-          callback(null, data);
-        }
-      }
-    }
-
-    if (data.prev) {
-      opts = {url: data.next, session: session};
-
-      data.prev = function(callback) {
-        remote(opts, onRemoteResult);
-
-        function onRemoteResult(err, data) {
-          if (err) return callback(err);
-
-          utils.paginate(data);
-
-          callback(null, data);
-        }
-      }
-    }
   }
 };

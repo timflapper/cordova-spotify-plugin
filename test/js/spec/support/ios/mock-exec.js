@@ -12,6 +12,7 @@
 
       onRequest(payload);
       exec.nativeCallback(callbackId, status, result, false);
+
       xhr.restore();
     };
   };
