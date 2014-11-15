@@ -18,7 +18,7 @@ NSData *getDataFromTestDataFile(NSString *filename) {
 void waitForSecondsOrDone(NSTimeInterval noOfSeconds, BOOL *done) {
     NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:noOfSeconds];
     while (!*done && ([timeoutDate timeIntervalSinceNow]>0))
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, YES);
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.005, YES);
 }
 
 

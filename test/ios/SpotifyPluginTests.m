@@ -22,6 +22,14 @@
 
 @implementation SpotifyPluginTests
 @synthesize plugin, commandDelegate, session;
+
++ (void)setUp
+{
+    BOOL done = NO;
+
+    waitForSecondsOrDone(2, &done);
+}
+
 - (void)setUp
 {
     [super setUp];
@@ -34,6 +42,7 @@
     plugin.commandDelegate = commandDelegate;
 
     session = @{@"username": @"justsomefakeuser", @"credential": @"a3mFAyzr0JlUCtipI39eDoq41xHY54WOUMoY3KmIJIrzyaywru94mEr8A7Tb8W_Yb75DZmpUKZF0plTxFN96UNZHowOVl98YQWyzqShOrQoKXzOcAgA6XQoLLX0HLAFjhGvDgIHRojSLhsL"};
+
 }
 
 - (void)tearDown
@@ -75,7 +84,7 @@
 
     [plugin authenticate:[self createTestURLCommand:args]];
 
-    double delayInSeconds = 0.05;
+    double delayInSeconds = 0.005;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSURL *callbackURL = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback?code=NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3-_1BgnSO9cLwzgMOztqUCRJV23LjtmEurM9_BEhSm-smLgqQHUrLtXldCz-JpDOkckA"];
@@ -110,7 +119,7 @@
         responseArrived = YES;
     }];
 
-    double delayInSeconds = 0.05;
+    double delayInSeconds = 0.005;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         NSURL *callbackURL = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback?error=access_denied"];
@@ -133,7 +142,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         callback(nil);
-    } afterDelayInSeconds:0.1];
+    } afterDelayInSeconds:0.005];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -160,7 +169,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         callback(errorForTesting());
-    } afterDelayInSeconds:0.3];
+    } afterDelayInSeconds:0.005];
 
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
 
@@ -195,7 +204,7 @@
         [plugin play:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(10, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -206,7 +215,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(mockResultCallback callback) {
         XCTFail(@"Should never be called");
-    } afterDelayInSeconds:0.3];
+    } afterDelayInSeconds:0.005];
 
     [plugin addAudioPlayerEventListener:[self createTestURLCommand:@[@"12423424234dfadsf"]]];
 
@@ -227,7 +236,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(nil);
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -250,7 +259,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(errorForTesting());
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -271,7 +280,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(mockResultCallback callback) {
         XCTFail(@"Should never be called");
-    } afterDelayInSeconds:0.3];
+    } afterDelayInSeconds:0.005];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -292,7 +301,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(nil);
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -314,7 +323,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(errorForTesting());
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -335,11 +344,11 @@
 
     [SpotifyAudioPlayer setNextCallback:^(mockResultCallback callback) {
         XCTFail(@"Should never be called");
-    } afterDelayInSeconds:0.3];
+    } afterDelayInSeconds:0.005];
 
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         callback(errorForTesting());
-    } afterDelayInSeconds:0.1];
+    } afterDelayInSeconds:0.005];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -396,7 +405,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(nil);
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -418,7 +427,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(errorForTesting());
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -439,7 +448,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         XCTFail(@"AudioPlayer should not exist");
-    } afterDelayInSeconds:0.1];
+    } afterDelayInSeconds:0.005];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -497,7 +506,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(nil);
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -519,7 +528,7 @@
     [self loginAudioPlayer:^(NSString *playerID) {
         [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
             callback(errorForTesting());
-        } afterDelayInSeconds:0.1];
+        } afterDelayInSeconds:0.005];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -540,7 +549,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         XCTFail(@"AudioPlayer should not exist");
-    } afterDelayInSeconds:0.1];
+    } afterDelayInSeconds:0.005];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -724,7 +733,7 @@
 
     [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
         callback(nil);
-    } afterDelayInSeconds:0.05];
+    } afterDelayInSeconds:0.005];
 
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
 

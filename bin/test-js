@@ -39,7 +39,7 @@ cordova.raw.create(tmpDir)
   })
   .then(function(server) {
     shell.cd(pluginDir);
-    shell.exec('./node_modules/.bin/mocha-phantomjs -A "Mozilla/5.0 (iPhone; CPU iPhone OS 10_9_5 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12B411 (140430689179968)" http://localhost:8000/ios/www/', function(code, output) {
+    shell.exec('./node_modules/.bin/mocha-phantomjs -R dot -A "Mozilla/5.0 (iPhone; CPU iPhone OS 10_9_5 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12B411 (140430689179968)" http://localhost:8000/ios/www/', function(code, output) {
       console.log = old_log;
 
       server.close();

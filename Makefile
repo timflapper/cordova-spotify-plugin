@@ -2,7 +2,7 @@ test: test-ios test-js
 
 test-ios:
 	@echo "\n\n\x1b[32m\x1b[1m==XCode Unit tests==\x1b[0m\n"
-	@xcodebuild test -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -destination 'platform=iOS Simulator,name=iPhone 5s,OS=7.1' | xcpretty -c && exit ${PIPESTATUS[0]}
+	@xcodebuild test -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -destination 'platform=iOS Simulator,name=iPhone 5s,OS=7.1' | xcpretty -tc && exit ${PIPESTATUS[0]}
 
 test-js:
 	@echo "\n\n\x1b[32m\x1b[1m==JavaScript Unit tests==\x1b[0m\n"
