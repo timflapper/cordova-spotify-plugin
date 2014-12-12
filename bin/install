@@ -16,7 +16,7 @@ var OHHTTPStubsDir = path.join(devDir, 'OHHTTPStubs');
 
 var tmpDir = path.join(devDir, 'tmp');
 var cordovaTmpDir = path.join(tmpDir, 'cordova-ios-3.7.0/CordovaLib');
-var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-5/Spotify.framework');
+var spotifyTmpDir = path.join(tmpDir, 'ios-sdk-beta-6/Spotify.framework');
 var OHHTTPStubsTmpDir = path.join(tmpDir, 'OHHTTPStubs-3.1.6/OHHTTPStubs');
 
 var pchFile = path.join(__dirname, 'project_files', 'SpotifyPlugin-Prefix.pch');
@@ -70,7 +70,7 @@ function downloadSpotifyFramework() {
   console.log('Downloading Spotify.framework');
 
   var req = request.get({
-url: 'https://github.com/spotify/ios-sdk/archive/beta-5.tar.gz'
+    url: 'https://github.com/spotify/ios-sdk/archive/beta-6.tar.gz'
   }, function(err, res, body) {
     if (err || res.statusCode != 200) {
       shell.rm('-rf', tmpDir);
@@ -101,7 +101,7 @@ function downloadOHHTTPStubs() {
   console.log('Downloading OHHTTPStubs');
 
   var req = request.get({
-url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.6.tar.gz'
+    url: 'https://github.com/AliSoftware/OHHTTPStubs/archive/3.1.6.tar.gz'
   }, function(err, res, body) {
     if (err || res.statusCode != 200) {
       shell.rm('-rf', tmpDir);

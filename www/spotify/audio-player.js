@@ -13,16 +13,18 @@ var EVENT_LOGIN = 'login'
   , EVENT_PLAYBACK_STATUS = 'playbackStatus'
   , EVENT_SEEK_TO_OFFSET = 'seekToOffset';
 
-function AudioPlayer(companyName, appName) {
-  AudioPlayer.init.call(this, companyName, appName);
+function AudioPlayer(clientId) {
+  AudioPlayer.init.call(this, clientId);
 }
-
 module.exports = AudioPlayer;
 
-AudioPlayer.init = function(companyName, appName) {
+AudioPlayer.create = function(clientId) {
+  return new AudioPlayer(clientId);
+}
+
+AudioPlayer.init = function(clientId) {
   this._id = undefined;
-  this._companyName = companyName;
-  this._appName = appName;
+  this._clientId = clientId;
   this._events = undefined;
   this._destroyed = false;
   this._events = {};
@@ -101,7 +103,7 @@ AudioPlayer.prototype.removeEventListener = function(event, listener) {
 
 AudioPlayer.prototype.login = function(session, callback) {
   callback = this.__loginCallback(callback);
-  exec('createAudioPlayerAndLogin', this._companyName, this._appName, session, callback);
+  exec('createAudioPlayerAndLogin', this._clientId, session, callback);
 };
 
 AudioPlayer.prototype.__loginCallback = function(callback) {

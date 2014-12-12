@@ -34,7 +34,7 @@ function setupDriver() {
   if (process.env.SAUCE) {
     desired.app = 'sauce-storage:AcceptanceTest.zip';
   } else {
-    desired.app = path.join(process.cwd(), 'tmp/TestApp/platforms/ios/build/emulator/AcceptanceTest.app');
+    desired.app = path.join(process.cwd(), '.tmp/TestApp/platforms/ios/build/emulator/AcceptanceTest.app');
   }
 
   return driver.init(desired);

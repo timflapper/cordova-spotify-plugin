@@ -149,7 +149,7 @@
         responseArrived = YES;
     }];
 
-    [plugin createAudioPlayerAndLogin:[self createTestURLCommand:@[@"TestCompany", @"TestApp", session]]];
+    [plugin createAudioPlayerAndLogin:[self createTestURLCommand:@[@"RandomClientId", session]]];
 
     waitForSecondsOrDone(8, &responseArrived);
 
@@ -158,7 +158,7 @@
 
 - (void)testCreateAudioPlayerAndLoginFailure
 {
-    NSArray *args = @[@"TestCompany", @"TestApp", session];
+    NSArray *args = @[@"RandomClientId", session];
 
     __block BOOL responseArrived = NO;
 
@@ -723,7 +723,7 @@
 {
     __block BOOL responseArrived = NO;
 
-    NSArray *args = @[@"TestCompany", @"TestApp", session];
+    NSArray *args = @[@"RandomClientId", session];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");

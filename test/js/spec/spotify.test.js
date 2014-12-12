@@ -7,7 +7,7 @@ describe('core', function() {
     });
 
     it('should return an AudioPlayer object', function() {
-      var player = spotify.createAudioPlayer('amazingCompany', 'amazingApp');
+      var player = spotify.createAudioPlayer('randomClientId');
 
       expect(player).to.be.an.instanceof(AudioPlayer);
     });

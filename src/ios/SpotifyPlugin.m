@@ -58,12 +58,12 @@
                              }];
                         }
                     }];
-        
+
         NSURL *loginURL = [[SPTAuth defaultInstance]
                            loginURLForClientId:clientId
                            declaredRedirectURL:callbackUrl
                            scopes:scopes];
-        
+
         [[UIApplication sharedApplication] openURL:loginURL];
     }];
 }
@@ -111,14 +111,13 @@
 
 - (void)createAudioPlayerAndLogin:(CDVInvokedUrlCommand*)command
 {
-    NSString *companyName = [command.arguments objectAtIndex:0];
-    NSString *appName = [command.arguments objectAtIndex:1];
-    SPTSession *session = [self convertSession: [command.arguments objectAtIndex:2]];
+    NSString *clientId = [command.arguments objectAtIndex:0];
+    SPTSession *session = [self convertSession: [command.arguments objectAtIndex:1]];
 
     __weak SpotifyPlugin* weakSelf = self;
 
     [self.commandDelegate runInBackground:^{
-        SpotifyAudioPlayer *player = [[SpotifyAudioPlayer alloc] initWithCompanyName:companyName appName:appName];
+        SpotifyAudioPlayer *player = [[SpotifyAudioPlayer alloc] initWithClientId:clientId];
 
         [player loginWithSession:session callback:^(NSError *error) {
             CDVPluginResult *pluginResult;

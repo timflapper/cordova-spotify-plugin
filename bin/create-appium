@@ -11,7 +11,7 @@ env.loadEnvVariables(path.join(process.cwd(), '.env'));
 var workingDir = process.cwd()
   , pluginDir = path.join(__dirname, '..')
   , testPluginDir = path.join(pluginDir, 'test', 'appium')
-  , tmpDir = path.join(pluginDir, 'tmp')
+  , tmpDir = path.join(pluginDir, '.tmp')
   , tmpAppDir = path.join(tmpDir, 'TestApp')
   , tmpPluginDir = path.join(tmpDir, 'SpotifyPlugin')
   , wwwDir = path.join(tmpAppDir, 'www')

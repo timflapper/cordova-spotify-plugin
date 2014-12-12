@@ -2,9 +2,7 @@
 var AudioPlayer = require('./audio-player');
 
 module.exports = {
-  createAudioPlayer: function(companyName, appName) {
-    return new AudioPlayer(companyName, appName);
-  }
+  createAudioPlayer: AudioPlayer.create
 };
 
 /**

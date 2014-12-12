@@ -6,7 +6,7 @@ rm -rf plugins/com.timflapper.spotify/src/ios/Spotify.framework
 echo "Downloading Spotify Framework"
 mkdir plugins/com.timflapper.spotify/src/ios/tmp
 cd plugins/com.timflapper.spotify/src/ios/tmp
-curl -OL "https://github.com/spotify/ios-sdk/archive/beta-5.tar.gz"
+curl -OL "https://github.com/spotify/ios-sdk/archive/beta-6.tar.gz"
 
 echo "Extracting"
 tar xzvf beta-5.tar.gz

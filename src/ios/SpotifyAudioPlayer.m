@@ -28,9 +28,9 @@ static NSMutableDictionary *instances;
     return [instances objectForKey: ID];
 }
 
-- (id)initWithCompanyName:(NSString *)companyName appName:(NSString *)appName audioController:(SPTCoreAudioController *)audioController
+- (id)initWithClientId:(NSString *)clientId audioController:(SPTCoreAudioController *)audioController
 {
-    self = [super initWithCompanyName:companyName appName:appName audioController:audioController];
+    self = [super initWithClientId:clientId audioController:audioController];
 
     if (self) {
         delegate = self;

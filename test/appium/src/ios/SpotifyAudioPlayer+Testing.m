@@ -10,12 +10,12 @@
 #import "AutomationCoreAudioController.h"
 #import <objc/runtime.h>
 
-static IMP __initWithCompanyName_Imp;
-id __Swizzle_initWithCompanyName(SpotifyAudioPlayer *self, SEL _cmd, NSString *companyName, NSString *appName, SPTCoreAudioController *audioController)
+static IMP __initWithClientId_Imp;
+id __Swizzle_initWithClientId(SpotifyAudioPlayer *self, SEL _cmd, NSString *clientId, SPTCoreAudioController *audioController)
 {
     AutomationCoreAudioController *controller = [AutomationCoreAudioController new];
 
-    return __initWithCompanyName_Imp(self, _cmd, companyName, appName, controller);
+    return __initWithClientId_Imp(self, _cmd, clientId, controller);
 }
 
 @implementation SpotifyAudioPlayer (Testing)
@@ -23,8 +23,8 @@ id __Swizzle_initWithCompanyName(SpotifyAudioPlayer *self, SEL _cmd, NSString *c
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Method originalMethod = class_getInstanceMethod([self class], @selector(initWithCompanyName:appName:audioController:));
-        __initWithCompanyName_Imp = method_setImplementation(originalMethod, (IMP)__Swizzle_initWithCompanyName);
+        Method originalMethod = class_getInstanceMethod([self class], @selector(initWithClientId:audioController:));
+        __initWithClientId_Imp = method_setImplementation(originalMethod, (IMP)__Swizzle_initWithClientId);
     });
 }
 @end
