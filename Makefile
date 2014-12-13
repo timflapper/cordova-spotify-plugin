@@ -1,18 +1,16 @@
-test: test-ios test-js
+test:
+	@bin/test-all
 
 test-ios:
-	@echo "\n\n\x1b[32m\x1b[1m==XCode Unit tests==\x1b[0m\n"
-	@xcodebuild test -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -destination 'platform=iOS Simulator,name=iPhone 5s,OS=7.1' | xcpretty -tc && exit ${PIPESTATUS[0]}
+	@bin/test-ios
 
 test-js:
-	@echo "\n\n\x1b[32m\x1b[1m==JavaScript Unit tests==\x1b[0m\n"
 	@bin/test-js
 
 test-appium:
-	@echo "\n\n\x1b[32m\x1b[1m==Appium Acceptance Tests==\x1b[0m\n"
 	@bin/test-appium
 
-prepare: npm development appium
+prepare: npm development
 
 clean:
 	@bin/clean

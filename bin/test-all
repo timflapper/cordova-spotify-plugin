@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TEST_EXIT_CODE=0
+
+./bin/test-ios
+
+EC=$?
+if [ $EC -ne 0 ]; then
+	TEST_EXIT_CODE=$(($TEST_EXIT_CODE + $EC))
+fi
+
+./bin/test-js
+EC=$?
+if [ $EC -ne 0 ]; then
+	TEST_EXIT_CODE=$(($TEST_EXIT_CODE + $EC))
+fi
+
+exit $TEST_EXIT_CODE

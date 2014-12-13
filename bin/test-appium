@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+console.info("\n\n\x1b[32m\x1b[1m==Appium Acceptance Tests==\x1b[0m\n");
+
 var exitCode = 1;
 
 var env = require('./shared/env')

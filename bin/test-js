@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+console.info("\n\n\x1b[32m\x1b[1m==JavaScript Unit tests==\x1b[0m\n");
+
 var cordova = require('cordova')
   , fs = require('fs')
   , path = require('path')

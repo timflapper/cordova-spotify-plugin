@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo -e "\n\n\x1b[32m\x1b[1m==XCode Unit tests==\x1b[0m\n"
+
+xcodebuild test -project SpotifyPlugin.xcodeproj -scheme SpotifyPlugin -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.1' | xcpretty -tc
+exit ${PIPESTATUS[0]}
