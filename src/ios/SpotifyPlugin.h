@@ -6,6 +6,9 @@
 #import <Spotify/Spotify.h>
 #import "SpotifyAudioPlayer.h"
 
+NSString *dateToString(NSDate *date);
+NSDate *stringToDate(NSString *dateString);
+
 @interface SpotifyPlugin : CDVPlugin
 
 @property NSURL *callbackUrl;
@@ -20,7 +23,12 @@
 - (void)audioPlayerLogout:(CDVInvokedUrlCommand*)command;
 - (void)addAudioPlayerEventListener:(CDVInvokedUrlCommand*)command;
 - (void)play:(CDVInvokedUrlCommand*)command;
+- (void)setURIs:(CDVInvokedUrlCommand*)command;
+- (void)playURIsFromIndex:(CDVInvokedUrlCommand*)command;
 - (void)queue:(CDVInvokedUrlCommand*)command;
+- (void)queuePlay:(CDVInvokedUrlCommand*)command;
+- (void)queueClear:(CDVInvokedUrlCommand*)command;
+- (void)stop:(CDVInvokedUrlCommand*)command;
 - (void)seekToOffset:(CDVInvokedUrlCommand*)command;
 - (void)skipNext:(CDVInvokedUrlCommand*)command;
 - (void)skipPrevious:(CDVInvokedUrlCommand*)command;
@@ -37,28 +45,8 @@
 - (void)getShuffle:(CDVInvokedUrlCommand*)command;
 - (void)setShuffle:(CDVInvokedUrlCommand*)command;
 - (void)getLoggedIn:(CDVInvokedUrlCommand*)command;
+- (void)getQueueSize:(CDVInvokedUrlCommand*)command;
+- (void)getTrackListSize:(CDVInvokedUrlCommand*)command;
 - (void)getTrackMetadata:(CDVInvokedUrlCommand*)command;
 - (void)getCurrentPlaybackPosition:(CDVInvokedUrlCommand*)command;
-
 @end
-
-/**
- * TODO Specs:
- *  - isSessionValid
- *  - renewSession
- *
- *  - play for array of tracks
- *  - queue for single track and array of tracks
- *  - skipNext
- *  - skipPrevious
- *  - getTargetBitrate
- *  - setTargetBitrate
- *  - getdiskCacheSizeLimit
- *  - setdiskCacheSizeLimit
- *  - getTrackMetadata with trackID and relative
- *  - getRepeat
- *  - setRepeat
- *  - getShuffle
- *  - setShuffle
- *
- **/

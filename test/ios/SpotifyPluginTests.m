@@ -17,17 +17,19 @@
 @interface SpotifyPluginTests : XCTestCase
 @property SpotifyPlugin *plugin;
 @property MockCommandDelegate *commandDelegate;
-@property NSDictionary *session;
+@property NSDictionary *codeSession;
+@property NSDictionary *tokenSession;
+@property NSDictionary *expiredSession;
 @end
 
 @implementation SpotifyPluginTests
-@synthesize plugin, commandDelegate, session;
+@synthesize plugin, commandDelegate, codeSession, tokenSession, expiredSession;
 
 + (void)setUp
 {
-    BOOL done = NO;
-
-    waitForSecondsOrDone(2, &done);
+    NSDate* timeoutDate = [NSDate dateWithTimeIntervalSinceNow:2];
+    while ([timeoutDate timeIntervalSinceNow]>0)
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.005, YES);
 }
 
 - (void)setUp
@@ -41,8 +43,23 @@
 
     plugin.commandDelegate = commandDelegate;
 
-    session = @{@"username": @"justsomefakeuser", @"credential": @"a3mFAyzr0JlUCtipI39eDoq41xHY54WOUMoY3KmIJIrzyaywru94mEr8A7Tb8W_Yb75DZmpUKZF0plTxFN96UNZHowOVl98YQWyzqShOrQoKXzOcAgA6XQoLLX0HLAFjhGvDgIHRojSLhsL"};
+    codeSession = @{@"canonicalUsername": @"awesomeuser",
+                    @"accessToken": @"Ab4wVEt-33dSMLfD_Nd_GLjBGX5TQc0VrQRIXW2WVP69Z5I_bIw4YIumYsOPXNA-1-6HLdS_XdfX9FXrtezc-ltUAT6cj69scFrqxJPWV12mK-224W0ekpsi-WQe_T1OYSZbyv00abgBopOzx9AOH5sd",
+                    @"encryptedRefreshToken": @"XXXX_qPeacCRHWujLagqGV0khtZ_jaF_Ek8VI80g7HpAzjmbQZHz1j5_0YbcpSvi31mE7AMipJcYGQ9_p_65elCf_OS6vIhhNJRCmlOPc3RJVjuNdadQTR9sucB413X4Xx",
+                    @"expirationDate": dateToString([NSDate dateWithTimeIntervalSinceNow:3600]),
+                    @"tokenType": @"Bearer"};
 
+    tokenSession = @{@"canonicalUsername": @"awesomeuser",
+                     @"accessToken": @"NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3",
+                     @"encryptedRefreshToken": [NSNull null],
+                     @"expirationDate": dateToString([NSDate dateWithTimeIntervalSinceNow:3600]),
+                     @"tokenType": @"Bearer"};
+
+    expiredSession = @{@"canonicalUsername": @"awesomeuser",
+                       @"accessToken": @"Ab4wVEt-33dSMLfD_Nd_GLjBGX5TQc0VrQRIXW2WVP69Z5I_bIw4YIumYsOPXNA-1-6HLdS_XdfX9FXrtezc-ltUAT6cj69scFrqxJPWV12mK-224W0ekpsi-WQe_T1OYSZbyv00abgBopOzx9AOH5sd",
+                       @"encryptedRefreshToken": @"XXXX_qPeacCRHWujLagqGV0khtZ_jaF_Ek8VI80g7HpAzjmbQZHz1j5_0YbcpSvi31mE7AMipJcYGQ9_p_65elCf_OS6vIhhNJRCmlOPc3RJVjuNdadQTR9sucB413X4Xx",
+                       @"expirationDate": dateToString([NSDate dateWithTimeIntervalSinceNow:-1800]),
+                       @"tokenType": @"Bearer"};
 }
 
 - (void)tearDown
@@ -54,10 +71,11 @@
     [SpotifyAudioPlayer clearTestValues];
 }
 
-- (void)testAuthenticateSuccess
-{
+#pragma mark authenticate
 
-    NSArray *args = @[@"spotify-ios-sdk-beta", @"http://foo.bar:1234/swap", @[@"streaming"]];
+- (void)testAuthenticateSuccessWithCode
+{
+    NSArray *args = @[@"someRandomClientId", @"code", @"http://foo.bar:1234/swap", @[@"streaming"]];
 
     __block BOOL responseArrived = NO;
 
@@ -70,7 +88,6 @@
 
 
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-
         return [request.URL.host isEqualToString:@"api.spotify.com"];
     } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"profile.json")
@@ -79,6 +96,7 @@
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        XCTAssertEqualObjects(result.message, codeSession);
         responseArrived = YES;
     }];
 
@@ -100,7 +118,61 @@
 
 }
 
-- (void)testAuthenticateAborted
+- (void)testAuthenticateSuccessWithToken
+{
+    NSArray *args = @[@"someRandomClientId", @"token", @[@"streaming"]];
+
+    __block BOOL responseArrived = NO;
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [request.URL.host isEqualToString:@"api.spotify.com"];
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"profile.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        XCTAssertEqualObjects(result.message, tokenSession);
+        responseArrived = YES;
+    }];
+
+    [plugin authenticate:[self createTestURLCommand:args]];
+
+    double delayInSeconds = 0.005;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSURL *callbackURL = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback?access_token=NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3&token_type=Bearer&expires_in=3600"];
+
+        [[NSNotificationCenter defaultCenter]
+         postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification
+                                                        object:callbackURL]];
+    });
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testAuthenticateInvalidResponseType
+{
+    __block BOOL responseArrived = NO;
+
+    [plugin authenticate:[self createTestURLCommand:@[@"spotify-ios-sdk-beta", @"bla", @[@"streaming"]]]];
+
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+        responseArrived = YES;
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+
+- (void)testAuthenticateFailed
 {
     __block BOOL responseArrived = NO;
 
@@ -112,7 +184,7 @@
         return [OHHTTPStubsResponse responseWithError: errorForTesting()];
     }];
 
-    [plugin authenticate:[self createTestURLCommand:@[@"spotify-ios-sdk-beta", @"http://foo.bar:1234/swap", @[@"login"]]]];
+    [plugin authenticate:[self createTestURLCommand:@[@"spotify-ios-sdk-beta", @"code", @"http://foo.bar:1234/swap", @[@"streaming"]]]];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -134,22 +206,123 @@
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-#pragma AudioPlayer tests
+#pragma mark renewSession
+
+- (void)testRenewSessionSuccess
+{
+    NSArray *args = @[codeSession, @"http://foo.bar:1234/refresh"];
+
+    __block BOOL responseArrived = NO;
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        if (![request.URL.host isEqualToString:@"foo.bar"]) {
+            XCTFail(@"It should not call any other URL");
+            return NO;
+        }
+
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"refresh.json")
+                                          statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+        XCTAssertEqualObjects(result.message, codeSession);
+
+        responseArrived = YES;
+    }];
+
+    [plugin renewSession:[self createTestURLCommand:args]];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testRenewSessionFailed
+{
+    NSArray *args = @[codeSession, @"http://foo.bar:1234/refresh"];
+
+    __block BOOL responseArrived = NO;
+
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        if (![request.URL.host isEqualToString:@"foo.bar"]) {
+            XCTFail(@"It should not call any other URL");
+            return NO;
+        }
+
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData: getDataFromTestDataFile(@"refresh_failed.json")
+                                          statusCode:400 headers:@{@"Content-Type":@"application/json"}];
+    }];
+
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+
+        responseArrived = YES;
+    }];
+
+    [plugin renewSession:[self createTestURLCommand:args]];
+
+    waitForSecondsOrDone(8, &responseArrived);
+}
+
+#pragma mark isSessionValid
+
+- (void)testIsSessionValidYES
+{
+    NSArray *args = @[codeSession];
+
+    __block BOOL responseArrived = NO;
+
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+
+        XCTAssertEqualObjects(result.message, [NSNumber numberWithBool:YES]);
+
+        responseArrived = YES;
+    }];
+
+    [plugin isSessionValid:[self createTestURLCommand:args]];
+
+    waitForSecondsOrDone(8, &responseArrived);
+}
+
+- (void)testIsSessionValidNO
+{
+    NSArray *args = @[expiredSession];
+
+    __block BOOL responseArrived = NO;
+
+    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+        XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+
+        XCTAssertEqualObjects(result.message, [NSNumber numberWithBool:NO]);
+
+        responseArrived = YES;
+    }];
+
+    [plugin isSessionValid:[self createTestURLCommand:args]];
+
+    waitForSecondsOrDone(8, &responseArrived);
+}
+
+#pragma mark createAudioPlayerAndLogin
 
 - (void)testCreateAudioPlayerAndLoginCorrect
 {
     __block BOOL responseArrived = NO;
 
-    [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-        callback(nil);
-    } afterDelayInSeconds:0.005];
+    [self setPlayerActionCallback:nil];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
         responseArrived = YES;
     }];
 
-    [plugin createAudioPlayerAndLogin:[self createTestURLCommand:@[@"RandomClientId", session]]];
+    [plugin createAudioPlayerAndLogin:[self createTestURLCommand:@[@"RandomClientId", codeSession]]];
 
     waitForSecondsOrDone(8, &responseArrived);
 
@@ -158,7 +331,7 @@
 
 - (void)testCreateAudioPlayerAndLoginFailure
 {
-    NSArray *args = @[@"RandomClientId", session];
+    NSArray *args = @[@"RandomClientId", codeSession];
 
     __block BOOL responseArrived = NO;
 
@@ -167,9 +340,7 @@
         responseArrived = YES;
     }];
 
-    [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-        callback(errorForTesting());
-    } afterDelayInSeconds:0.005];
+    [self setPlayerActionCallback:errorForTesting()];
 
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
 
@@ -177,6 +348,8 @@
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
+
+#pragma mark addAudioPlayerEventListener
 
 - (void)testAddAudioPlayerEventListenerAndEvent
 {
@@ -204,7 +377,7 @@
         [plugin play:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
     }];
 
-    waitForSecondsOrDone(10, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -224,12 +397,14 @@
         responseArrived = YES;
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-- (void)testPlayURISuccess
+#pragma mark play
+
+- (void)testPlaySingleUriSuccess
 {
     __block BOOL responseArrived = NO;
 
@@ -244,22 +419,19 @@
         }];
 
         [plugin play:[self createTestURLCommand: @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm"]]];
-
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-- (void)testPlayURIFailed
+- (void)testPlayURISuccess
 {
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(errorForTesting());
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:errorForTesting()];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -269,12 +441,12 @@
         [plugin play:[self createTestURLCommand: @[playerID, @"spotify:bla:bla"]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-- (void)testPlayURIUndefinedPlayer
+- (void)testPlayUndefinedPlayer
 {
     __block BOOL responseArrived = NO;
 
@@ -289,19 +461,483 @@
 
     [plugin play:[self createTestURLCommand: @[@"afsdfsdasdf324242", @"spotify:bla:bla"]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
+
+- (void)testPlayURIWithIndexSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin play:[self createTestURLCommand: @[playerID, @"spotify:album:0F0MA0ns8oXwGw66B2BSXm", @3]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testPlayURIsSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        NSArray *tracks = @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm", @"spotify:track:0F0MA0ns8oXwGw66d26SXv"];
+        NSArray *args = @[playerID, tracks];
+
+        [plugin play:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testPlayURIsFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+            responseArrived = YES;
+        }];
+
+        NSArray *tracks = @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm", @"spotify:track:0F0MA0ns8oXwGw66d26SXv"];
+        NSArray *args = @[playerID, tracks];
+
+        [plugin play:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark setURIs
+
+- (void)testSetURIsSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        NSArray *tracks = @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm", @"spotify:track:0F0MA0ns8oXwGw66d26SXv"];
+        NSArray *args = @[playerID, tracks];
+
+        [plugin setURIs:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testSetURIsFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+            responseArrived = YES;
+        }];
+
+        NSArray *tracks = @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm", @"spotify:track:0F0MA0ns8oXwGw66d26SXv"];
+        NSArray *args = @[playerID, tracks];
+
+        [plugin setURIs:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark playURIsFromIndex
+
+- (void)testPlayURIsFromIndexSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin playURIsFromIndex:[self createTestURLCommand: @[playerID, @2]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testPlayURIsFromIndexFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+            responseArrived = YES;
+        }];
+
+        [plugin playURIsFromIndex:[self createTestURLCommand: @[playerID, @2]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark queue
+
+- (void)testQueueURISuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        NSArray *args = @[playerID, @"spotify:track:0F0MA0ns8oXwGw66B2BSXm", [NSNumber numberWithBool:YES]];
+
+        [plugin queue:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testQueueURIsSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        NSArray *tracks = @[@"spotify:track:0F0MA0ns8oXwGw66B2BSXm", @"spotify:track:0F0MA0ns8oXwGw66d26SXv"];
+        NSArray *args = @[playerID, tracks, [NSNumber numberWithBool:YES]];
+
+        [plugin queue:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testQueueInvalidData
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+            XCTAssertEqualObjects(result.message, @"Unknown data");
+            responseArrived = YES;
+        }];
+
+        NSArray *args = @[playerID, @3, [NSNumber numberWithBool:YES]];
+
+        [plugin queue:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testQueueFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+            responseArrived = YES;
+        }];
+
+        NSArray *args = @[playerID, @"spotify:track:0F0MA0ns8oXwGw66d26SXv", [NSNumber numberWithBool:NO]];
+
+        [plugin queue:[self createTestURLCommand: args]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark queuePlay
+
+- (void)testQueuePlaySuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin queuePlay:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testQueuePlayFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be FAILED");
+            responseArrived = YES;
+        }];
+
+        [plugin queuePlay:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark queueClear
+
+- (void)testQueueClearSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin queueClear:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testQueueClearFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be FAILED");
+            responseArrived = YES;
+        }];
+
+        [plugin queueClear:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+#pragma mark stop
+
+
+- (void)testStoppedSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin stop:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testStopFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be FAILED");
+            responseArrived = YES;
+        }];
+
+        [plugin stop:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark skipNext
+
+- (void)testSkipNextSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin skipNext:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testSkipNextFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be FAILED");
+            responseArrived = YES;
+        }];
+
+        [plugin skipNext:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark skipPrevious
+
+- (void)testSkipPreviousSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin skipNext:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+
+}
+
+- (void)testSkipPreviousFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be FAILED");
+            responseArrived = YES;
+        }];
+
+        [plugin skipNext:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark seekToOffset
 
 - (void)testSeekToOffsetSuccess
 {
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(nil);
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:nil];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -311,7 +947,7 @@
         [plugin seekToOffset:[self createTestURLCommand:@[playerID, @2.5]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -321,9 +957,7 @@
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(errorForTesting());
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:errorForTesting()];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -333,7 +967,7 @@
         [plugin seekToOffset:[self createTestURLCommand:@[playerID, @2.5]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -346,9 +980,7 @@
         XCTFail(@"Should never be called");
     } afterDelayInSeconds:0.005];
 
-    [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-        callback(errorForTesting());
-    } afterDelayInSeconds:0.005];
+    [self setPlayerActionCallback:errorForTesting()];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -357,10 +989,12 @@
 
     [plugin seekToOffset:[self createTestURLCommand:@[@"sfasdfasdfsdfaasfasdfasdfasfda", @2.5]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
+
+#pragma mark getIsPlaying
 
 - (void)testGetIsPlaying
 {
@@ -377,35 +1011,19 @@
         [plugin getIsPlaying:[self createTestURLCommand:@[playerID]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-- (void)testGetIsPlayingUndefinedPlayer
-{
-    __block BOOL responseArrived = NO;
-
-    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
-        XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
-        responseArrived = YES;
-    }];
-
-    [plugin getIsPlaying:[self createTestURLCommand:@[@"asdfasfasdfsdf"]]];
-
-    waitForSecondsOrDone(2, &responseArrived);
-
-    XCTAssertTrue(responseArrived, "Time Out before result arrived");
-}
+#pragma mark setIsPlaying
 
 - (void)testSetIsPlayingSuccess
 {
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(nil);
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:nil];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -415,7 +1033,7 @@
         [plugin setIsPlaying:[self createTestURLCommand:@[playerID, @0]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -425,9 +1043,7 @@
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(errorForTesting());
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:errorForTesting()];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -437,31 +1053,122 @@
         [plugin setIsPlaying:[self createTestURLCommand:@[playerID, @0]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
-- (void)testSetIsPlayingUndefinedPlayer
+#pragma mark getTargetBitrate
+
+- (void)testGetTargetBitrate
 {
     __block BOOL responseArrived = NO;
 
-    [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-        XCTFail(@"AudioPlayer should not exist");
-    } afterDelayInSeconds:0.005];
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [SpotifyAudioPlayer setNextMethodReturn:@2];
 
-    [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
-        XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
-        responseArrived = YES;
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            XCTAssertEqualObjects(result.message, @2);
+            responseArrived = YES;
+        }];
+
+        [plugin getTargetBitrate:[self createTestURLCommand:@[playerID]]];
     }];
 
-    [plugin setIsPlaying:[self createTestURLCommand:@[@2, @0]]];
-
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
+#pragma mark setTargetBitrate
+
+- (void)testSetTargetBitrateSuccess
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin setTargetBitrate:[self createTestURLCommand:@[playerID, @1]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testSetTargetBitrateFailed
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:errorForTesting()];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
+            responseArrived = YES;
+        }];
+
+        [plugin setTargetBitrate:[self createTestURLCommand:@[playerID, @2]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark getDiskCacheSizeLimit
+
+- (void)testGetDiskCacheSizeLimit
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [SpotifyAudioPlayer setNextMethodReturn:@2000];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            XCTAssertEqualObjects(result.message, @2000);
+            responseArrived = YES;
+        }];
+
+        [plugin getDiskCacheSizeLimit:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark setDiskCacheSizeLimit
+
+- (void)testSetDiskCacheSizeLimit
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:nil];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin setDiskCacheSizeLimit:[self createTestURLCommand:@[playerID, @4000]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark getVolume
 
 - (void)testGetVolume
 {
@@ -478,7 +1185,7 @@
         [plugin getVolume:[self createTestURLCommand: @[playerID]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -494,19 +1201,19 @@
 
     [plugin getVolume:[self createTestURLCommand:@[@"asdfsdfsdf"]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
+
+#pragma mark setVolume
 
 - (void)testSetVolumeSuccess
 {
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(nil);
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:nil];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -516,7 +1223,7 @@
         [plugin setVolume:[self createTestURLCommand:@[playerID, @0.5]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -526,9 +1233,7 @@
     __block BOOL responseArrived = NO;
 
     [self loginAudioPlayer:^(NSString *playerID) {
-        [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-            callback(errorForTesting());
-        } afterDelayInSeconds:0.005];
+        [self setPlayerActionCallback:errorForTesting()];
 
         [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
             XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -538,7 +1243,7 @@
         [plugin setVolume:[self createTestURLCommand:@[playerID, @0.5]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -558,11 +1263,96 @@
 
     [plugin setVolume:[self createTestURLCommand:@[@"asdfasfsdf", @0.5]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
+#pragma mark getRepeat
+
+- (void)testGetRepeat
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [SpotifyAudioPlayer setNextMethodReturn:@0];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin getRepeat:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark setRepeat
+
+- (void)testSetRepeat
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin setRepeat:[self createTestURLCommand:@[playerID, @0]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark getShuffle
+
+- (void)testGetShuffle
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [SpotifyAudioPlayer setNextMethodReturn:@0];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin getShuffle:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark setShuffle
+
+- (void)testSetShuffle
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin setShuffle:[self createTestURLCommand:@[playerID, @0]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark getLoggedIn
 
 - (void)testGetLoggedIn
 {
@@ -579,7 +1369,7 @@
         [plugin getLoggedIn:[self createTestURLCommand:@[playerID]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -595,11 +1385,55 @@
 
     [plugin getLoggedIn:[self createTestURLCommand:@[@2]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
 
+#pragma mark getQueueSize
+
+- (void)testGetQueueSize
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [SpotifyAudioPlayer setNextMethodReturn:@1];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin getQueueSize:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+#pragma mark getTrackListSize
+
+- (void)testGetTrackListSize
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [SpotifyAudioPlayer setNextMethodReturn:@1];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            responseArrived = YES;
+        }];
+
+        [plugin getTrackListSize:[self createTestURLCommand:@[playerID]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+#pragma mark getTrackMetadata
 
 - (void)testGetTrackMetadata
 {
@@ -632,7 +1466,79 @@
         [plugin getTrackMetadata:[self createTestURLCommand:@[playerID]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testGetTrackMetadataInTrackListAbsolute
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:@{@"SPAudioStreamingMetadataTrackName": @"Emerge",
+                                        @"SPAudioStreamingMetadataTrackURI": @"spotify:track:3vyKSb9sAdXl0kQ1KnS9fY",
+                                        @"SPAudioStreamingMetadataArtistName": @"Fischerspooner",
+                                        @"SPAudioStreamingMetadataArtistURI": @"spotify:artist:5R7K1GezC0jy24v1R2n4x3",
+                                        @"SPAudioStreamingMetadataAlbumName": @"#1",
+                                        @"SPAudioStreamingMetadataAlbumURI": @"spotify:album:3OCiJ6mbOzJdzTrk8R9hy2",
+                                        @"SPAudioStreamingMetadataTrackDuration": @"288.306"}];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            NSDictionary *expected = @{@"name": @"Emerge",
+                                       @"uri": @"spotify:track:3vyKSb9sAdXl0kQ1KnS9fY",
+                                       @"artist": @{@"name": @"Fischerspooner",
+                                                    @"uri": @"spotify:artist:5R7K1GezC0jy24v1R2n4x3"},
+                                       @"album": @{@"name": @"#1",
+                                                   @"uri":@"spotify:album:3OCiJ6mbOzJdzTrk8R9hy2"},
+                                       @"duration": @"288.306"};
+
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            XCTAssertEqualObjects(result.message, expected);
+
+            responseArrived = YES;
+        }];
+
+        [plugin getTrackMetadata:[self createTestURLCommand:@[playerID, @4]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
+
+    XCTAssertTrue(responseArrived, "Time Out before result arrived");
+}
+
+- (void)testGetTrackMetadataInTrackListRelative
+{
+    __block BOOL responseArrived = NO;
+
+    [self loginAudioPlayer:^(NSString *playerID) {
+        [self setPlayerActionCallback:@{@"SPAudioStreamingMetadataTrackName": @"Emerge",
+                                        @"SPAudioStreamingMetadataTrackURI": @"spotify:track:3vyKSb9sAdXl0kQ1KnS9fY",
+                                        @"SPAudioStreamingMetadataArtistName": @"Fischerspooner",
+                                        @"SPAudioStreamingMetadataArtistURI": @"spotify:artist:5R7K1GezC0jy24v1R2n4x3",
+                                        @"SPAudioStreamingMetadataAlbumName": @"#1",
+                                        @"SPAudioStreamingMetadataAlbumURI": @"spotify:album:3OCiJ6mbOzJdzTrk8R9hy2",
+                                        @"SPAudioStreamingMetadataTrackDuration": @"288.306"}];
+
+        [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
+            NSDictionary *expected = @{@"name": @"Emerge",
+                                       @"uri": @"spotify:track:3vyKSb9sAdXl0kQ1KnS9fY",
+                                       @"artist": @{@"name": @"Fischerspooner",
+                                                    @"uri": @"spotify:artist:5R7K1GezC0jy24v1R2n4x3"},
+                                       @"album": @{@"name": @"#1",
+                                                   @"uri":@"spotify:album:3OCiJ6mbOzJdzTrk8R9hy2"},
+                                       @"duration": @"288.306"};
+
+            XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
+            XCTAssertEqualObjects(result.message, expected);
+
+            responseArrived = YES;
+        }];
+
+        [plugin getTrackMetadata:[self createTestURLCommand:@[playerID, @4, [NSNumber numberWithBool:YES]]]];
+    }];
+
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -649,10 +1555,12 @@
 
     [plugin getTrackMetadata:[self createTestURLCommand:@[@2]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
+
+#pragma mark getCurrentPlaybackPosition
 
 - (void)testGetCurrentPlaybackPosition
 {
@@ -670,7 +1578,7 @@
         [plugin getCurrentPlaybackPosition:[self createTestURLCommand:@[playerID]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -691,7 +1599,7 @@
         [plugin getCurrentPlaybackPosition:[self createTestURLCommand:@[playerID]]];
     }];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -707,7 +1615,7 @@
 
     [plugin getCurrentPlaybackPosition:[self createTestURLCommand:@[@2]]];
 
-    waitForSecondsOrDone(2, &responseArrived);
+    waitForSecondsOrDone(8, &responseArrived);
 
     XCTAssertTrue(responseArrived, "Time Out before result arrived");
 }
@@ -723,7 +1631,7 @@
 {
     __block BOOL responseArrived = NO;
 
-    NSArray *args = @[@"RandomClientId", session];
+    NSArray *args = @[@"RandomClientId", codeSession];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_OK, @"Command status should be OK");
@@ -731,14 +1639,18 @@
         callback((NSString *)[result message]);
     }];
 
-    [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
-        callback(nil);
-    } afterDelayInSeconds:0.005];
+    [self setPlayerActionCallback:nil];
 
     [plugin createAudioPlayerAndLogin:[self createTestURLCommand:args]];
 
     waitForSecondsOrDone(30, &responseArrived);
 }
 
+- (void)setPlayerActionCallback:(id)result
+{
+    [SpotifyAudioPlayer setNextCallback:^(SPTErrorableOperationCallback callback) {
+        callback(result);
+    } afterDelayInSeconds:0.005];
+}
 
 @end

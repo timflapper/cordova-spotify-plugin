@@ -104,6 +104,98 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     [self audioStreaming:self didChangePlaybackStatus:YES];
 }
 
+- (void)playURI:(NSURL *)uri fromIndex:(int)index callback:(SPTErrorableOperationCallback)block
+{
+    [self playURI:uri callback:block];
+}
+
+- (void)playURIs:(NSArray *)uris fromIndex:(int)index callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+
+    [self audioStreaming:self didChangePlaybackStatus:YES];
+}
+
+- (void)setURIs:(NSArray *)uris callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+}
+
+- (void)playURIsFromIndex:(int)index callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+
+    [self audioStreaming:self didChangePlaybackStatus:YES];
+}
+
+- (void)queueURI:(NSURL *)uri callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+}
+
+- (void)queueURI:(NSURL *)uri clearQueue:(BOOL)clear callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+}
+
+- (void)queueURIs:(NSArray *)uris clearQueue:(BOOL)clear callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+}
+
+- (void)queuePlay:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+
+    [self audioStreaming:self didChangePlaybackStatus:YES];
+}
+
+- (void)queueClear:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+}
+
+- (void)stop:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+
+    [self audioStreaming:self didChangePlaybackStatus:YES];
+}
+
+- (void)skipNext:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+
+    [self audioStreaming:self didChangePlaybackStatus:YES];
+
+}
+
+- (void)skipPrevious:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+
+    if ([[self class] getNextMethodReturn] != nil)
+        [self audioStreaming:self didChangeToTrack:[[self class] getNextMethodReturn]];
+
+    [self audioStreaming:self didChangePlaybackStatus:YES];
+
+}
+
 - (void)seekToOffset:(NSTimeInterval)offset callback:(SPTErrorableOperationCallback)block
 {
     [[self class] invokeNextCallback:block];
@@ -123,10 +215,34 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     [[self class] invokeNextCallback:block];
 }
 
+- (SPTBitrate)targetBitrate
+{
+    NSNumber *methodReturn = [[self class] getNextMethodReturn];
+
+    return methodReturn.intValue;
+}
+
+- (void)setTargetBitrate:(SPTBitrate)bitrate callback:(SPTErrorableOperationCallback)block
+{
+    [[self class] invokeNextCallback:block];
+}
+
+- (NSUInteger)diskCacheSizeLimit
+{
+    NSNumber *methodReturn = [[self class] getNextMethodReturn];
+
+    return methodReturn.intValue;
+}
+
+- (void)setDiskCacheSizeLimit:(NSUInteger)diskCacheSizeLimit
+{
+    return;
+}
+
 - (SPTVolume)volume
 {
     NSNumber *methodReturn = [[self class] getNextMethodReturn];
-    
+
     return methodReturn.doubleValue;
 }
 
@@ -136,9 +252,57 @@ void runBlockAfterDelayInSeconds(NSTimeInterval delayInSeconds, dispatch_block_t
     [self audioStreaming:self didChangeVolume:volume];
 }
 
+- (BOOL)repeat
+{
+    NSNumber *methodReturn = [[self class] getNextMethodReturn];
+
+    return methodReturn.boolValue;
+}
+
+- (void)setRepeat:(BOOL)repeat
+{
+    [self audioStreaming:self didChangeRepeatStatus:repeat];
+}
+
+- (BOOL)shuffle
+{
+    NSNumber *methodReturn = [[self class] getNextMethodReturn];
+
+    return methodReturn.boolValue;
+}
+
+- (void)setShuffle:(BOOL)shuffle
+{
+    [self audioStreaming:self didChangeShuffleStatus:shuffle];
+}
+
+- (int)queueSize
+{
+    NSNumber *methodReturn = [[self class] getNextMethodReturn];
+
+    return methodReturn.intValue;
+}
+
+- (int)trackListSize
+{
+    NSNumber *methodReturn = [[self class] getNextMethodReturn];
+
+    return methodReturn.intValue;
+}
+
 - (NSDictionary *)currentTrackMetadata
 {
     return [[self class] getNextMethodReturn];
+}
+
+- (void)getRelativeTrackMetadata:(int)index callback:(void (^)(NSDictionary *))block
+{
+   [[self class] invokeNextCallback:block];
+}
+
+- (void)getAbsoluteTrackMetadata:(int)index callback:(void (^)(NSDictionary *))block
+{
+   [[self class] invokeNextCallback:block];
 }
 
 - (NSTimeInterval)currentPlaybackPosition
