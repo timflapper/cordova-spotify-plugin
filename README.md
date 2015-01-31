@@ -10,7 +10,7 @@ _Android integration is planned for a future release_
 	
 1. Install the plugin:
 
-		`cordova plugin add https://github.com/timflapper/cordova-spotify-plugin`
+		`cordova plugin add com.timflapper.spotify`
 
 2. Add the iOS platform to your project (if needed):
 
