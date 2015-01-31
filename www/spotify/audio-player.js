@@ -1,213 +1,201 @@
-
-var utils = require('./utils');
+var utils = require('./utils')
+  , EventDispatcher = require('./event-dispatcher');
 
 var exec = utils.exec
   , noop = utils.noop;
 
-
-var EVENT_LOGIN = 'login'
-  , EVENT_LOGOUT = 'logout'
-  , EVENT_PERMISSION_LOST = 'permissionLost'
-  , EVENT_ERROR = 'error'
-  , EVENT_MESSAGE = 'message'
-  , EVENT_PLAYBACK_STATUS = 'playbackStatus'
-  , EVENT_SEEK_TO_OFFSET = 'seekToOffset';
-
 function AudioPlayer(clientId) {
-  AudioPlayer.init.call(this, clientId);
-}
-module.exports = AudioPlayer;
+  EventDispatcher.call(this);
 
-AudioPlayer.create = function(clientId) {
+  this.id = undefined;
+  this.clientId = clientId;
+}
+
+AudioPlayer.prototype = Object.create(EventDispatcher.prototype);
+AudioPlayer.prototype.constructor = AudioPlayer;
+
+module.exports.createAudioPlayer = function(clientId) {
   return new AudioPlayer(clientId);
 }
 
-AudioPlayer.init = function(clientId) {
-  this._id = undefined;
-  this._clientId = clientId;
-  this._events = undefined;
-  this._destroyed = false;
-  this._events = {};
-};
-
-AudioPlayer.prototype.__dispatchEvent = function(event, args) {
-  if (this._destroyed) return;
-
-  var i, listeners;
-
-  args = args || [];
-
-  if ((event in this._events) === false) {
-    if (event === EVENT_ERROR)
-      throw new Error(args[0]);
-
-    if (event === EVENT_MESSAGE)
-      alert(args[0]);
-
-    return;
-  }
-
-  listeners = this._events[event];
-
-  if (listeners.length === 1) {
-    listeners[0].apply(this, args);
-  } else {
-    listeners = this._events[event].slice();
-
-    listeners.forEach(function(item, index) {
-      item.apply(this, args);
-    });
-  }
-};
-
-AudioPlayer.prototype.__eventListener = function(error, result) {
-  if (error) {
-      this.__dispatchEvent.call(this, 'error', error);
-      return;
-  }
-
-  this.__dispatchEvent.call(this, result.type, result.args);
-};
-
-AudioPlayer.prototype.addEventListener = function(event, listener) {
-  if (this._destroyed)
-      throw new Error('AudioPlayer has been destroyed');
-
-  if (typeof listener !== 'function')
-    throw new Error('listener must be a function');
-
-  if ((event in this._events) === false)
-    this._events[event] = [];
-
-  this._events[event].push(listener);
-};
-
-AudioPlayer.prototype.removeEventListener = function(event, listener) {
-  if (typeof listener !== 'function')
-    throw new Error('listener must be a function');
-
-  if ((event in this._events) === false)
-    return;
-
-  var updatedArray = [];
-
-  this._events[event].forEach(function(func, index) {
-    if (func === listener)
-      return;
-
-    updatedArray.push(func);
-  });
-
-  this._events[event] = updatedArray;
+var events = module.exports.AudioPlayer = {
+  EVENT_LOGIN: 'login',
+  EVENT_LOGOUT: 'logout',
+  EVENT_PERMISSION_LOST: 'permissionLost',
+  EVENT_ERROR: 'error',
+  EVENT_MESSAGE: 'message',
+  EVENT_PLAYBACK_STATUS: 'playbackStatus',
+  EVENT_SEEK_TO_OFFSET: 'seekToOffset'
 };
 
 AudioPlayer.prototype.login = function(session, callback) {
-  callback = this.__loginCallback(callback);
-  exec('createAudioPlayerAndLogin', this._clientId, session, callback);
-};
-
-AudioPlayer.prototype.__loginCallback = function(callback) {
   var self = this;
 
-  return function(error, id) {
+  exec('createAudioPlayerAndLogin', self.clientId, session, loginCallback);
+
+  function loginCallback(error, id) {
     if (error) {
       if (! callback)
-        return self.__dispatchEvent(EVENT_ERROR, [error]);
+        return self.dispatchEvent(events.EVENT_ERROR, [error]);
 
       return callback(error);
     }
 
-    self._id = id;
+    self.id = id;
 
-    exec('addAudioPlayerEventListener', self._id, self.__eventListener.bind(self));
+    exec('addAudioPlayerEventListener', self.id, onEventCallback);
 
     if (! callback)
-      return self.__dispatchEvent(EVENT_LOGIN);
+      return self.dispatchEvent(events.EVENT_LOGIN);
 
     callback(null);
   };
+
+  function onEventCallback(error, result) {
+    if (error)
+      return self.dispatchEvent.call(self, events.EVENT_ERROR, [error]);
+
+    self.dispatchEvent.call(self, result.type, result.args);
+  }
+};
+
+AudioPlayer.prototype.logout = function(callback) {
+  var self = this;
+
+  exec('audioPlayerLogout', self.id, logoutCallback);
+
+  function logoutCallback(error) {
+    if (error) {
+      if (! callback)
+        return self.dispatchEvent.call(self, events.EVENT_ERROR, [error]);
+
+      return callback(error);
+    }
+
+    if (! callback)
+      return self.dispatchEvent.call(self, events.EVENT_LOGOUT);
+
+    callback(null);
+  }
 };
 
 AudioPlayer.prototype.play = function(data, fromIndex, callback) {
   if (callback === undefined && typeof fromIndex === 'function')
-    callback = fromIndex, fromIndex = 0;
+    callback = fromIndex, fromIndex = null;
 
-  exec('play', this._id, data, fromIndex, callback);
+  if (typeof fromIndex !== 'number') fromIndex = 0;
+
+  exec('play', this.id, data, fromIndex, callback);
 };
+
+AudioPlayer.prototype.setURIs = function(data, callback) {
+  exec('setURIs', this.id, data, callback);
+};
+
+AudioPlayer.prototype.playURIsFromIndex = function(fromIndex, callback) {
+  exec('playURIsFromIndex', this.id, fromIndex, callback);
+}
 
 AudioPlayer.prototype.queue = function(data, clearQueue, callback) {
   if (callback === undefined && typeof clearQueue === 'function')
-    callback = clearQueue, clearQueue = 0;
+    callback = clearQueue, clearQueue = false;
 
-  exec('queue', this._id, data, clearQueue, callback);
+  exec('queue', this.id, data, clearQueue, callback);
 };
 
+AudioPlayer.prototype.queuePlay = function(callback) {
+  exec('queuePlay', this.id, callback);
+}
+
+AudioPlayer.prototype.queueClear = function(callback) {
+  exec('queueClear', this.id, callback);
+}
+
+AudioPlayer.prototype.stop = function(callback) {
+  exec('stop', this.id, callback);
+}
+
 AudioPlayer.prototype.skipNext = function(callback) {
-  exec('skipNext', this._id, callback);
+  exec('skipNext', this.id, callback);
 };
 
 AudioPlayer.prototype.skipPrevious = function(callback) {
-  exec('skipPrevious', this._id, callback);
+  exec('skipPrevious', this.id, callback);
 };
 
 AudioPlayer.prototype.seekToOffset = function(offset, callback) {
-  exec('seekToOffset', this._id, offset, callback);
+  exec('seekToOffset', this.id, offset, callback);
 };
 
 AudioPlayer.prototype.getIsPlaying = function(callback) {
-  exec('getIsPlaying', this._id, callback);
+  exec('getIsPlaying', this.id, callback);
 };
 
 AudioPlayer.prototype.setIsPlaying = function(status, callback) {
-  exec('setIsPlaying', this._id, status, callback);
+  exec('setIsPlaying', this.id, status, callback);
 };
 
 AudioPlayer.prototype.getVolume = function(callback) {
-  exec('getVolume', this._id, callback);
+  exec('getVolume', this.id, callback);
 };
 
 AudioPlayer.prototype.setVolume = function(volume, callback) {
-  exec('setVolume', this._id, volume, callback);
+  exec('setVolume', this.id, volume, callback);
 };
 
 AudioPlayer.prototype.getRepeat = function(callback) {
-  exec('getRepeat', this._id, callback);
+  exec('getRepeat', this.id, callback);
 };
 
 AudioPlayer.prototype.setRepeat = function(repeat, callback) {
-  exec('setRepeat', this._id, repeat, callback);
+  exec('setRepeat', this.id, repeat, callback);
 };
 
 AudioPlayer.prototype.getShuffle = function(callback) {
-  exec('getShuffle', this._id, callback);
+  exec('getShuffle', this.id, callback);
 };
 
 AudioPlayer.prototype.setShuffle = function(shuffle, callback) {
-  exec('setShuffle', this._id, shuffle, callback);
+  exec('setShuffle', this.id, shuffle, callback);
 };
 
 AudioPlayer.prototype.getDiskCacheSizeLimit = function(callback) {
-  exec('getDiskCacheSizeLimit', this._id, callback);
+  exec('getDiskCacheSizeLimit', this.id, callback);
 };
 
 AudioPlayer.prototype.setDiskCacheSizeLimit = function(diskCacheSizeLimit, callback) {
-  exec('setDiskCacheSizeLimit', this._id, diskCacheSizeLimit, callback);
+  exec('setDiskCacheSizeLimit', this.id, diskCacheSizeLimit, callback);
 };
 
 AudioPlayer.prototype.getTargetBitrate = function(callback) {
-  exec('getTargetBitrate', this._id, callback);
+  exec('getTargetBitrate', this.id, callback);
 }
 
 AudioPlayer.prototype.setTargetBitrate = function(bitrate, callback) {
-  exec('setTargetBitrate', this._id, bitrate, callback);
+  exec('setTargetBitrate', this.id, bitrate, callback);
 }
 
 AudioPlayer.prototype.getLoggedIn = function(callback) {
-  exec('getLoggedIn', this._id, callback);
+  exec('getLoggedIn', this.id, callback);
 };
 
+AudioPlayer.prototype.getQueueSize = function(callback) {
+  exec('getQueueSize', this.id, callback);
+}
+
+AudioPlayer.prototype.getTrackListSize = function(callback) {
+  exec('getTrackListSize', this.id, callback);
+}
+
 AudioPlayer.prototype.getTrackMetadata = function(trackID, relative, callback) {
-  var args = ['getTrackMetadata', this._id];
+  if (callback === undefined) {
+    if (relative && typeof relative === 'function')
+      callback = relative, relative = null;
+    else if (trackID && typeof trackID === 'function')
+      callback = trackID, trackID = null;
+  }
+
+  var args = ['getTrackMetadata', this.id];
 
   if (trackID) {
     args.push(trackID);
@@ -221,5 +209,5 @@ AudioPlayer.prototype.getTrackMetadata = function(trackID, relative, callback) {
 };
 
 AudioPlayer.prototype.getCurrentPlaybackPosition = function(callback) {
-  exec('getCurrentPlaybackPosition', this._id, callback);
+  exec('getCurrentPlaybackPosition', this.id, callback);
 };

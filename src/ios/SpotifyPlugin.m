@@ -15,9 +15,7 @@ NSDateFormatter *getDateFormatter()
 {
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-    [formatter setDateStyle:NSDateFormatterLongStyle];
-    [formatter setTimeStyle:NSDateFormatterLongStyle];
-
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss O"];
     return formatter;
 }
 
@@ -363,9 +361,9 @@ NSDate *stringToDate(NSString *dateString)
                 [player queueURIs:[self convertStringsToURIs:data] clearQueue:clearQueue callback:callback];
             } else {
                 CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unknown data"];
-                
+
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-                
+
                 return;
             }
         }];

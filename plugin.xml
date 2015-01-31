@@ -12,9 +12,6 @@
     <engine name="cordova" version=">=3.7.0" />
   </engines>
 
-  <js-module name="core" src="www/spotify.js">
-    <merges target="spotify" />
-  </js-module>
   <js-module name="auth" src="www/spotify/auth.js">
     <merges target="spotify" />
   </js-module>
@@ -22,11 +19,14 @@
     <merges target="spotify" />
   </js-module>
   <js-module name="audio-player" src="www/spotify/audio-player.js">
+    <merges target="spotify" />
   </js-module>
 
   <js-module name="remote" src="www/lib/remote.js">
   </js-module>
   <js-module name="utils" src="www/lib/utils.js">
+  </js-module>
+  <js-module name="event-dispatcher" src="www/lib/event-dispatcher.js">
   </js-module>
 
   <js-module name="vendors/reqwest" src="www/vendors/reqwest/reqwest.min.js">

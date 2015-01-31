@@ -1,19 +1,55 @@
 (function() {
   var exec = require('cordova/exec');
 
-  window.mockExec = function(status, result, onRequest) {
-    var xhr = sinon.useFakeXMLHttpRequest();
+  var xhr, mockResults = [], first = true;
 
-    exec.setJsToNativeBridgeMode(exec.jsToNativeModes.XHR_NO_PAYLOAD);
+  window.mockExec = function(status, result, onRequest, noCallback) {
+    noCallback = noCallback || false;
+    if (first) {
+      first = false;
+      exec.setJsToNativeBridgeMode(exec.jsToNativeModes.XHR_NO_PAYLOAD);
+    }
 
-    xhr.onCreate = function(req) {
-      var payload = JSON.parse(exec.nativeFetchMessages())[0]
-        , callbackId = payload.shift();
+    mockResults.push({
+      status: status,
+      result: result,
+      onRequest: onRequest,
+      noCallback: noCallback
+    });
 
-      onRequest(payload);
-      exec.nativeCallback(callbackId, status, result, false);
+    if (! xhr) {
+      xhr = sinon.useFakeXMLHttpRequest();
 
-      xhr.restore();
-    };
+      xhr.onCreate = function(req) {
+        var payloads = JSON.parse(exec.nativeFetchMessages());
+
+        while (mockResults.length > 0) {
+          var mockResult = mockResults.shift()
+            , payload = payloads.shift()
+            , callbackId = payload.shift();
+
+          if (mockResult.onRequest) mockResult.onRequest(payload);
+          if (! mockResult.noCallback) {
+            var more = exec.nativeCallback(callbackId, mockResult.status, mockResult.result, false);
+
+            if (more) {
+              payloads = payloads.concat(JSON.parse(more));
+            }
+          }
+        }
+
+        xhr.restore();
+        xhr = null;
+      };
+    }
   };
+
+  window.restoreMockExec = function() {
+    if (xhr) {
+      xhr.restore();
+      xhr = null;
+    }
+
+    mockResults = [];
+  }
 })();

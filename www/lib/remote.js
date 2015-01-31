@@ -25,7 +25,7 @@ function remote(options, callback) {
   }
 
   if (options.session)
-    req.headers.Authorization = 'Bearer ' + options.session.credential;
+    req.headers.Authorization = 'Bearer ' + options.session.accessToken;
 
   if (options.data)
     req.data = options.data;

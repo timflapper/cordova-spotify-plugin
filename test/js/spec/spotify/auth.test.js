@@ -1,6 +1,12 @@
 describe('auth', function() {
-  var session = {username: 'antman', credential: 'Xcd4r234234fdfa_dfsadf3', expirationDate: 234234234}
-    , newSession = {username: 'antman', credential: 'XASDFasdfd4r234234fdfa_dfsdsadfsdf3', expirationDate: 234239988}
+  function createExpirationDate(date) {
+    date = date || new Date();
+
+    return date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDate() + " " + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds() + " GMT";
+  }
+
+  var session = {canonicalUsername: 'antman', accessToken: 'Xcd4r234234fdfa_dfsadf3', encryptedRefreshToken: 'sdfsdfds724dfsdf234dsf', expirationDate: createExpirationDate()}
+    , newSession = {canonicalUsername: 'antman', accessToken: 'XASDFasdfd4r234234fdfa_dfsdsadfsdf3', encryptedRefreshToken: '4334fsdfdSDF234', expirationDate: createExpirationDate()}
 
   var auth;
 
@@ -11,6 +17,10 @@ describe('auth', function() {
   beforeEach(function() {
     this.callback = sinon.spy();
     this.onRequest = sinon.spy();
+  });
+
+  afterEach(function() {
+    restoreMockExec();
   });
 
   describe('#authenticate', function() {

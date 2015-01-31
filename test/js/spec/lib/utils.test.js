@@ -34,8 +34,4 @@ describe('utils', function() {
       });
     });
   });
-
-  describe('#paginate', function() {
-
-  });
 });

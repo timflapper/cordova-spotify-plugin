@@ -1,4 +1,10 @@
-var session = {username: 'antman', credential: 'Xcd4r234234fdfa_dfsadf3', expirationDate: 234234234};
+function createExpirationDate(date) {
+  date = date || new Date();
+
+  return date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDate() + " " + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds() + " GMT";
+}
+
+var session = {canonicalUsername: 'antman', accessToken: 'Xcd4r234234fdfa_dfsadf3', encryptedRefreshToken: 'sdfsdfds724dfsdf234dsf', expirationDate: createExpirationDate()};
 
 function sharedRemoteTests() {
   it('should load the request', function() {
@@ -89,7 +95,7 @@ describe('remote', function() {
     sharedRemoteTests();
 
     it('should send the Bearer token as part of the request', function() {
-      expect(this.requestHeaders).to.have.property('Authorization', 'Bearer '+session.credential);
+      expect(this.requestHeaders).to.have.property('Authorization', 'Bearer '+session.accessToken);
     });
   });
 

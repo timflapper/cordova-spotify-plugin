@@ -19,10 +19,11 @@
 
     <script src="spec/support/test-helper.js"></script>
     <script src="spec/shared/paginate.js"></script>
-    <script src="spec/spotify.test.js"></script>
-    <script src="spec/spotify/auth.test.js"></script>
-    <script src="spec/lib/utils.test.js"></script>
+    <script src="spec/lib/event-dispatcher.test.js"></script>
     <script src="spec/lib/remote.test.js"></script>
+    <script src="spec/lib/utils.test.js"></script>
+    <script src="spec/spotify/audio-player.test.js"></script>
+    <script src="spec/spotify/auth.test.js"></script>
 
     <script>
       document.addEventListener('deviceready', function () {
@@ -31,50 +32,5 @@
       });
     </script>
     <div id="mocha"></div>
-
-    <script>
-      /**
-       *
-       * SPECS TODO:
-       *
-       * AudioPlayer
-       *   #addEventListener
-       *   #removeEventListener
-       *   #login
-       *   #play
-       *   #seekToOffset
-       *   #getIsPlaying
-       *   #setIsPlaying
-       *   #getVolume
-       *   #setVolume
-       *   #getLoggedIn
-       *   #getCurrentTrack
-       *   #getCurrentPlaybackPosition
-       *
-       * request
-       *   #search
-       *   #getAlbum
-       *   #getAlbums
-       *   #getArtist
-       *   #getArtists
-       *   #getAlbumsOfArtist
-       *   #getTrack
-       *   #getTracks
-       *   #getProfile
-       *   #getSavedTracks
-       *   #getSavedTracksContain
-       *   #saveTracks
-       *   #removeTracks
-       *   #getStarred
-       *   #getPlaylists
-       *   #getPlaylist
-       *   #createPlaylist
-       *   #changePlaylistDetails
-       *   #addTracksToPlaylist
-       *   #replaceTracksOnPlaylist
-       *   #removeTracksFromPlaylist
-       *
-       **/
-    </script>
   </body>
 </html>
