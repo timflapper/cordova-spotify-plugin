@@ -31,12 +31,12 @@ describe('auth', function() {
 
       describe('without scope', function() {
         beforeEach(function() {
-          spotify.authenticate('aRandomClientId1234', 'http://tok.en', this.callback);
+          spotify.authenticate('test-scheme', 'aRandomClientId1234', 'code', 'http://tok.en', this.callback);
         });
 
         it('should send the "streaming" scope to native', function() {
           expect(this.onRequest).to.have.been.calledWith([
-            'SpotifyPlugin', 'authenticate', ['aRandomClientId1234', 'http://tok.en', ['streaming']]
+            'SpotifyPlugin', 'authenticate', ['test-scheme', 'aRandomClientId1234', 'code', 'http://tok.en', ['streaming']]
           ]);
         });
 
@@ -47,12 +47,12 @@ describe('auth', function() {
 
       describe('with scope', function() {
         beforeEach(function() {
-          spotify.authenticate('aRandomClientId1234', 'http://tok.en', ['somescope'], this.callback);
+          spotify.authenticate('test-scheme', 'aRandomClientId1234', 'code', 'http://tok.en', ['somescope'], this.callback);
         });
 
         it('should send the "somescope" scope to native', function() {
           expect(this.onRequest).to.have.been.calledWith([
-            'SpotifyPlugin', 'authenticate', ['aRandomClientId1234', 'http://tok.en', ['somescope']]
+            'SpotifyPlugin', 'authenticate', ['test-scheme', 'aRandomClientId1234', 'code', 'http://tok.en', ['somescope']]
           ]);
         });
 
@@ -65,7 +65,7 @@ describe('auth', function() {
     describe('failed authentication', function() {
       beforeEach(function() {
         mockExec(9, 'Login to Spotify failed because of invalid credentials.', this.onRequest);
-        spotify.authenticate('aRandomClientId1234', 'http://tok.en', this.callback);
+        spotify.authenticate('test-scheme', 'aRandomClientId1234', 'code', 'http://tok.en', this.callback);
       });
 
       it('should send back "Login to Spotify failed because of invalid credentials."', function() {

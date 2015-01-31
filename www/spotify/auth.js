@@ -4,7 +4,7 @@ var utils = require('./utils')
 
 var auth = exports;
 
-auth.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
+auth.authenticate = function(urlScheme, clientId, responseType, tokenExchangeURL, scopes, callback) {
   if (callback === undefined) {
     if (scopes === undefined) {
       callback = tokenExchangeURL;
@@ -16,7 +16,14 @@ auth.authenticate = function(clientId, tokenExchangeURL, scopes, callback) {
     scopes = ['streaming'];
   }
 
-  exec('authenticate', clientId, tokenExchangeURL, scopes, callback);
+  args = ['authenticate', urlScheme, clientId, responseType];
+
+  if(responseType == 'code') args.push(tokenExchangeURL);
+
+  args.push(scopes);
+  args.push(callback);
+
+  exec.apply(this, args);
 };
 
 auth.renewSession = function(session, tokenRefreshURL, forceRenew, callback) {

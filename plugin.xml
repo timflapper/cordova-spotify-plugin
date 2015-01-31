@@ -33,7 +33,9 @@
   </js-module>
 
   <platform name="ios">
-    <config-file parent="/*" target="config.xml">
+    <hook type="before_plugin_install" src="install.sh" />
+
+    <config-file target="config.xml" parent="/*">
       <feature name="SpotifyPlugin">
         <param name="ios-package" value="SpotifyPlugin"/>
       </feature>
@@ -48,7 +50,7 @@
           <string>Spotify Auth</string>
           <key>CFBundleURLSchemes</key>
           <array>
-            <string>spotify-ios-sdk-beta</string>
+            <string>{{URL_SCHEME}}</string>
           </array>
         </dict>
       </array>

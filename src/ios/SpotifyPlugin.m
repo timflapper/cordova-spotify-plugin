@@ -29,28 +29,23 @@ NSDate *stringToDate(NSString *dateString)
     return [getDateFormatter() dateFromString:dateString];
 }
 
-@interface SpotifyPlugin()
-@end
-
 @implementation SpotifyPlugin
-@synthesize callbackUrl;
-- (void)pluginInitialize
-{
-    callbackUrl = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback"];
-}
-
 - (void)authenticate:(CDVInvokedUrlCommand*)command
 {
     __weak SpotifyPlugin* weakSelf = self;
 
     NSArray *validResponseTypes = @[@"code", @"token"];
 
-    NSString *clientId = [command.arguments objectAtIndex:0];
-    NSString *responseType = [command.arguments objectAtIndex:1];
+    NSString *urlScheme = [command.arguments objectAtIndex:0];
+    NSString *clientId = [command.arguments objectAtIndex:1];
+    NSString *responseType = [command.arguments objectAtIndex:2];
+
+    NSURL *callbackUrl = [NSURL URLWithString: [NSString stringWithFormat:@"%@://callback", urlScheme]];
+
     NSURL *tokenSwapUrl;
     NSArray *scopes;
 
-    int argumentIndex = 2;
+    int argumentIndex = 3;
 
     if ([validResponseTypes indexOfObject:responseType] == NSNotFound) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid responseType"];

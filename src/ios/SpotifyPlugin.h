@@ -11,8 +11,6 @@ NSDate *stringToDate(NSString *dateString);
 
 @interface SpotifyPlugin : CDVPlugin
 
-@property NSURL *callbackUrl;
-
 /* Linked to SPTAuth */
 - (void)authenticate:(CDVInvokedUrlCommand*)command;
 - (void)isSessionValid:(CDVInvokedUrlCommand*)command;

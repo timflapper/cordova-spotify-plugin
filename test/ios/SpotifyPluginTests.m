@@ -75,7 +75,7 @@
 
 - (void)testAuthenticateSuccessWithCode
 {
-    NSArray *args = @[@"someRandomClientId", @"code", @"http://foo.bar:1234/swap", @[@"streaming"]];
+    NSArray *args = @[@"test-url-scheme", @"someRandomClientId", @"code", @"http://foo.bar:1234/swap", @[@"streaming"]];
 
     __block BOOL responseArrived = NO;
 
@@ -105,7 +105,7 @@
     double delayInSeconds = 0.005;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSURL *callbackURL = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback?code=NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3-_1BgnSO9cLwzgMOztqUCRJV23LjtmEurM9_BEhSm-smLgqQHUrLtXldCz-JpDOkckA"];
+        NSURL *callbackURL = [NSURL URLWithString:@"test-url-scheme://callback?code=NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3-_1BgnSO9cLwzgMOztqUCRJV23LjtmEurM9_BEhSm-smLgqQHUrLtXldCz-JpDOkckA"];
 
         [[NSNotificationCenter defaultCenter]
          postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification
@@ -120,7 +120,7 @@
 
 - (void)testAuthenticateSuccessWithToken
 {
-    NSArray *args = @[@"someRandomClientId", @"token", @[@"streaming"]];
+    NSArray *args = @[@"test-url-scheme", @"someRandomClientId", @"token", @[@"streaming"]];
 
     __block BOOL responseArrived = NO;
 
@@ -142,7 +142,7 @@
     double delayInSeconds = 0.005;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSURL *callbackURL = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback?access_token=NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3&token_type=Bearer&expires_in=3600"];
+        NSURL *callbackURL = [NSURL URLWithString:@"test-url-scheme://callback?access_token=NQpvC5h6MnausBFRG2hJjXifw2CZrXzQIh4S_SgBfpcVi6svpZKXpwYyoLRYhWN8g4L-zoZqYK0hfFNFgMqTpESGvodAuXGngZFiKc16y7oeMRJTZaY3&token_type=Bearer&expires_in=3600"];
 
         [[NSNotificationCenter defaultCenter]
          postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification
@@ -159,7 +159,7 @@
 {
     __block BOOL responseArrived = NO;
 
-    [plugin authenticate:[self createTestURLCommand:@[@"spotify-ios-sdk-beta", @"bla", @[@"streaming"]]]];
+    [plugin authenticate:[self createTestURLCommand:@[@"test-url-scheme", @"aClientId", @"bla", @[@"streaming"]]]];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -184,7 +184,7 @@
         return [OHHTTPStubsResponse responseWithError: errorForTesting()];
     }];
 
-    [plugin authenticate:[self createTestURLCommand:@[@"spotify-ios-sdk-beta", @"code", @"http://foo.bar:1234/swap", @[@"streaming"]]]];
+    [plugin authenticate:[self createTestURLCommand:@[@"test-url-scheme", @"clientId", @"code", @"http://foo.bar:1234/swap", @[@"streaming"]]]];
 
     [commandDelegate mockPluginResult:^(CDVPluginResult *result, NSString *callbackId) {
         XCTAssertEqual(result.status.intValue, CDVCommandStatus_ERROR, @"Command status should be ERROR");
@@ -194,7 +194,7 @@
     double delayInSeconds = 0.005;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSURL *callbackURL = [NSURL URLWithString:@"spotify-ios-sdk-beta://callback?error=access_denied"];
+        NSURL *callbackURL = [NSURL URLWithString:@"test-url-scheme://callback?error=access_denied"];
 
         [[NSNotificationCenter defaultCenter]
          postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification

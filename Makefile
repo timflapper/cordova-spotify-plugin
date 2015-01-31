@@ -1,11 +1,11 @@
 test:
-	@bin/test-all
+	@export PLUGIN_ENV='test'; bin/test-all
 
 test-ios:
 	@bin/test-ios
 
 test-js:
-	@bin/test-js
+	@export PLUGIN_ENV='test'; bin/test-js
 
 test-appium:
 	@bin/test-appium
