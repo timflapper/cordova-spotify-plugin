@@ -11,4 +11,5 @@
 @interface SpotifyAudioPlayer : SPTAudioStreamingController<SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate>
 + (instancetype)getInstanceByID:(NSString *)ID;
 @property NSString *instanceID;
+@property NSString *eventListenerCallbackId;
 @end
