@@ -33,6 +33,17 @@ You can use the Ruby script that is included in the Spotify iOS SDK Demo Project
 - [Download the Spotify iOS SDK](https://github.com/spotify/ios-sdk/releases)
 - Follow the instructions from the [Spotify iOS SDK beginner's tutorial](https://developer.spotify.com/technologies/spotify-ios-sdk/tutorial/).	
 
+
+## Non-interactive installation
+
+To avoid being prompted for the [custom URL scheme](http://bit.ly/1u11ZUz),
+you can alternatively provide it in an environment variable:
+```
+export CORDOVA_SPOTIFY_URL_SCHEME=somecustomscheme
+cordova plugin add com.timflapper.spotify
+```
+
+
 ## License
 
 [MIT](LICENSE)
