@@ -107,7 +107,9 @@ static NSMutableDictionary *instances;
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeToTrack:(NSDictionary *)trackMetadata
 {
- [self dispatchEvent:@"trackChanged" withArguments:@[trackMetadata]];
+ if(trackMetadata != nil){
+  [self dispatchEvent:@"trackChanged" withArguments:@[trackMetadata]];
+ }
 }
 
 -(void)audioStreaming:(SPTAudioStreamingController *)audioStreaming didChangeVolume:(SPTVolume)volume
